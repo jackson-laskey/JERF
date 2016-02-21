@@ -5,14 +5,15 @@ public class RocketModel : MonoBehaviour
 {
 	private float clock;		// Keep track of time since creation for animation.
 	private Rocket owner;			// Pointer to the parent object.
+	public Laser laser;
 	private Material mat;		// Material for setting/changing texture and color.
 
 
 	public void init(Rocket owner) {
 		this.owner = owner;
 
-		transform.parent = owner.transform;					// Set the model's parent to the marble.
-		transform.localPosition = new Vector3(0,0,0);		// Center the model on the parent.
+		transform.parent = owner.transform;
+		transform.localPosition = new Vector3(0,0,0);					// Set the model's parent to the marble.
 		name = "Rocket Model";									// Name the object.
 
 		Renderer renderer = GetComponent<Renderer> ();
@@ -21,25 +22,30 @@ public class RocketModel : MonoBehaviour
 
 		renderer.sortingOrder = 1;
 		mat.mainTexture = Resources.Load<Texture2D>("Textures/rocket");	// Set the texture.  Must be in Resources folder.
-		mat.color = new Color(1,1,1);											// Set the color (easy way to tint things).
+		mat.color = new Color(1,1,1);	
+		GameObject laserObject = new GameObject ();
+		laser = laserObject.AddComponent<Laser>();
+		laser.init (this.owner);
 	}
 
 	void Start () {
 		clock = 0f;
 	}
+		
 
-	void Update () {
-		float x = transform.position.x;
-		float y = transform.position.y;
-		if (Input.GetKey (KeyCode.LeftArrow))
-			transform.position = new Vector3 (x - Time.deltaTime * 5, y, 0);
+	public void reload(){
+		Destroy (laser.gameObject);
+		GameObject laserObject = new GameObject ();
+		laser = laserObject.AddComponent<Laser>();
+		laser.init (this.owner);
 
-		if (Input.GetKey (KeyCode.RightArrow))
-			transform.position = new Vector3 (x + Time.deltaTime * 5, y, 0);
 	}
 
 	void OnTriggerEnter2D(Collider2D coll){
-		Destroy (gameObject);
+		if (coll.tag == "asteroid") {
+			owner.dead = true;
+			Destroy (gameObject);
+		}
 	}
 
 	void OnCollisionEnter2D(Collision2D coll){

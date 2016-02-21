@@ -21,7 +21,8 @@ public class AsteroidModel : MonoBehaviour
 
 		renderer.sortingOrder = 1;
 		mat.mainTexture = Resources.Load<Texture2D>("Textures/asteroid");	// Set the texture.  Must be in Resources folder.
-		mat.color = new Color(1,1,1);											// Set the color (easy way to tint things).
+		mat.color = new Color(1,1,1);	
+		this.tag = "asteroid";
 	}
 
 	void Start () {
@@ -35,9 +36,7 @@ public class AsteroidModel : MonoBehaviour
 	}
 
 	void OnTriggerEnter2D(Collider2D coll){
-		if(coll.GetType() == typeof(Rocket)){
 		Destroy (gameObject);
-		}
 	}
 
 	void OnCollisionEnter2D(Collision2D coll){

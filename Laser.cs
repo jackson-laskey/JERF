@@ -3,21 +3,25 @@ using System.Collections;
 using System.Collections.Generic;
 
 
-public class Asteroid : MonoBehaviour {
+public class Laser : MonoBehaviour {
+	
+	public Rocket rocket;
+	public LaserModel model;
+	public bool done;
 
-	public AsteroidModel model;
-	public AsteroidManager owner;
+	public void init(Rocket r){
+		rocket = r;
+		this.transform.position = new Vector3 (rocket.transform.position.x, rocket.transform.position.y, 0);
+		transform.parent = rocket.transform;
+		transform.localScale -= new Vector3(.8f,.5f,.9f);
 
-	public void init(AsteroidManager m){
-		owner = m;
-		this.transform.parent = owner.transform; 
 
 		var modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);	// Create a quad object for holding the marble texture.
 		MeshCollider colid = modelObject.GetComponent<MeshCollider>();
 		DestroyImmediate (colid);
 		BoxCollider2D circ = modelObject.AddComponent<BoxCollider2D>();
 		Rigidbody2D rig = modelObject.AddComponent<Rigidbody2D>();
-		model = modelObject.AddComponent<AsteroidModel>();						// Add a marbleModel script to control visuals of the marble.
+		model = modelObject.AddComponent<LaserModel>();						// Add a marbleModel script to control visuals of the marble.
 		modelObject.SetActive (true);
 		rig.mass = 10;
 		rig.gravityScale = 0f;
@@ -25,11 +29,10 @@ public class Asteroid : MonoBehaviour {
 		circ.isTrigger = true;
 		circ.enabled = true;
 		rig.isKinematic = true;
-
-		float x = Random.Range (-10, 9) + Random.value;
-		this.transform.position = new Vector3 (x, 6, 0);
-		model.init(this);	
+		done = false;
+		model.init (this);
 	}
+
 
 
 }
