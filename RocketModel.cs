@@ -43,8 +43,7 @@ public class RocketModel : MonoBehaviour
 
 	void OnTriggerEnter2D(Collider2D coll){
 		if (coll.tag == "asteroid") {
-			owner.dead = true;
-			Destroy (gameObject);
+			owner.hit ();
 		}
 	}
 
