@@ -25,7 +25,7 @@ public class RocketModel : MonoBehaviour
 		mat.color = new Color(1,1,1);	
 		GameObject laserObject = new GameObject ();
 		laser = laserObject.AddComponent<Laser>();
-		//laser.init (this.owner);
+		laser.init (this.owner);
 	}
 
 	void Start () {
@@ -37,7 +37,7 @@ public class RocketModel : MonoBehaviour
 		Destroy (laser.gameObject);
 		GameObject laserObject = new GameObject ();
 		laser = laserObject.AddComponent<Laser>();
-		//laser.init (this.owner);
+		laser.init (this.owner);
 
 	}
 
