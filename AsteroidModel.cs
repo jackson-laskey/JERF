@@ -36,7 +36,11 @@ public class AsteroidModel : MonoBehaviour
 	}
 
 	void OnTriggerEnter2D(Collider2D coll){
-		Destroy (gameObject);
+		if (coll.gameObject.transform.parent.parent.gameObject.tag == "GameController" ||
+		    coll.gameObject.transform.parent.gameObject.tag == "GameController") {
+			Destroy (owner);
+			Destroy (gameObject);
+		}
 	}
 
 	void OnCollisionEnter2D(Collision2D coll){
