@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Laser : Projectile {
+public class Ship : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		base.Start ();
+	
 	}
 	
 	// Update is called once per frame
