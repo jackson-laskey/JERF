@@ -33,7 +33,7 @@ public class LaserModel : MonoBehaviour
 	}
 
 	void Update () {
-		float x = transform.position.x;
+		//float x = transform.position.x;
 		float y = transform.position.y;
 		transform.position = new Vector3 (xPerm, y + Time.deltaTime * 20f, 0);
 		if(y>5){

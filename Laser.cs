@@ -10,6 +10,6 @@ public class Laser : Projectile {
 	
 	// Update is called once per frame
 	void Update () {
-	
+		base.Update ();
 	}
 }

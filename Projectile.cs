@@ -4,7 +4,6 @@ using System.Collections;
 public class Projectile : MonoBehaviour {
 
 	public float speed;
-	public float clock;
 	public float maxY;
 
 
@@ -18,7 +17,7 @@ public class Projectile : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	protected void Update () {
 		if (gameObject.transform.position.y > maxY) {
 			Destroy (gameObject);
 		}
