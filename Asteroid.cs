@@ -26,7 +26,7 @@ public class Asteroid : MonoBehaviour {
 		circ.enabled = true;
 		rig.isKinematic = true;
 
-		float x = Random.Range (-10, 9) + Random.value;
+		float x = Random.Range (-6f, -1f) + Random.value;
 		this.transform.position = new Vector3 (x, 6, 0);
 		model.init(this);	
 	}

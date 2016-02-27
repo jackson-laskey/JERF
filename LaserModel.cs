@@ -5,12 +5,12 @@ using System.Collections;
 public class LaserModel : MonoBehaviour
 {
 	private float clock;		// Keep track of time since creation for animation.
-	private Laser owner;			// Pointer to the parent object.
+	private LaserMS owner;			// Pointer to the parent object.
 	private Material mat;		// Material for setting/changing texture and color.
 	private float xPerm;
 
 
-	public void init(Laser owner) {
+	public void init(LaserMS owner) {
 		this.owner = owner;
 
 		transform.parent = owner.transform;		// Center the model on the parent.
@@ -33,7 +33,7 @@ public class LaserModel : MonoBehaviour
 	}
 
 	void Update () {
-		float x = transform.position.x;
+		//float x = transform.position.x;
 		float y = transform.position.y;
 		transform.position = new Vector3 (xPerm, y + Time.deltaTime * 20f, 0);
 		if(y>5){
