@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 
-public class Laser : MonoBehaviour {
+public class LaserMS : MonoBehaviour {
 	
 	public Rocket rocket;
 	public LaserModel model;

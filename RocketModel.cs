@@ -5,7 +5,7 @@ public class RocketModel : MonoBehaviour
 {
 	private float clock;		// Keep track of time since creation for animation.
 	private Rocket owner;			// Pointer to the parent object.
-	public Laser laser;
+	public LaserMS laser;
 	private Material mat;		// Material for setting/changing texture and color.
 
 
@@ -24,7 +24,7 @@ public class RocketModel : MonoBehaviour
 		mat.mainTexture = Resources.Load<Texture2D>("Textures/rocket");	// Set the texture.  Must be in Resources folder.
 		mat.color = new Color(1,1,1);	
 		GameObject laserObject = new GameObject ();
-		laser = laserObject.AddComponent<Laser>();
+		laser = laserObject.AddComponent<LaserMS>();
 		laser.init (this.owner);
 	}
 
@@ -36,15 +36,15 @@ public class RocketModel : MonoBehaviour
 	public void reload(){
 		Destroy (laser.gameObject);
 		GameObject laserObject = new GameObject ();
-		laser = laserObject.AddComponent<Laser>();
+		laser = laserObject.AddComponent<LaserMS>();
+
 		laser.init (this.owner);
 
 	}
 
 	void OnTriggerEnter2D(Collider2D coll){
 		if (coll.tag == "asteroid") {
-			owner.dead = true;
-			Destroy (gameObject);
+			owner.hit ();
 		}
 	}
 
