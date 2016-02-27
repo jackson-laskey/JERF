@@ -35,10 +35,14 @@ public class AsteroidModel : MonoBehaviour
 		transform.position = new Vector3 (x, y - Time.deltaTime * 4, 0);
 	}
 
+	// switch on collider tag to determine behavior
 	void OnTriggerEnter2D(Collider2D coll){
 		switch (coll.gameObject.tag) {
 		case "PlayerLaser":
 			coll.gameObject.gameObject.GetComponent<PlayerLaser> ().Hit ();
+			Destroy (gameObject);
+			break;
+		case "PlayerController":
 			Destroy (gameObject);
 			break;
 		default:

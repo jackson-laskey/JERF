@@ -16,7 +16,7 @@ public class ButtonClicker : MonoBehaviour {
 		healthBar = gameObject.transform.parent.FindChild("Health").GetComponent<ComponentHealth> ();
 		darkenSprite = (.7f);
 		buttonSprite = gameObject.GetComponent<SpriteRenderer> ();
-		captain = GameObject.FindGameObjectWithTag ("Captain").GetComponent<MoveCaptain> ();
+		captain = GameObject.Find ("Captain").GetComponent<MoveCaptain> ();
 	}
 
 	// Update is called once per frame
@@ -43,13 +43,13 @@ public class ButtonClicker : MonoBehaviour {
 	}
 		
 	void OnTriggerEnter2D(Collider2D collider) {
-		if (collider.gameObject.tag == "Captain") {
+		if (collider.gameObject.tag == "PlayerController") {
 			PressButton (true);
 		}
 	}
 
 	void OnTriggerExit2D(Collider2D collider) {
-		if (collider.gameObject.tag == "Captain") {
+		if (collider.gameObject.tag == "PlayerController") {
 			PressButton (false);
 		}
 	}

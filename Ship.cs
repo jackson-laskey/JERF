@@ -22,21 +22,27 @@ public class Ship : MonoBehaviour {
 		shieldLevel = GameObject.Find("Shields").GetComponentInChildren<ComponentHealth>();
 		engineLevel = GameObject.Find("Engines").GetComponentInChildren<ComponentHealth>();
 
+		// loads template for laser prefab instantiation
 		projectile = Resources.Load ("Prefabs/PlayerLaser") as GameObject;
 
+		// clock tracks time passed, ship fires when clock passes threshold. clock then resets.
 		clock = 0;
 		threshold = 30f;
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		// clock increment is modified by laser health so fire rate is proportional to laser health
 		clock += Time.deltaTime*laserLevel.health;
-		if (laserLevel.health == 100 && clock > threshold/2) {
+		// fire lasers if thresholds have been reached- extra-fast firing cycle for laser health == 100
+		if (laserLevel.health == 100 && clock > threshold/1.5f) {
 			Fire ();
 		}
 		if (clock > threshold) {
 			Fire ();
 		}
+
+		// move left if "a" is being pressed, right if "d" is being pressed. Confined to LHS.
 		if (Input.GetKey ("a") && gameObject.transform.position.x>-6)
 			transform.Translate(-(Time.deltaTime * 5 * (engineLevel.health/100)), 0, 0);
 
@@ -44,7 +50,9 @@ public class Ship : MonoBehaviour {
 			transform.Translate(Time.deltaTime * 5 * (engineLevel.health/100), 0, 0);
 	}
 
+	// Handles hits
 	void OnTriggerEnter2D(Collider2D coll) {
+		// different cases for different objects; mostly they just damage the ship
 		switch (coll.tag) {
 		case "asteroid":
 			if (shieldLevel.Damage (20)) {
