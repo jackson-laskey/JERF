@@ -1,36 +1,43 @@
 ﻿using UnityEngine;
 using System.Collections;
-using System.Collections.Generic;
 
+public class Asteroid : ParentEnemy {
+	
+	private AsteroidModel model;
 
-public class Asteroid : MonoBehaviour {
-
-	public AsteroidModel model;
-	public AsteroidManager owner;
-
-	public void init(AsteroidManager m){
-		owner = m;
-		this.transform.parent = owner.transform; 
-
-		var modelObject = GameObject.CreatePrimitive(PrimitiveType.Quad);	// Create a quad object for holding the marble texture.
-		MeshCollider colid = modelObject.GetComponent<MeshCollider>();
-		DestroyImmediate (colid);
-		BoxCollider2D circ = modelObject.AddComponent<BoxCollider2D>();
-		Rigidbody2D rig = modelObject.AddComponent<Rigidbody2D>();
-		model = modelObject.AddComponent<AsteroidModel>();						// Add a marbleModel script to control visuals of the marble.
-		modelObject.SetActive (true);
-		rig.mass = 10;
-		rig.gravityScale = 0f;
-		circ.size = new Vector2(1,1);
-		circ.isTrigger = true;
-		circ.enabled = true;
-		rig.isKinematic = true;
-
-		float x = Random.Range (-6f, -1f) + Random.value;
-		this.transform.position = new Vector3 (x, 6, 0);
-		model.init(this);	
+	void Start () {
+		hp = 20;
+		fireRate = 0;
+		speed = 2;
+		col = new Collider2D();
+		body = new Rigidbody2D();
+		transform.eulerAngles = new Vector3(0,0,180);
+		var modelObject = GameObject.CreatePrimitive (PrimitiveType.Quad);
+		model = modelObject.AddComponent<AsteroidModel>();	
+		model.init(this);
 	}
 
 
-}
+	void Update () {
+		if (transform.position.y < -7) {
+			Destroy (this.gameObject);
+		}
+		if (hp == 0) {
+			Destroy (this.gameObject);
+		}
+		Move ();
+	}
 
+	void Move(){
+		transform.Translate (Vector3.up * Time.deltaTime * speed);
+	}
+
+	void OnTriggerEnter2D(Collider2D other){
+		if (other.tag == "PlayerLaser") {
+			hp--;
+		}
+		if (other.tag == "PlayerController") {
+			Destroy (this.gameObject);
+		}
+	}
+}

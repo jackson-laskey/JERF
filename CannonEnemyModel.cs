@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class AsteroidModel : MonoBehaviour {
+public class CannonEnemyModel : MonoBehaviour {
 
 	private Material mat;
-	private Asteroid owner;
+	private CannonEnemy owner;
 
-	public void init(Asteroid owner) {
+	public void init(CannonEnemy owner) {
 		this.owner = owner;
 		transform.parent = owner.transform;	
 		transform.localPosition = new Vector3(0,0,0);
