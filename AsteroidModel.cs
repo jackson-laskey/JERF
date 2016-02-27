@@ -36,15 +36,14 @@ public class AsteroidModel : MonoBehaviour
 	}
 
 	void OnTriggerEnter2D(Collider2D coll){
-		if (coll.gameObject.transform.parent.parent.gameObject.tag == "GameController" ||
-		    coll.gameObject.transform.parent.gameObject.tag == "GameController") {
-			Destroy (owner);
+		switch (coll.gameObject.tag) {
+		case "PlayerLaser":
+			coll.gameObject.gameObject.GetComponent<PlayerLaser> ().Hit ();
 			Destroy (gameObject);
+			break;
+		default:
+			break;
 		}
-	}
-
-	void OnCollisionEnter2D(Collision2D coll){
-
 	}
 }
 

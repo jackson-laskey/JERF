@@ -3,54 +3,62 @@ using System.Collections;
 
 public class ComponentHealth : MonoBehaviour {
 
-	private float repairRate;
-	private float decayRate;
-	private float thresholds;
+	public float repairRate;
+	public float decayModifier;
+	public float health;
 
 	public bool decaying;
 
-	public float health;
-	public float numThresholds;
-	public float level;
 
 
 	// Use this for initialization
 	void Start () {
-		decayRate = 4.3f;
 		decaying = true;
 		health = 100;
-		repairRate = .2f;
+		repairRate = 15f;
+		decayModifier = 4.3f;
 	}
 
 	// Update is called once per frame
 	void Update () {
 		if (decaying) {
-			if (health <= repairRate/2) {
-				gameObject.transform.localScale = new Vector3(1, health);
+			if (health <= 1) {
+				gameObject.transform.localScale = new Vector3(1, 0);
 				health = 0;
 			} else {
 				gameObject.transform.localScale = new Vector3 (1, health/100f);
-				health -= repairRate/decayRate;
+				health -= (Time.deltaTime * repairRate) /decayModifier;
 			}
 		} else {
-			if (health >= 100-repairRate/(2*decayRate)) {
-				gameObject.transform.localScale = new Vector3 (1, health/100f);
+			if (health >= 99) {
+				gameObject.transform.localScale = new Vector3 (1, 1);
 				health = 100;
 			} else {
 				gameObject.transform.localScale = new Vector3 (1, health/100f);
-				health += repairRate;
+				health += Time.deltaTime * repairRate;
 			}
 		}
-		/*level = Mathf.RoundToInt(  ((health*numThresholds)-((health*numThresholds)%100))/100)+1;
-		if (health == 0) {
-			level = 0;
-		}*/
-		print (health);
 		if (health > 50) {
 			gameObject.GetComponent<SpriteRenderer>().color = new Color((100-health)*.015f, .75f, 0);
 		} else {
 			gameObject.GetComponent<SpriteRenderer>().color = new Color(.75f, health*.015f, 0);
 		}
+	}
 
+	// damages the part and returns true if it lowers the part's health to 0
+	public bool Damage(float damage) {
+		float damageModifier = 1;
+		if (health == 100) {
+			damageModifier = .2f;
+		} else if (!decaying) {
+			damageModifier = .5f;
+		}
+		if (health - (damage * damageModifier) <= 0) {
+			health = 0;
+			return true;
+		} else {
+			health -= damage * damageModifier;
+			return false;
+		}
 	}
 }

@@ -5,12 +5,12 @@ using System.Collections;
 public class LaserModel : MonoBehaviour
 {
 	private float clock;		// Keep track of time since creation for animation.
-	private Laser owner;			// Pointer to the parent object.
+	private LaserMS owner;			// Pointer to the parent object.
 	private Material mat;		// Material for setting/changing texture and color.
 	private float xPerm;
 
 
-	public void init(Laser owner) {
+	public void init(LaserMS owner) {
 		this.owner = owner;
 
 		transform.parent = owner.transform;		// Center the model on the parent.
@@ -44,7 +44,7 @@ public class LaserModel : MonoBehaviour
 
 	void OnTriggerEnter2D(Collider2D coll){
 		if (coll.tag == "asteroid") {
-			//owner.done = true;
+			owner.done = true;
 			Destroy (gameObject);
 		}
 	}

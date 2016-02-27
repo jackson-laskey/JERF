@@ -30,7 +30,7 @@ public class LaserMS : MonoBehaviour {
 		circ.enabled = true;
 		rig.isKinematic = true;
 		done = false;
-		//model.init (this);
+		model.init (this);
 	}
 
 

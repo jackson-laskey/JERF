@@ -3,28 +3,31 @@ using System.Collections;
 
 public class Projectile : MonoBehaviour {
 
+	// how many units the projectile moves per second; negative if the player is firing
 	public float speed;
+	// dictate the top and bottom of the view
 	public float maxY;
+	public float minY;
 
-
-	// Use this for initialization
-	//public void init(float moveSpeed) {
-	//	speed = moveSpeed;
-	//}
-
-	protected void Start() {
-		print ("here");
+	protected void init(bool isEnemy) {
+		if (!isEnemy) {
+			speed = -speed;
+		}
 	}
 	
-	// Update is called once per frame
+	// if out of view, 
 	protected void Update () {
-		if (gameObject.transform.position.y > maxY) {
+		if (transform.position.y > maxY || transform.position.y < minY) {
 			Destroy (gameObject);
 		}
 		Move ();
 	}
 
 	protected void Move() {
-		gameObject.transform.Translate (0, speed, 0);
+		transform.position = new Vector3(transform.position.x, transform.position.y - (Time.deltaTime*speed));
+	}
+
+	public void Hit() {
+		Destroy(gameObject);
 	}
 }

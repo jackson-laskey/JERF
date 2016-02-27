@@ -44,7 +44,7 @@ public class Rocket : MonoBehaviour {
 	}
 
 	void Update(){
-		frame = frame + laserLevel.health/100; //(laserLevel.level/laserLevel.numThresholds);
+		frame = frame + laserLevel.health/100;
 		if (laserLevel.health == 100 && Mathf.RoundToInt (frame) % 15 == 0) {
 			model.reload ();
 		}
