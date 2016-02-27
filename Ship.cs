@@ -64,7 +64,7 @@ public class Ship : MonoBehaviour {
 		clock = 0;
 		GameObject shot = Instantiate (projectile);
 		shot.transform.parent = transform.parent;
-		shot.transform.position = transform.position;
+		shot.transform.position = new Vector3(transform.position.x, transform.position.y + .75f);
 	}
 
 	private void Die() {
