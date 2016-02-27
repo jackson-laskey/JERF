@@ -37,6 +37,7 @@ public class RocketModel : MonoBehaviour
 		Destroy (laser.gameObject);
 		GameObject laserObject = new GameObject ();
 		laser = laserObject.AddComponent<LaserMS>();
+
 		laser.init (this.owner);
 
 	}

@@ -37,7 +37,7 @@ public class LaserModel : MonoBehaviour
 		float y = transform.position.y;
 		transform.position = new Vector3 (xPerm, y + Time.deltaTime * 20f, 0);
 		if(y>5){
-			//owner.done = true;
+			owner.done = true;
 			Destroy (gameObject);
 		}
 	}
