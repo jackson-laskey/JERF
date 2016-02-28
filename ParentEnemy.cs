@@ -19,8 +19,8 @@ public class ParentEnemy : MonoBehaviour {
 		laser.init(true);
 	}
 
-	public void init(EnemyManager owner){
-	}
+	//public void init(EnemyManager owner){
+	//}
 
 	protected void Move(){
 	}

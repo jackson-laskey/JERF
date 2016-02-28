@@ -3,26 +3,29 @@ using System.Collections;
 
 public class EnemyManager : MonoBehaviour {
 
-	protected GameController owner;
+	public GameController owner;
 
 	public void init (GameController g)	{
 		owner = g;
 	}
 
+	public void getInstruction(string type, int size, int x){
+		SpawnEnemy (type,x,5);
+	}
 
 	void SpawnEnemy(string type,float x, float y){
 		GameObject enemyObject = new GameObject();
-		ParentEnemy enemy;
 		if (type == "asteroid") {
-			enemy = enemyObject.AddComponent<Asteroid> ();
+			Asteroid enemy = enemyObject.AddComponent<Asteroid> ();
 			enemy.transform.position = new Vector3(x,y,0);
 			enemy.init (this);
+			print (y);
 		}
-		if (type == "cannonenemy") {
-			enemy = enemyObject.AddComponent<CannonEnemy> ();
-			enemy.transform.position = new Vector3 (x, y, 0);
-			enemy.init (this);
-		}
-
+//		if (type == "cannonenemy") {
+//			enemy = enemyObject.AddComponent<CannonEnemy> ();
+//			enemy.transform.position = new Vector3 (x, y, 0);
+//			enemy.init (this);
+//		}
+		print (x);
 	}
 }

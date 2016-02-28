@@ -8,7 +8,8 @@ public class Asteroid : ParentEnemy {
 	private EnemyManager owner;
 
 
-	void init(EnemyManager owner) {
+	public void init(EnemyManager owner) {
+		print ("here pal");
 		hp = 20;
 		fireRate = 0;
 		speed = 2;
