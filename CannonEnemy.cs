@@ -8,12 +8,12 @@ public class CannonEnemy : ParentEnemy {
 	private string direction;
 	private string firingSide;
 
-	void init(EnemyManager owner) {
+	void init(int thing) {
 		hp = 5;
 		fireRate = 2;
 		speed = 3;
-		col = new Collider2D();
-		body = new Rigidbody2D();
+		col = gameObject.AddComponent<BoxCollider2D> ();
+		body = gameObject.AddComponent<Rigidbody2D> ();
 		transform.eulerAngles = new Vector3(0,0,180);
 		this.owner = owner;
 		direction = "D";
@@ -38,14 +38,21 @@ public class CannonEnemy : ParentEnemy {
 		}
 		Move ();
 
+
 		if (transform.position.y == stopPosition) {
-			if (firingSide == "L") {
-				Fire ((transform.position.x - .25f), transform.position.y);
-				firingSide = "R";
-			}
-			if (firingSide == "R") {
-				Fire ((transform.position.x + .25f), transform.position.y);
-				firingSide = "L";
+			if (cd <= 0) {
+				if (firingSide == "L") {
+					Fire ((transform.position.x - .25f), transform.position.y);
+					firingSide = "R";
+					cd = fireRate;
+				}
+				if (firingSide == "R") {
+					Fire ((transform.position.x + .25f), transform.position.y);
+					firingSide = "L";
+					cd = fireRate;
+				}
+			} else {
+				cd = cd - Time.deltaTime;
 			}
 		}
 	}
@@ -60,17 +67,16 @@ public class CannonEnemy : ParentEnemy {
 		}
 	}
 
-	protected void Fire(float x, float y){ 						//I made this take x and y because I was thinking about it and different enemies will need to fire from different parts of their models
-		GameObject bulletObject = new GameObject();			
-		Laser laser = bulletObject.AddComponent<Laser>();
-		laser.transform.position = new Vector3(this.transform.position.x,this.transform.position.y,0);
-		laser.init(true);
-	}
-
 	void OnTriggerEnter2D(Collider2D other){
 		if (other.tag == "PlayerLaser") {
 			hp--;
 		}
 	}
 
+	protected void Fire(float x, float y){ 				//I made this take x and y because I was thinking about it and different enemies will need to fire from different parts of their models
+		GameObject bulletObject = new GameObject();			
+		Laser laser = bulletObject.AddComponent<Laser>();
+		laser.transform.position = new Vector3(this.transform.position.x,this.transform.position.y,0);
+		laser.init(true);
+	}
 }

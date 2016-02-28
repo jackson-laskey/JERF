@@ -15,8 +15,8 @@ public class SmallEnemy : ParentEnemy {
 		speed = 4;
 		diveSpeed = 6;
 		divePosition = -1;
-		col = new Collider2D();
-		body = new Rigidbody2D();
+		col = gameObject.AddComponent<BoxCollider2D> ();
+		body = gameObject.AddComponent<Rigidbody2D> ();
 		transform.eulerAngles = new Vector3(0,0,180);
 		this.owner = owner;
 		direction = "L";

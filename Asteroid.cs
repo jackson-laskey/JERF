@@ -1,20 +1,17 @@
-﻿
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 
 public class Asteroid : ParentEnemy {
-
+	
 	private AsteroidModel model;
-	private EnemyManager owner;
 
-
-	void init(EnemyManager owner) {
+	void init() {
 		hp = 20;
 		fireRate = 0;
 		speed = 2;
 		this.owner = owner;
-		col = new Collider2D();
-		body = new Rigidbody2D();
+		col = gameObject.AddComponent<BoxCollider2D> ();
+		body = gameObject.AddComponent<Rigidbody2D> ();
 		transform.eulerAngles = new Vector3(0,0,180);
 		var modelObject = GameObject.CreatePrimitive (PrimitiveType.Quad);
 		model = modelObject.AddComponent<AsteroidModel>();	
