@@ -29,6 +29,9 @@ public class ButtonClicker : MonoBehaviour {
 	}
 
 	void PressButton(bool buttonDown) {
+		if (buttonSprite == null) {
+			buttonSprite = gameObject.GetComponent<SpriteRenderer> ();
+		}
 		Color spriteColor = buttonSprite.color;
 		if (buttonDown) {
 			buttonSprite.color = new Color (spriteColor.r * darkenSprite,
