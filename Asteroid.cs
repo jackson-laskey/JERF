@@ -5,7 +5,7 @@ using System.Collections;
 public class Asteroid : ParentEnemy {
 
 	private AsteroidModel model;
-	private AsteroidManager owner;
+	private EnemyManager owner;
 
 
 	void init(EnemyManager owner) {

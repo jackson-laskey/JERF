@@ -3,6 +3,13 @@ using System.Collections;
 
 public class EnemyManager : MonoBehaviour {
 
+	protected GameController owner;
+
+	public void init (GameController g)	{
+		owner = g;
+	}
+
+
 	void SpawnEnemy(string type,float x, float y){
 		GameObject enemyObject = new GameObject();
 		ParentEnemy enemy;
