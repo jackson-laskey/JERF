@@ -16,7 +16,7 @@ public class ButtonClicker : MonoBehaviour {
 		healthBar = gameObject.transform.parent.FindChild("Health").GetComponent<ComponentHealth> ();
 		darkenSprite = (.7f);
 		buttonSprite = gameObject.GetComponent<SpriteRenderer> ();
-		captain = GameObject.Find ("Captain").GetComponent<MoveCaptain> ();
+		captain = GameObject.Find ("Crew").GetComponent<MoveCaptain> ();
 	}
 
 	// Update is called once per frame

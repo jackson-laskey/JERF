@@ -37,6 +37,8 @@ public class MoveCaptain : MonoBehaviour {
 		moving = false;
 		moveX = 0f;
 		moveY = 0f;
+
+		captainSpeed = 1;
 	}
 
 	void Update () {
