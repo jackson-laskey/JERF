@@ -25,23 +25,23 @@ public class SmallEnemy : ParentEnemy {
 		model.init(this);
 	}
 		
-	void Update () {
-		if (!diving) {
-			Move ();
-			if (transform.position.y <= divePosition) {
-				int playerx = owner.owner.ship.transform.GetChild (0).position.x;
-				int playery = owner.owner.ship.transform.GetChild (0).position.y;
-				float angle = Mathf.Acos (Mathf.Abs (playery - this.transform.position.y) / Mathf.Sqrt ((playerx - this.transform.position.x) ^ 2 + (playery - this.transform.position.y) ^ 2));
-				transform.eulerAngles = new Vector3 (0, 0, 180 - angle);
-				diving = true;
-			}
-		} else {
-			Dive ();
-		}
-		if (transform.position.y < -7) {
-			Destroy (this.gameObject);
-		} 
-	}
+//	void Update () {
+//		if (!diving) {
+//			Move ();
+//			if (transform.position.y <= divePosition) {
+//				int playerx = owner.owner.ship.transform.GetChild (0).position.x;
+//				int playery = owner.owner.ship.transform.GetChild (0).position.y;
+//				float angle = Mathf.Acos (Mathf.Abs (playery - this.transform.position.y) / Mathf.Sqrt ((playerx - this.transform.position.x) ^ 2 + (playery - this.transform.position.y) ^ 2));
+//				transform.eulerAngles = new Vector3 (0, 0, 180 - angle);
+//				diving = true;
+//			}
+//		} else {
+//			Dive ();
+//		}
+//		if (transform.position.y < -7) {
+//			Destroy (this.gameObject);
+//		} 
+//	}
 
 	void Move(){
 		if (direction == "L") {

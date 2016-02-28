@@ -18,7 +18,8 @@ public class Asteroid : ParentEnemy {
 		body = new Rigidbody2D();
 		transform.eulerAngles = new Vector3(0,0,180);
 		var modelObject = GameObject.CreatePrimitive (PrimitiveType.Quad);
-		model = modelObject.AddComponent<AsteroidModel>();	
+		model = modelObject.AddComponent<AsteroidModel>();
+		this.tag = "asteroid";
 		model.init(this);
 	}
 
