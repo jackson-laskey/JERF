@@ -9,7 +9,7 @@ public class Projectile : MonoBehaviour {
 	public float maxY;
 	public float minY;
 
-	protected void init(bool isEnemy) {
+	public void init(bool isEnemy) {
 		if (!isEnemy) {
 			speed = -speed;
 		}

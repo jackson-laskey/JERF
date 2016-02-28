@@ -5,7 +5,7 @@ public class Asteroid : ParentEnemy {
 	
 	private AsteroidModel model;
 
-	void Start () {
+	void Start() {
 		hp = 20;
 		fireRate = 0;
 		speed = 2;
