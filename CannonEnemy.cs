@@ -8,13 +8,14 @@ public class CannonEnemy : ParentEnemy {
 	private string direction;
 	private string firingSide;
 
-	void Start() {
+	void init(EnemyManager owner) {
 		hp = 5;
 		fireRate = 2;
 		speed = 3;
 		col = new Collider2D();
 		body = new Rigidbody2D();
 		transform.eulerAngles = new Vector3(0,0,180);
+		this.owner = owner;
 		direction = "D";
 		firingSide = "L";
 		stopPosition = Random.Range (6, -1);

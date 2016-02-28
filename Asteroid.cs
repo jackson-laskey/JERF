@@ -5,10 +5,11 @@ public class Asteroid : ParentEnemy {
 	
 	private AsteroidModel model;
 
-	void Start() {
+	void init(EnemyManager owner) {
 		hp = 20;
 		fireRate = 0;
 		speed = 2;
+		this.owner = owner;
 		col = new Collider2D();
 		body = new Rigidbody2D();
 		transform.eulerAngles = new Vector3(0,0,180);
