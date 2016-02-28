@@ -67,6 +67,14 @@ public class CannonEnemy : ParentEnemy {
 		}
 	}
 
+
+	protected void Fire(float x, float y){ 						//I made this take x and y because I was thinking about it and different enemies will need to fire from different parts of their models
+		GameObject bulletObject = new GameObject();			
+		//Laser laser = bulletObject.AddComponent<Laser>();
+		//laser.transform.position = new Vector3(this.transform.position.x,this.transform.position.y,0);
+		//laser.init(true);
+	}
+
 	void OnTriggerEnter2D(Collider2D other){
 		if (other.tag == "PlayerLaser") {
 			hp--;
