@@ -1,11 +1,14 @@
-﻿using UnityEngine;
+﻿
+using UnityEngine;
 using System.Collections;
 
 public class Asteroid : ParentEnemy {
-	
-	private AsteroidModel model;
 
-	void Start () {
+	private AsteroidModel model;
+	private AsteroidManager owner;
+
+	public void init (AsteroidManager man) {
+		owner = man;
 		hp = 20;
 		fireRate = 0;
 		speed = 2;
