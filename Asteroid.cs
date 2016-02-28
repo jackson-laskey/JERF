@@ -13,6 +13,7 @@ public class Asteroid : ParentEnemy {
 		this.owner = owner;
 		col = gameObject.AddComponent<BoxCollider2D> ();
 		body = gameObject.AddComponent<Rigidbody2D> ();
+		body.isKinematic = true;
 		transform.eulerAngles = new Vector3(0,0,180);
 		var modelObject = GameObject.CreatePrimitive (PrimitiveType.Quad);
 		model = modelObject.AddComponent<AsteroidModel>();

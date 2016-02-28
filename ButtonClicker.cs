@@ -31,6 +31,8 @@ public class ButtonClicker : MonoBehaviour {
 	void PressButton(bool buttonDown) {
 		if (buttonSprite == null) {
 			buttonSprite = gameObject.GetComponent<SpriteRenderer> ();
+		}if (healthBar == null) {
+			healthBar = gameObject.transform.parent.FindChild ("Health").GetComponent<ComponentHealth> ();
 		}
 		Color spriteColor = buttonSprite.color;
 		if (buttonDown) {

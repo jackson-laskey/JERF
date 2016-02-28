@@ -6,6 +6,7 @@ public class ParentEnemy : MonoBehaviour {
 	protected int hp;
 	protected int fireRate;
 	protected int speed;
+	protected float cd;
 	protected EnemyManager owner;
 
 	protected Collider2D col;
