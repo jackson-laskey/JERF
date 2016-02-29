@@ -10,6 +10,10 @@ public class EnemyManager : MonoBehaviour {
 	}
 
 	public void getInstruction(string type, int size, int x){
+		print (type);
+		print (size);
+		print (x);
+		//SpawnEnemy (type,x,5);
 		SpawnEnemy (type,x,7);
 	}
 
