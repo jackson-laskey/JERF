@@ -39,6 +39,8 @@ public class MoveCaptain : MonoBehaviour {
 		moveY = 0f;
 
 		captainSpeed = 1;
+
+		GoToLaserShieldEngine ("S");
 	}
 
 	void Update () {

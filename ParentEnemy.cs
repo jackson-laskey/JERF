@@ -18,7 +18,6 @@ public class ParentEnemy : MonoBehaviour {
 		GameObject bulletObject = new GameObject();			
 		Projectile laser = bulletObject.AddComponent<Projectile>();
 		laser.transform.position = new Vector3(this.transform.position.x,this.transform.position.y,0);
-		laser.init(true);
 	}
 
 	//public void init(EnemyManager owner){

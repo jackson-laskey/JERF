@@ -6,6 +6,10 @@ public class Laser : Projectile {
 
 	// Use this for initialization
 	void Start () {
+		speed = 5;
+		name = "Laser";
+		color = new Color (0, 1, 0);
+		gameObject.transform.localScale = new Vector3 (.2f, .8f, 1);
 		base.init (true);
 	}
 

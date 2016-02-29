@@ -9,7 +9,7 @@ public class Asteroid : ParentEnemy {
 		print ("here pal");
 		hp = 20;
 		fireRate = 0;
-		speed = 1f;
+		speed = 1;
 		this.owner = owner;
 		col = gameObject.AddComponent<CircleCollider2D> ();
 		body = gameObject.AddComponent<Rigidbody2D> ();

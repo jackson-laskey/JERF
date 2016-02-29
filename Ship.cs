@@ -72,9 +72,13 @@ public class Ship : MonoBehaviour {
 
 	private void Fire() {
 		clock = 0;
-		GameObject shot = Instantiate (projectile);
+		GameObject shot = new GameObject();
+		shot.transform.parent = transform.parent;
+		shot.transform.position = new Vector3 (0, 0);
+		shot.AddComponent<PlayerLaser> ();
 		shot.transform.parent = transform.parent;
 		shot.transform.position = new Vector3(transform.position.x, transform.position.y + .75f);
+		print ("hey");
 	}
 
 	private void Die() {
