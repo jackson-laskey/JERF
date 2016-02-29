@@ -3,9 +3,9 @@ using System.Collections;
 
 public class ParentEnemy : MonoBehaviour {
 
-	protected int hp;
+	public int hp;
 	protected int fireRate;
-	protected int speed;
+	protected float speed;
 	protected EnemyManager owner;
 
 	protected Collider2D col;

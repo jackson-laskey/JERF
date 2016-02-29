@@ -11,11 +11,15 @@ public class ButtonClicker : MonoBehaviour {
 
 	private SpriteRenderer buttonSprite;
 
+	private float r;
+	private float g;
+	private float b;
+
 	// Use this for initialization
 	void Start () {
 		healthBar = gameObject.transform.parent.FindChild("Health").GetComponent<ComponentHealth> ();
 		darkenSprite = (.7f);
-		buttonSprite = gameObject.GetComponent<SpriteRenderer> ();
+		buttonSprite = null;
 		captain = GameObject.Find ("Crew").GetComponent<MoveCaptain> ();
 	}
 
@@ -31,16 +35,17 @@ public class ButtonClicker : MonoBehaviour {
 	void PressButton(bool buttonDown) {
 		if (buttonSprite == null) {
 			buttonSprite = gameObject.GetComponent<SpriteRenderer> ();
+			Color spriteColor = buttonSprite.color;
+			r = spriteColor.r;
+			g = spriteColor.g;
+			b = spriteColor.b;
+		} if (healthBar == null) {
+			healthBar = gameObject.transform.parent.FindChild ("Health").GetComponent<ComponentHealth> ();
 		}
-		Color spriteColor = buttonSprite.color;
 		if (buttonDown) {
-			buttonSprite.color = new Color (spriteColor.r * darkenSprite,
-				spriteColor.g * darkenSprite,
-				spriteColor.b * darkenSprite);
+			buttonSprite.color = new Color (r*darkenSprite, g * darkenSprite, b * darkenSprite);
 		} else {
-			buttonSprite.color = new Color (spriteColor.r * (1/darkenSprite),
-				spriteColor.g * (1/darkenSprite),
-				spriteColor.b * (1/darkenSprite));
+			buttonSprite.color = new Color (r, g, b);
 		}
 		healthBar.decaying = !buttonDown;
 	}

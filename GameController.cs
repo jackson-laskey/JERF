@@ -9,8 +9,10 @@ public class GameController : MonoBehaviour {
 
 	void Start () {
 		print ("hey buddy");
-		ship = Instantiate(Resources.Load("Prefabs/ShipHandler") as GameObject);
-		captain = Instantiate(Resources.Load("Prefabs/Captain") as GameObject);
+		//ship = Instantiate(Resources.Load("Prefabs/ShipHandler") as GameObject);
+		//captain = Instantiate(Resources.Load("Prefabs/Captain") as GameObject);
+		ship.SetActive(true);
+		captain.SetActive(true);
 		print ("well hello");
 		eMan = gameObject.AddComponent<EnemyManager>();
 		eMan.init (this);
@@ -19,7 +21,7 @@ public class GameController : MonoBehaviour {
 		
 	void ParseInstruction () {
 		print ("here");
-		eMan.getInstruction("asteroid",5,-4);
+		eMan.getInstruction("smallenemy",5,-4);
 	}
 }
 
