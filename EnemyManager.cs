@@ -30,6 +30,5 @@ public class EnemyManager : MonoBehaviour {
 			enemy.transform.position = new Vector3 (x, y, 0);
 			enemy.init (this);
 		}
-		print (x);
 	}
 }

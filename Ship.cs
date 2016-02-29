@@ -78,7 +78,6 @@ public class Ship : MonoBehaviour {
 		shot.AddComponent<PlayerLaser> ();
 		shot.transform.parent = transform.parent;
 		shot.transform.position = new Vector3(transform.position.x, transform.position.y + .75f);
-		print ("hey");
 	}
 
 	private void Die() {

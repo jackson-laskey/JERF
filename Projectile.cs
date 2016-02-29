@@ -9,7 +9,6 @@ public class Projectile : MonoBehaviour {
 	private float maxY;
 	private float minY;
 
-	protected Color color;
 	protected GameObject model;
 
 	protected void init(bool isEnemy) {
@@ -31,8 +30,7 @@ public class Projectile : MonoBehaviour {
 		model.name = gameObject.name + "Model";
 		Material mat = model.GetComponent<Renderer> ().material;
 		mat.shader = Shader.Find ("Sprites/Default");
-		mat.mainTexture = Resources.Load<Texture2D> ("Textures/PlayerLaser");
-		mat.color = color;
+		mat.mainTexture = Resources.Load<Texture2D> ("Textures/" + name);
 	}
 	
 	// if out of view, 
