@@ -55,12 +55,14 @@ public class Ship : MonoBehaviour {
 		// different cases for different objects; mostly they just damage the ship
 		switch (coll.tag) {
 		case "asteroid":
-			if (shieldLevel.Damage (20)) {
+			if (shieldLevel.Damage (30)) {
 				Die ();
 			}
 			break;
 		case "Laser":
-			coll.gameObject.GetComponent<PlayerLaser> ().Hit ();
+			if (shieldLevel.Damage (20)) {
+				Die ();
+			}
 			// insert laser consequences and more cases here
 			break;
 		default:

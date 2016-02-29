@@ -19,8 +19,17 @@ public class GameController : MonoBehaviour {
 	private bool done = false;
 
 	void Start () {
+<<<<<<< HEAD
 		//ship = Instantiate(Resources.Load("Prefabs/ShipHandler") as GameObject); 
 		//captain = Instantiate(Resources.Load("Prefabs/Captain") as GameObject); //From blank game screen to ship plus captain!
+=======
+		print ("hey buddy");
+		//ship = Instantiate(Resources.Load("Prefabs/ShipHandler") as GameObject);
+		//captain = Instantiate(Resources.Load("Prefabs/Captain") as GameObject);
+		ship.SetActive(true);
+		captain.SetActive(true);
+		print ("well hello");
+>>>>>>> origin/master
 		eMan = gameObject.AddComponent<EnemyManager>();
 		eMan.init (this);
 		this.GetInstructions ("Assets/Resources/JERF/level1.txt"); //For now let's just worry about loading and executing a single level. Eventually, we will have to be more sophisticated about restarting levels and loading new levels. May not need separate function longterm.
@@ -63,6 +72,7 @@ public class GameController : MonoBehaviour {
 	void GetInstructions (string level) {
 		instructions = System.IO.File.ReadAllLines(level);
 	}
+<<<<<<< HEAD
 
 
 
@@ -70,6 +80,12 @@ public class GameController : MonoBehaviour {
 		waiting = true;
 		yield return new WaitForSeconds(5.0f); //Right now waiting for 5 seconds. Eventually, wait for 1.0f*time seconds.
 		waiting = false;
+=======
+		
+	void ParseInstruction () {
+		print ("here");
+		eMan.getInstruction("smallenemy",5,-4);
+>>>>>>> origin/master
 	}
 }
 

@@ -3,11 +3,12 @@ using System.Collections;
 
 public class ParentEnemy : MonoBehaviour {
 
-	protected int hp;
+	public int hp;
 	protected int fireRate;
 	protected int speed;
 	protected float cd;
-	protected EnemyManager owner;
+
+    protected EnemyManager owner;
 
 	protected Collider2D col;
 	protected Rigidbody2D body;

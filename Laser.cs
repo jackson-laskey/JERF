@@ -2,20 +2,21 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class PlayerLaser : Projectile {
+public class Laser : Projectile {
 
 	// Use this for initialization
 	void Start () {
-		base.init (false);
+		base.init (true);
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
 		base.Update ();
 	}
 
-	void OnTriggerEnter2D() {
-		Hit ();
+	void OnTriggerEnter2D(Collider2D coll) {
+		if (coll.gameObject.tag == "PlayerController") {
+			Hit ();
+		}
 	}
 }
-

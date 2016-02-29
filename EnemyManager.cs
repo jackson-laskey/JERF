@@ -10,10 +10,14 @@ public class EnemyManager : MonoBehaviour {
 	}
 
 	public void getInstruction(string type, int size, int x){
+<<<<<<< HEAD
 		print (type);
 		print (size);
 		print (x);
 		//SpawnEnemy (type,x,5);
+=======
+		SpawnEnemy (type,x,7);
+>>>>>>> origin/master
 	}
 
 	void SpawnEnemy(string type,float x, float y){
@@ -22,13 +26,17 @@ public class EnemyManager : MonoBehaviour {
 			Asteroid enemy = enemyObject.AddComponent<Asteroid> ();
 			enemy.transform.position = new Vector3(x,y,0);
 			enemy.init (this);
-			print (y);
 		}
-//		if (type == "cannonenemy") {
-//			enemy = enemyObject.AddComponent<CannonEnemy> ();
-//			enemy.transform.position = new Vector3 (x, y, 0);
-//			enemy.init (this);
-//		}
+		if (type == "cannonenemy") {
+			CannonEnemy enemy = enemyObject.AddComponent<CannonEnemy> ();
+			enemy.transform.position = new Vector3 (x, y, 0);
+			enemy.init (this);
+		}
+		if (type == "smallenemy") {
+			SmallEnemy enemy = enemyObject.AddComponent<SmallEnemy> ();
+			enemy.transform.position = new Vector3 (x, y, 0);
+			enemy.init (this);
+		}
 		print (x);
 	}
 }
