@@ -62,6 +62,29 @@ public class GameController : MonoBehaviour {
 
 	void GetInstructions (string level) {
 		instructions = System.IO.File.ReadAllLines(level);
+//		instructions = new string[21]
+//		{"L:8:-4:5",
+//			"L:8:-5:5",
+//			"L:5:-7",
+//			"L:5:0",
+//			"5",
+//			"L:5:-7",
+//			"L:5:0",
+//			"4",
+//			"L:5:0",
+//			"L:5:-7",
+//			"10",
+//			"A:72:30:30",
+//			"8",
+//			"H:1:-5",
+//			"H:1:-3",
+//			"H:1:-2",
+//			"8",
+//			"H:2:-2",
+//			"3",
+//			"H:2:-7",
+//			"X"};
+
 	}
 
 

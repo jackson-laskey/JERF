@@ -13,7 +13,7 @@ public class SmallEnemy : ParentEnemy {
 		name = "SmallEnemy";
 		hp = 2;
 		fireRate = 0;
-		speed = 1;
+		speed = .8f;
 		diveSpeed = 5;
 		divePosition = .5f;
 		transform.localScale = new Vector3 (1, 1.2f, 1f);

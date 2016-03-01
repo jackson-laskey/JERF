@@ -27,7 +27,7 @@ public class Ship : MonoBehaviour {
 
 		// clock tracks time passed, ship fires when clock passes threshold. clock then resets.
 		clock = 0;
-		threshold = 40f;
+		threshold = 32f;
 	}
 	
 	// Update is called once per frame
