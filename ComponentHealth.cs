@@ -49,9 +49,9 @@ public class ComponentHealth : MonoBehaviour {
 	public bool Damage(float damage) {
 		float damageModifier = 1;
 		if (health == 100) {
-			damageModifier = .2f;
+			damageModifier = .6f;
 		} else if (!decaying) {
-			damageModifier = .5f;
+			damageModifier = .75f;
 		}
 		if (health - (damage * damageModifier) <= 0) {
 			health = 0;

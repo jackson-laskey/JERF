@@ -4,15 +4,16 @@ using System.Collections;
 public class CannonEnemy : ParentEnemy {
 
 	private CannonEnemyModel model;
-	private int stopPosition;
+	private float stopPosition;
 	private string direction;
 	private string firingSide;
 
 	private float cd;
 
 	public void init(EnemyManager owner) {
-		hp = 5;
-		fireRate = 1;
+		gameObject.name = "CannonEnemy";
+		hp = 10;
+		fireRate = .3f;
 		speed = 2;
 		col = gameObject.AddComponent<BoxCollider2D> ();
 		body = gameObject.AddComponent<Rigidbody2D> ();
@@ -21,7 +22,7 @@ public class CannonEnemy : ParentEnemy {
 		this.owner = owner;
 		direction = "D";
 		firingSide = "L";
-		stopPosition = Random.Range (5, -1);
+		stopPosition = Random.Range (4.5f, -1f);
 		var modelObject = GameObject.CreatePrimitive (PrimitiveType.Quad);
 		model = modelObject.AddComponent<CannonEnemyModel>();	
 		model.init(this);

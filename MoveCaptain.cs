@@ -47,7 +47,7 @@ public class MoveCaptain : MonoBehaviour {
 		if (moving) {
 			float diffX = gameObject.transform.position.x - buttons [laserShieldEngineNone].transform.position.x;
 			float diffY = gameObject.transform.position.y-buttons[laserShieldEngineNone].transform.position.y;
-			if (Mathf.Abs(diffX) < captainSpeed*Time.deltaTime*2  &&  Mathf.Abs(diffY) < captainSpeed*Time.deltaTime*2) {
+			if (Mathf.Abs(diffX) < captainSpeed*Time.deltaTime*4  &&  Mathf.Abs(diffY) < captainSpeed*Time.deltaTime*4) {
 				gameObject.transform.Translate(-diffX, -diffY, 0);
 				moving = false;
 			} else { 

@@ -19,15 +19,11 @@ public class GameController : MonoBehaviour {
 	private bool done = false;
 
 	void Start () {
-		//ship = Instantiate(Resources.Load("Prefabs/ShipHandler") as GameObject); 
-		//captain = Instantiate(Resources.Load("Prefabs/Captain") as GameObject); //From blank game screen to ship plus captain!
-		//ship = Instantiate(Resources.Load("Prefabs/ShipHandler") as GameObject);
-		//captain = Instantiate(Resources.Load("Prefabs/Captain") as GameObject);
 		ship.SetActive(true);
 		captain.SetActive(true);
 		eMan = gameObject.AddComponent<EnemyManager>();
 		eMan.init (this);
-		this.GetInstructions ("Assets/Resources/JERF/level1.txt"); //For now let's just worry about loading and executing a single level. Eventually, we will have to be more sophisticated about restarting levels and loading new levels. May not need separate function longterm.
+		this.GetInstructions ("Assets/Resources/level1.txt"); //For now let's just worry about loading and executing a single level. Eventually, we will have to be more sophisticated about restarting levels and loading new levels. May not need separate function longterm.
 	}
 
 	void Update() {//Needed an update to handle waiting. Checks if waiting once per frame instead of on infinite loop which crashes
@@ -72,13 +68,11 @@ public class GameController : MonoBehaviour {
 
 	IEnumerator sleep(int time){
 		waiting = true;
-		yield return new WaitForSeconds(5.0f); //Right now waiting for 5 seconds. Eventually, wait for 1.0f*time seconds.
+		yield return new WaitForSeconds(1.0f*time); //Right now waiting for 5 seconds. Eventually, wait for 1.0f*time seconds.
 		waiting = false;
     }
 		
 	void ParseInstruction () {
-		eMan.getInstruction("cannonenemy",5,-4);
-		eMan.getInstruction("smallenemy",5,-4);
 	}
 }
 

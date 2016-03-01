@@ -4,7 +4,7 @@ using System.Collections;
 public class ParentEnemy : MonoBehaviour {
 
 	public int hp;
-	protected int fireRate;
+	protected float fireRate;
 	protected int speed;
 	protected float cd;
 

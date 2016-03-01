@@ -9,7 +9,7 @@ public class Asteroid : ParentEnemy {
 		print ("here pal");
 		hp = 20;
 		fireRate = 0;
-		speed = 1;
+		speed = 3;
 		this.owner = owner;
 		col = gameObject.AddComponent<CircleCollider2D> ();
 		body = gameObject.AddComponent<Rigidbody2D> ();
@@ -17,6 +17,7 @@ public class Asteroid : ParentEnemy {
 		transform.eulerAngles = new Vector3(0,0,180);
 		var modelObject = GameObject.CreatePrimitive (PrimitiveType.Quad);
 		model = modelObject.AddComponent<AsteroidModel>();
+		gameObject.name = "Asteroid";
 		this.tag = "asteroid";
 		model.init(this);
 	}

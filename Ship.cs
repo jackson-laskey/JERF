@@ -27,7 +27,7 @@ public class Ship : MonoBehaviour {
 
 		// clock tracks time passed, ship fires when clock passes threshold. clock then resets.
 		clock = 0;
-		threshold = 30f;
+		threshold = 40f;
 	}
 	
 	// Update is called once per frame
@@ -35,7 +35,7 @@ public class Ship : MonoBehaviour {
 		// clock increment is modified by laser health so fire rate is proportional to laser health
 		clock += Time.deltaTime*laserLevel.health;
 		// fire lasers if thresholds have been reached- extra-fast firing cycle for laser health == 100
-		if (laserLevel.health == 100 && clock > threshold/1.5f) {
+		if (laserLevel.health == 100 && clock > threshold/1.3f) {
 			Fire ();
 		}
 		if (clock > threshold) {
@@ -53,17 +53,22 @@ public class Ship : MonoBehaviour {
 	// Handles hits
 	void OnTriggerEnter2D(Collider2D coll) {
 		// different cases for different objects; mostly they just damage the ship
-		switch (coll.tag) {
-		case "asteroid":
-			if (shieldLevel.Damage (30)) {
+		switch (coll.name) {
+		case "Asteroid":
+			if (shieldLevel.Damage (49)) {
 				Die ();
 			}
 			break;
 		case "Laser":
-			if (shieldLevel.Damage (20)) {
+			print("here");
+			if (shieldLevel.Damage (15)) {
 				Die ();
 			}
-			// insert laser consequences and more cases here
+			break;
+		case "SmallEnemy":
+			if (shieldLevel.Damage (30)) {
+				Die ();
+			}
 			break;
 		default:
 			break; 

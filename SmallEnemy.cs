@@ -5,22 +5,28 @@ public class SmallEnemy : ParentEnemy {
 
 	private SmallEnemyModel model;
 	private string direction;
-	private int diveSpeed;
-	private int divePosition;
+	private float diveSpeed;
+	private float divePosition;
 	private bool diving;
 
 	public void init(EnemyManager owner) {
-		hp = 1;
+		name = "SmallEnemy";
+		hp = 2;
 		fireRate = 0;
 		speed = 1;
-		diveSpeed = 10;
-		divePosition = -1;
+		diveSpeed = 5;
+		divePosition = .5f;
+		transform.localScale = new Vector3 (1, 1.2f, 1f);
 		col = gameObject.AddComponent<BoxCollider2D> ();
 		body = gameObject.AddComponent<Rigidbody2D> ();
 		body.isKinematic = true;
 		transform.eulerAngles = new Vector3(0,0,180);
 		this.owner = owner;
-		direction = "L";
+		if (transform.position.x > -4.5f) { 
+			direction = "L";
+		} else {
+			direction = "R";
+		}
 		var modelObject = GameObject.CreatePrimitive (PrimitiveType.Quad);
 		model = modelObject.AddComponent<SmallEnemyModel>();	
 		model.init(this);
@@ -42,7 +48,8 @@ public class SmallEnemy : ParentEnemy {
 			if (transform.position.y <= divePosition) {
 				float playerx = owner.owner.ship.transform.GetChild (0).position.x;
 				float playery = owner.owner.ship.transform.GetChild (0).position.y;
-				float angle = Mathf.Rad2Deg*Mathf.Acos (Mathf.Abs (playery - this.transform.position.y) / Mathf.Sqrt (Mathf.Pow((playerx - this.transform.position.x),2) + Mathf.Pow((playery - this.transform.position.y),2)));
+				float angle = Mathf.Rad2Deg*Mathf.Acos (Mathf.Abs (playery - this.transform.position.y) / Mathf.Sqrt (Mathf.Pow((playerx - this.transform.position.x),2) + 
+					Mathf.Pow((playery - this.transform.position.y),2)));
 				float sign = (playerx - this.transform.position.x) / Mathf.Abs (playerx - this.transform.position.x);
 				transform.eulerAngles = new Vector3 (0, 0, 180 + (sign*angle));
 				diving = true;
@@ -61,7 +68,7 @@ public class SmallEnemy : ParentEnemy {
 			transform.Translate (Vector3.right * Time.deltaTime * speed*3);
 		} else {
 			transform.Translate (Vector3.up * Time.deltaTime * speed);
-			transform.Translate (Vector3.left * Time.deltaTime * speed*3);
+			transform.Translate (Vector3.left * Time.deltaTime * speed*2);
 		}
 	}
 
@@ -70,7 +77,7 @@ public class SmallEnemy : ParentEnemy {
 	}
 
 	void OnTriggerEnter2D(Collider2D other){
-		if (other.tag == "PlayerLaser") {
+		if (other.name == "PlayerLaser") {
 			hp--;
 		}
 		if (other.tag == "PlayerController") {
