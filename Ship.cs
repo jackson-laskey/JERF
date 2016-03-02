@@ -14,7 +14,7 @@ public class Ship : MonoBehaviour {
 	// tracks frames to determine frequency of laser launch
 	private float clock;
 	// when clock reaches threshold, fires and restarts clock
-	private float threshold;
+	private float fireInterval;
 
 
 	void Start () {
@@ -27,7 +27,7 @@ public class Ship : MonoBehaviour {
 
 		// clock tracks time passed, ship fires when clock passes threshold. clock then resets.
 		clock = 0;
-		threshold = 32f;
+		fireInterval = 32f;
 	}
 	
 	// Update is called once per frame
@@ -35,10 +35,10 @@ public class Ship : MonoBehaviour {
 		// clock increment is modified by laser health so fire rate is proportional to laser health
 		clock += Time.deltaTime*laserLevel.health;
 		// fire lasers if thresholds have been reached- extra-fast firing cycle for laser health == 100
-		if (laserLevel.health == 100 && clock > threshold/1.3f) {
+		if (laserLevel.health == 100 && clock > fireInterval/1.3f) {
 			Fire ();
 		}
-		if (clock > threshold) {
+		if (clock > fireInterval) {
 			Fire ();
 		}
 
