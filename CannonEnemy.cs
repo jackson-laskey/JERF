@@ -12,8 +12,8 @@ public class CannonEnemy : ParentEnemy {
 
 	public void init(EnemyManager owner) {
 		gameObject.name = "CannonEnemy";
-		hp = 10;
-		fireRate = .3f;
+		hp = 5;
+		fireRate = .42f;
 		speed = 2;
 		col = gameObject.AddComponent<BoxCollider2D> ();
 		body = gameObject.AddComponent<Rigidbody2D> ();

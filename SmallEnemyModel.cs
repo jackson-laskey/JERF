@@ -11,7 +11,7 @@ public class SmallEnemyModel : MonoBehaviour {
 		this.owner = owner;
 		transform.parent = owner.transform;	
 		transform.localPosition = new Vector3(0,0,0);
-		transform.localScale = new Vector3 (1, 1.2f, 1f);
+		transform.localScale = new Vector3 (.85f, 1f, 1f);
 		name = "Asteroid Model";
 		mat = GetComponent<Renderer>().material;	
 		mat.shader = Shader.Find ("Sprites/Default");	// Tell the renderer that our textures have transparency. // Get the material component of this quad object.

@@ -5,7 +5,7 @@ public class ParentEnemy : MonoBehaviour {
 
 	public int hp;
 	protected float fireRate;
-	protected int speed;
+	protected float speed;
 	protected float cd;
 
     protected EnemyManager owner;

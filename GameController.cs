@@ -13,17 +13,25 @@ public class GameController : MonoBehaviour {
 	public EnemyManager eMan;
 	public GameObject ship;
 	public GameObject captain;
+	public int level;
+	public int numLevels;
 	private string[] instructions;
 	private int iter = 0;
 	private bool waiting = false;
 	private bool done = false;
 
-	void Start () {
+	void Start() {
+		init (false);
+	}
+
+	public void init (bool justDied) {
 		ship.SetActive(true);
 		captain.SetActive(true);
 		eMan = gameObject.AddComponent<EnemyManager>();
 		eMan.init (this);
-		this.GetInstructions ("Assets/Resources/level1.txt"); //For now let's just worry about loading and executing a single level. Eventually, we will have to be more sophisticated about restarting levels and loading new levels. May not need separate function longterm.
+		level = 1;
+		numLevels = 2;
+		this.GetInstructions ("JERF/level" + level.ToString()); //For now let's just worry about loading and executing a single level. Eventually, we will have to be more sophisticated about restarting levels and loading new levels. May not need separate function longterm.
 	}
 
 	void Update() {//Needed an update to handle waiting. Checks if waiting once per frame instead of on infinite loop which crashes
@@ -32,7 +40,13 @@ public class GameController : MonoBehaviour {
 				ExecuteInstruction (instructions [iter].Split (':')); // Execute the instruction
 				iter++;//iterate
 			} else if(!waiting){//Means done, not just waiting
-				done = true;
+				if (++level > numLevels) {
+					done = true;
+				} else {
+					EndLevel (level);
+					this.GetInstructions ("JERF/level" + level.ToString ());
+					done = false;
+				}
 			}
 		}
 
@@ -61,10 +75,13 @@ public class GameController : MonoBehaviour {
 	}
 
 	void GetInstructions (string level) {
-		instructions = System.IO.File.ReadAllLines(level);
+		iter = 0;
+		instructions = Resources.Load<TextAsset>(level).text.Split(new char[1]{'\n'});
 	}
 
-
+	void EndLevel (int level) {
+		StartCoroutine (sleep (10));
+	}
 
 	IEnumerator sleep(int time){
 		waiting = true;
