@@ -37,14 +37,12 @@ public class GameController : MonoBehaviour {
 	void Update() {//Needed an update to handle waiting. Checks if waiting once per frame instead of on infinite loop which crashes
 		if (!done) {
 			if (instructions [iter] != "X" && !waiting) { // Check if done/not waiting
-				print ("here");
 				ExecuteInstruction (instructions [iter].Split (':')); // Execute the instruction
 				iter++;//iterate
 			} else if(!waiting){//Means done, not just waiting
 				if (++level > numLevels) {
 					done = true;
 				} else {
-					print ("here pal");
 					EndLevel (level);
 					this.GetInstructions ("JERF/level" + level.ToString ());
 					done = false;
@@ -83,7 +81,7 @@ public class GameController : MonoBehaviour {
 
 	void EndLevel (int level) {
 		StartCoroutine (sleep (10));
-
+	}
 
 	IEnumerator sleep(int time){
 		waiting = true;
