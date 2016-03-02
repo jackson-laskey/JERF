@@ -3,61 +3,61 @@ using System.Collections;
 
 public class ButtonClicker : MonoBehaviour {
 
+	public GameController controller;
+
 	private float darkenSprite;
 
 	private ComponentHealth healthBar; 
 
 	private MoveCaptain captain;
 
-	private SpriteRenderer buttonSprite;
+	private GameObject model;
 
-	private float r;
-	private float g;
-	private float b;
+	private Material mat;
+	private Color upColor;
+	private Color downColor;
 
 	// Use this for initialization
-	void Start () {
+	public void init (GameController gContr, float quadR, float quadG, float quadB) {
+		controller = gContr;
 		healthBar = gameObject.transform.parent.FindChild("Health").GetComponent<ComponentHealth> ();
-		darkenSprite = (.7f);
-		buttonSprite = null;
 		captain = GameObject.Find ("Crew").GetComponent<MoveCaptain> ();
+		healthBar = gameObject.transform.parent.FindChild ("Health").GetComponent<ComponentHealth> ();
+
+		model = GameObject.CreatePrimitive (PrimitiveType.Quad);
+		controller.MakeModel (model, "Button", transform, 0, 0, 1, 1);
+		model.name = transform.parent.gameObject.name + "ButtonModel";
+		
+		mat = model.GetComponent<Renderer> ().material;
+		darkenSprite = (.7f);
+		upColor = new Color (quadR, quadG, quadB);
+		downColor = new Color (quadR*darkenSprite, quadG*darkenSprite, quadB*darkenSprite);
+		mat.color = upColor;
 	}
 
-	// Update is called once per frame
-	void Update () {
-
-	}
 
 	void OnMouseDown() {
 		captain.GoToLaserShieldEngine (gameObject.transform.parent.gameObject.tag);
 	}
 
 	void PressButton(bool buttonDown) {
-		if (buttonSprite == null) {
-			buttonSprite = gameObject.GetComponent<SpriteRenderer> ();
-			Color spriteColor = buttonSprite.color;
-			r = spriteColor.r;
-			g = spriteColor.g;
-			b = spriteColor.b;
-		} if (healthBar == null) {
-			healthBar = gameObject.transform.parent.FindChild ("Health").GetComponent<ComponentHealth> ();
-		}
 		if (buttonDown) {
-			buttonSprite.color = new Color (r*darkenSprite, g * darkenSprite, b * darkenSprite);
+			mat.color = downColor;
 		} else {
-			buttonSprite.color = new Color (r, g, b);
+			mat.color = upColor;
 		}
 		healthBar.decaying = !buttonDown;
 	}
 		
+
 	void OnTriggerEnter2D(Collider2D collider) {
-		if (collider.gameObject.tag == "PlayerController") {
+		if (collider.gameObject.name == "Crew") {
 			PressButton (true);
 		}
 	}
 
 	void OnTriggerExit2D(Collider2D collider) {
-		if (collider.gameObject.tag == "PlayerController") {
+		if (collider.gameObject.name == "Crew") {
 			PressButton (false);
 		}
 	}

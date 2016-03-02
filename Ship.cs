@@ -8,16 +8,26 @@ public class Ship : MonoBehaviour {
 	public ComponentHealth shieldLevel;
 	public ComponentHealth engineLevel;
 
+	// reference to GameController script
+	public GameController controller;
+
 	// projectile that the ship will fire
 	private GameObject projectile;
+	private GameObject model;
 
 	// tracks frames to determine frequency of laser launch
 	private float clock;
 	// when clock reaches threshold, fires and restarts clock
 	private float fireInterval;
 
+	private bool initd = false;
 
-	void Start () {
+
+
+	public void init (GameController gContr) {
+		controller = gContr;
+		transform.position = new Vector3 (-3.2f, -4.2f, 0);
+
 		laserLevel = GameObject.Find("Lasers").GetComponentInChildren<ComponentHealth>();
 		shieldLevel = GameObject.Find("Shields").GetComponentInChildren<ComponentHealth>();
 		engineLevel = GameObject.Find("Engines").GetComponentInChildren<ComponentHealth>();
@@ -28,10 +38,17 @@ public class Ship : MonoBehaviour {
 		// clock tracks time passed, ship fires when clock passes threshold. clock then resets.
 		clock = 0;
 		fireInterval = 32f;
+
+		model = GameObject.CreatePrimitive (PrimitiveType.Quad);
+		controller.MakeModel (model, "rocket", transform, 0, 0, 1, 1);
+		initd = true;
 	}
 	
-	// Update is called once per frame
+//	 Update is called once per frame
 	void Update () {
+		if (!initd) {
+			return;
+		}
 		// clock increment is modified by laser health so fire rate is proportional to laser health
 		clock += Time.deltaTime*laserLevel.health;
 		// fire lasers if thresholds have been reached- extra-fast firing cycle for laser health == 100
@@ -74,6 +91,19 @@ public class Ship : MonoBehaviour {
 		}
 	}
 
+//	protected void MakeModel() {
+//		model = GameObject.CreatePrimitive (PrimitiveType.Quad);
+//		model.transform.parent = gameObject.transform;
+//		model.transform.localPosition = new Vector3 (0, 0, 0);
+//		model.transform.localScale = transform.localScale;
+//		model.name = "ShipModel";
+//		Texture2D[] ShipTextures = Resources.LoadAll<Texture2D> ("Textures/ShipSprites");
+//		print (ShipTextures);
+//		Material mat = model.GetComponent<Renderer> ().material;
+//		mat.shader = Shader.Find ("Sprites/Default");
+//		mat.mainTexture = ShipTextures[0];
+//	}
+//
 	private void Fire() {
 		clock = 0;
 		GameObject shot = new GameObject();

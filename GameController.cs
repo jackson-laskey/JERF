@@ -18,33 +18,45 @@ public class GameController : MonoBehaviour {
 	private string[] instructions;
 	private int iter = 0;
 	private bool waiting = false;
-	private bool done = false;
+	private bool done = true;
 
 	void Start() {
 		init (false);
+		done = false;
 	}
 
 	public void init (bool justDied) {
-		ship.SetActive(true);
-		captain.SetActive(true);
+		GameObject dividerModel = GameObject.CreatePrimitive (PrimitiveType.Quad);
+		MakeModel (dividerModel, "Line", transform, .3f, 0, 3, 10);
+		dividerModel.name = "Divider";
+		captain = new GameObject ();
+		captain.AddComponent<CaptainManager> ();
+		captain.transform.parent = transform;
+		captain.name = "Captain";
+		ship = new GameObject ();
+		ship.transform.parent = transform;
+		ship.AddComponent<Ship> ();
+		ship.name = "Ship";
+//		ship.SetActive(true);
+//		captain.SetActive(true);
 		eMan = gameObject.AddComponent<EnemyManager>();
 		eMan.init (this);
 		level = 1;
 		numLevels = 2;
 		this.GetInstructions ("JERF/level" + level.ToString()); //For now let's just worry about loading and executing a single level. Eventually, we will have to be more sophisticated about restarting levels and loading new levels. May not need separate function longterm.
+		captain.GetComponent<CaptainManager> ().init (this);
+		ship.GetComponent<Ship> ().init (this);
 	}
 
 	void Update() {//Needed an update to handle waiting. Checks if waiting once per frame instead of on infinite loop which crashes
 		if (!done) {
 			if (instructions [iter] != "X" && !waiting) { // Check if done/not waiting
-				print ("here");
 				ExecuteInstruction (instructions [iter].Split (':')); // Execute the instruction
 				iter++;//iterate
 			} else if(!waiting){//Means done, not just waiting
 				if (++level > numLevels) {
 					done = true;
 				} else {
-					print ("here pal");
 					EndLevel (level);
 					this.GetInstructions ("JERF/level" + level.ToString ());
 					done = false;
@@ -76,13 +88,26 @@ public class GameController : MonoBehaviour {
 		}
 	}
 
+	public void MakeModel(GameObject quad, string textureName, Transform parentTransform, float x, float y, float xScale, float yScale) {
+		quad.transform.parent = parentTransform;
+		quad.transform.localPosition = new Vector3 (x, y, 0);
+		quad.transform.localScale = new Vector3 (xScale, yScale, 0);
+		quad.name = quad.name + "Model";
+		Material mat = quad.GetComponent<Renderer> ().material;
+		mat.shader = Shader.Find ("Sprites/Default");
+		mat.mainTexture = Resources.Load<Texture2D> ("Textures/" + textureName);
+		print (quad.name);
+	}
+
 	void GetInstructions (string level) {
 		iter = 0;
 		instructions = Resources.Load<TextAsset>(level).text.Split(new char[1]{'\n'});
+		print (instructions[0]);
 	}
 
 	void EndLevel (int level) {
 		StartCoroutine (sleep (10));
+	}
 
 
 	IEnumerator sleep(int time){

@@ -3,6 +3,8 @@ using System.Collections;
 
 public class MoveCaptain : MonoBehaviour {
 
+	public GameController controller;
+
 	// units per second of movement
 	public float captainSpeed;
 
@@ -25,12 +27,51 @@ public class MoveCaptain : MonoBehaviour {
 
 
 	// builds the "buttons", initializes other fields to non-moving state
-	void Start () {
+	public void init (GameController gContr, GameObject[] components) {
+		controller = gContr;
+
 		// building buttons array and finding its elements
 		buttons = new GameObject[3];
-		buttons[0] = laserButton = GameObject.Find ("Lasers").transform.GetChild (0).gameObject;
-		buttons[1] = shieldButton = GameObject.Find ("Shields").transform.GetChild (0).gameObject;
-		buttons[2] = engineButton = GameObject.Find ("Engines").transform.GetChild (0).gameObject;
+		ButtonClicker buttonClickerComponent;
+		ComponentHealth healthComponent;
+		GameObject button;
+
+		// laser health objects
+		// health bar
+		laserButton = new GameObject();
+		laserButton.name = "Health";
+		laserButton.transform.parent = components [0].transform;
+		healthComponent = laserButton.AddComponent<ComponentHealth> ();
+		healthComponent.init (controller, .6f, -.3805f);
+		// button
+		button = new GameObject ();
+		button.name = "Button";
+		button.transform.parent = components[0].transform;
+		buttonClickerComponent = button.AddComponent<ButtonClicker> ();
+		buttonClickerComponent.init (controller, 1, 0, 0);
+
+		// shield health objects
+		// health bar
+		buttons[1] = shieldButton = components[1].gameObject;
+		healthComponent = shieldButton.AddComponent<ComponentHealth> ();
+		healthComponent.init (controller, .208f, -3.1805f);
+		//button
+		button = new GameObject ();
+		buttonClickerComponent = button.AddComponent<ButtonClicker> ();
+		button.transform.parent = shieldButton.transform.parent;
+		buttonClickerComponent.init (controller, 0, 0, 1);
+
+		// engine health objects
+		// health bar
+		buttons[2] = engineButton = components[2].gameObject;
+		healthComponent = engineButton.AddComponent<ComponentHealth> ();
+		healthComponent.init (controller, .218f, -3.1805f);
+		// button
+		button = new GameObject ();
+		buttonClickerComponent = button.AddComponent<ButtonClicker> ();
+		button.transform.parent = engineButton.transform.parent;
+		buttonClickerComponent.init (controller, 1, .3f, 0);
+
 
 		// nothing is activated, captain is not moving
 		laserShieldEngineNone = 3;
@@ -40,7 +81,7 @@ public class MoveCaptain : MonoBehaviour {
 
 		captainSpeed = 1;
 
-		GoToLaserShieldEngine ("S");
+		GoToLaserShieldEngine ("Shields");
 	}
 
 	void Update () {

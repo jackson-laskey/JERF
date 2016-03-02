@@ -3,45 +3,69 @@ using System.Collections;
 
 public class ComponentHealth : MonoBehaviour {
 
+	public GameController controller;
+
 	public float repairRate;
 	public float decayModifier;
 	public float health;
 
 	public bool decaying;
 
+	public GameObject model;
+	public Material mat;
+	public Vector3 scale;
+
+	private bool initd;
 
 
 	// Use this for initialization
-	void Start () {
+	public void init (GameController gCont, float x, float y) {
+		controller = gCont;
+
+		transform.position = new Vector3 (x, y, 0);
+		model = GameObject.CreatePrimitive (PrimitiveType.Quad);
+		controller.MakeModel (model, "Bar", transform, 0, 0, 1, 1);
+		mat = model.GetComponent<Renderer> ().material;
+		mat.color = new Color (0, .75f, 0);
+		scale = model.transform.localScale;
+
+		GameObject outlineModel = GameObject.CreatePrimitive (PrimitiveType.Quad);
+		controller.MakeModel (outlineModel, "BarOutline", transform, 0, 0, 1, 1);
+
 		decaying = true;
 		health = 100;
 		repairRate = 15f;
 		decayModifier = 4.3f;
+
+		initd = true;
 	}
 
 	// Update is called once per frame
 	void Update () {
+		if (!initd) {
+			return;
+		}
 		if (decaying) {
 			if (health <= 1) {
-				gameObject.transform.localScale = new Vector3(1, 0);
+				scale = new Vector3(1, 0);
 				health = 0;
 			} else {
-				gameObject.transform.localScale = new Vector3 (1, health/100f);
+				scale = new Vector3 (1, health/100f);
 				health -= (Time.deltaTime * repairRate) /decayModifier;
 			}
 		} else {
 			if (health >= 99) {
-				gameObject.transform.localScale = new Vector3 (1, 1);
+				scale = new Vector3 (1, 1);
 				health = 100;
 			} else {
-				gameObject.transform.localScale = new Vector3 (1, health/100f);
+				scale = new Vector3 (1, health/100f);
 				health += Time.deltaTime * repairRate;
 			}
 		}
 		if (health > 50) {
-			gameObject.GetComponent<SpriteRenderer>().color = new Color((100-health)*.015f, .75f, 0);
+			mat.color = new Color((100-health)*.015f, .75f, 0);
 		} else {
-			gameObject.GetComponent<SpriteRenderer>().color = new Color(.75f, health*.015f, 0);
+			mat.color = new Color(.75f, health*.015f, 0);
 		}
 	}
 
