@@ -6,7 +6,6 @@ public class Asteroid : ParentEnemy {
 	private AsteroidModel model;
 
 	public void init(EnemyManager owner) {
-		print ("here pal");
 		hp = 20;
 		fireRate = 0;
 		speed = 3;

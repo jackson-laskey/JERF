@@ -60,7 +60,6 @@ public class Ship : MonoBehaviour {
 			}
 			break;
 		case "Laser":
-			print("here");
 			if (shieldLevel.Damage (15)) {
 				Die ();
 			}

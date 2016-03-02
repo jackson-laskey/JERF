@@ -16,7 +16,7 @@ public class SmallEnemy : ParentEnemy {
 		speed = .8f;
 		diveSpeed = 5;
 		divePosition = .5f;
-		transform.localScale = new Vector3 (1, 1.2f, 1f);
+		transform.localScale = new Vector3 (.85f, 1f, 1f);
 		col = gameObject.AddComponent<BoxCollider2D> ();
 		body = gameObject.AddComponent<Rigidbody2D> ();
 		body.isKinematic = true;
@@ -46,7 +46,7 @@ public class SmallEnemy : ParentEnemy {
 			}
 			Move ();
 			if (transform.position.y <= divePosition) {
-				float playerx = owner.owner.ship.transform.GetChild (0).position.x;
+ 				float playerx = owner.owner.ship.transform.GetChild (0).position.x;
 				float playery = owner.owner.ship.transform.GetChild (0).position.y;
 				float angle = Mathf.Rad2Deg*Mathf.Acos (Mathf.Abs (playery - this.transform.position.y) / Mathf.Sqrt (Mathf.Pow((playerx - this.transform.position.x),2) + 
 					Mathf.Pow((playery - this.transform.position.y),2)));
@@ -57,12 +57,12 @@ public class SmallEnemy : ParentEnemy {
 		} else {
 			Dive ();
 		}
-		if (transform.position.y < -7) {
-			Destroy (this.gameObject);
-		} 
 	}
 
 	void Move(){
+		if (transform.position.y < -7) {
+			Destroy (this.gameObject);
+		} 
 		if (direction == "L") {
 			transform.Translate (Vector3.up * Time.deltaTime * speed);
 			transform.Translate (Vector3.right * Time.deltaTime * speed*3);
