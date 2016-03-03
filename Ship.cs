@@ -7,6 +7,10 @@ public class Ship : MonoBehaviour {
 	public ComponentHealth laserLevel;
 	public ComponentHealth shieldLevel;
 	public ComponentHealth engineLevel;
+	public GameObject death;
+	private Animator direction;
+	public GameObject JET;
+	private Animator jets;
 
 	// projectile that the ship will fire
 	private GameObject projectile;
@@ -22,6 +26,11 @@ public class Ship : MonoBehaviour {
 		shieldLevel = GameObject.Find("Shields").GetComponentInChildren<ComponentHealth>();
 		engineLevel = GameObject.Find("Engines").GetComponentInChildren<ComponentHealth>();
 
+		direction = this.gameObject.GetComponent<Animator> ();
+		jets = JET.GetComponent<Animator> ();
+
+		direction.SetInteger ("Direction", 0);
+		jets.SetInteger ("Power", 3);
 		// loads template for laser prefab instantiation
 		projectile = Resources.Load ("Prefabs/PlayerLaser") as GameObject;
 
@@ -33,21 +42,40 @@ public class Ship : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		// clock increment is modified by laser health so fire rate is proportional to laser health
-		clock += Time.deltaTime*laserLevel.health;
+		clock += Time.deltaTime * laserLevel.health;
 		// fire lasers if thresholds have been reached- extra-fast firing cycle for laser health == 100
-		if (laserLevel.health == 100 && clock > fireInterval/1.3f) {
+		if (laserLevel.health == 100 && clock > fireInterval / 1.3f) {
 			Fire ();
 		}
 		if (clock > fireInterval) {
 			Fire ();
 		}
 
-		// move left if "a" is being pressed, right if "d" is being pressed. Confined to LHS.
-		if (Input.GetKey ("a") && gameObject.transform.position.x>-6)
-			transform.Translate(-(Time.deltaTime * 5 * (engineLevel.health/100)), 0, 0);
+		if (engineLevel.health >= 50) {
+			jets.SetInteger ("Power", 3);
+		} else if (engineLevel.health < 50) {
+			jets.SetInteger ("Power", 2);
+		} else if (engineLevel.health <= 20) {
+			jets.SetInteger ("Power", 1);
+		}
 
-		if (Input.GetKey ("d") && gameObject.transform.position.x<-.5)
-			transform.Translate(Time.deltaTime * 5 * (engineLevel.health/100), 0, 0);
+		// move left if "a" is being pressed, right if "d" is being pressed. Confined to LHS.
+		if (Input.GetKey ("a") && gameObject.transform.position.x > -6) {
+			jets.SetInteger ("Direction", 1);
+			direction.SetInteger ("Direction", 1);
+			JET.transform.localPosition = new Vector3 (.02f, -.37f, 0);
+			transform.Translate (-(Time.deltaTime * 5 * (engineLevel.health / 100)), 0, 0);
+
+		} else if (Input.GetKey ("d") && gameObject.transform.position.x < -.5) {
+			jets.SetInteger ("Direction", 2);
+			direction.SetInteger ("Direction", 2);
+			JET.transform.localPosition = new Vector3 (-.02f, -.37f, 0);
+			transform.Translate (Time.deltaTime * 5 * (engineLevel.health / 100), 0, 0);
+		} else {
+			jets.SetInteger ("Direction", 0);
+			direction.SetInteger ("Direction", 0);
+			JET.transform.localPosition = new Vector3 (0, -.37f, 0);
+		}
 	}
 
 	// Handles hits
@@ -86,6 +114,7 @@ public class Ship : MonoBehaviour {
 
 	private void Die() {
 		// send some message to the GameController
+		var x = Instantiate(death ,this.transform.position, Quaternion.identity);
 		Destroy (gameObject);
 	}
 
