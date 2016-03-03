@@ -21,20 +21,20 @@ public class ComponentHealth : MonoBehaviour {
 	// Use this for initialization
 	public void init (GameController gCont, float x, float y) {
 		controller = gCont;
-
-		transform.position = new Vector3 (x, y, 0);
-		model = GameObject.CreatePrimitive (PrimitiveType.Quad);
-		controller.MakeModel (model, "Bar", transform, 0, 0, 1, 1);
+		model = new GameObject();
+		controller.MakeSprite (model, "Bar", transform, x, y, 1, 1);
+		model.GetComponent<SpriteRenderer> ().sortingLayerName = "BottomRhsUI";
 		mat = model.GetComponent<Renderer> ().material;
 		mat.color = new Color (0, .75f, 0);
-		scale = model.transform.localScale;
 
-		GameObject outlineModel = GameObject.CreatePrimitive (PrimitiveType.Quad);
-		controller.MakeModel (outlineModel, "BarOutline", transform, 0, 0, 1, 1);
+		GameObject outlineModel = new GameObject ();
+		controller.MakeSprite (outlineModel, "BarOutline", transform, 0, 0, 1, 1);
+		model.GetComponent<SpriteRenderer> ().sortingLayerName = "TopRhsUI";
+		outlineModel.transform.localPosition = new Vector3 (x, y, 0);
 
 		decaying = true;
 		health = 100;
-		repairRate = 15f;
+		repairRate = 30f;
 		decayModifier = 4.3f;
 
 		initd = true;
@@ -47,18 +47,18 @@ public class ComponentHealth : MonoBehaviour {
 		}
 		if (decaying) {
 			if (health <= 1) {
-				scale = new Vector3(1, 0);
+				model.transform.localScale = new Vector3(1, 0);
 				health = 0;
 			} else {
-				scale = new Vector3 (1, health/100f);
+				model.transform.localScale = new Vector3 (1, health/100f);
 				health -= (Time.deltaTime * repairRate) /decayModifier;
 			}
 		} else {
 			if (health >= 99) {
-				scale = new Vector3 (1, 1);
+				model.transform.localScale = new Vector3 (1, 1);
 				health = 100;
 			} else {
-				scale = new Vector3 (1, health/100f);
+				model.transform.localScale = new Vector3 (1, health/100f);
 				health += Time.deltaTime * repairRate;
 			}
 		}

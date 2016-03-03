@@ -26,9 +26,13 @@ public class GameController : MonoBehaviour {
 	}
 
 	public void init (bool justDied) {
-		GameObject dividerModel = GameObject.CreatePrimitive (PrimitiveType.Quad);
-		MakeModel (dividerModel, "Line", transform, .3f, 0, 3, 10);
+		GameObject dividerModel = new GameObject();
+		MakeSprite(dividerModel, "Line", transform, .3f, 0, 2, 4);
 		dividerModel.name = "Divider";
+		GameObject ProtoShip = GameObject.CreatePrimitive (PrimitiveType.Quad);
+		MakeModel ( ProtoShip, "ProtoShip", transform, 3.5f, 0, 6, 10);
+		ProtoShip.name = "ProtoShip";
+		ProtoShip.GetComponent<Renderer> ().sortingLayerName = "Default";
 		captain = new GameObject ();
 		captain.AddComponent<CaptainManager> ();
 		captain.transform.parent = transform;
@@ -96,7 +100,16 @@ public class GameController : MonoBehaviour {
 		Material mat = quad.GetComponent<Renderer> ().material;
 		mat.shader = Shader.Find ("Sprites/Default");
 		mat.mainTexture = Resources.Load<Texture2D> ("Textures/" + textureName);
-		print (quad.name);
+	}
+
+	public void MakeSprite(GameObject obj, string textureName, Transform parentTransform, float x, float y, float xScale, float yScale) {
+		obj.transform.parent = parentTransform;
+		obj.transform.localPosition = new Vector3 (x, y, 0);
+		obj.transform.localScale = new Vector3 (xScale, yScale, 0);
+		obj.name = textureName + "Model";
+		SpriteRenderer rend = obj.AddComponent<SpriteRenderer> ();
+		rend.sprite = Resources.Load<Sprite> ("Textures/" + textureName);
+		print (obj.name);
 	}
 
 	void GetInstructions (string level) {

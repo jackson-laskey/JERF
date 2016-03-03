@@ -30,48 +30,62 @@ public class MoveCaptain : MonoBehaviour {
 	public void init (GameController gContr, GameObject[] components) {
 		controller = gContr;
 
-		// building buttons array and finding its elements
-		buttons = new GameObject[3];
 		ButtonClicker buttonClickerComponent;
 		ComponentHealth healthComponent;
 		GameObject button;
 
 		// laser health objects
-		// health bar
+		// health bar- .9x, .052y, .6x, .125y
 		laserButton = new GameObject();
 		laserButton.name = "Health";
 		laserButton.transform.parent = components [0].transform;
+		laserButton.transform.localPosition = new Vector3 (.9f, .03f, 0);
+		laserButton.transform.localScale = new Vector3(.6f, 1.25f, 1);
 		healthComponent = laserButton.AddComponent<ComponentHealth> ();
-		healthComponent.init (controller, .6f, -.3805f);
+		healthComponent.init (controller, 0, 0);
 		// button
 		button = new GameObject ();
 		button.name = "Button";
 		button.transform.parent = components[0].transform;
+		button.transform.localPosition = new Vector3 (0, 0, 0);
 		buttonClickerComponent = button.AddComponent<ButtonClicker> ();
-		buttonClickerComponent.init (controller, 1, 0, 0);
+		buttonClickerComponent.init (controller, 0, 1, 1, 0, 0);
 
 		// shield health objects
 		// health bar
-		buttons[1] = shieldButton = components[1].gameObject;
+		shieldButton = new GameObject();
+		shieldButton.name = "Health";
+		shieldButton.transform.parent = components [1].transform;
+		shieldButton.transform.localPosition = new Vector3 (-.53f, -3.48f, 0);
+		shieldButton.transform.localScale = new Vector3(.6f, 1.25f, 1);
 		healthComponent = shieldButton.AddComponent<ComponentHealth> ();
-		healthComponent.init (controller, .208f, -3.1805f);
+		healthComponent.init (controller, 0, 0);
 		//button
 		button = new GameObject ();
+		button.name = "Button";
+		button.transform.parent = components[1].transform;
+		button.transform.localPosition = new Vector3 (.15f, -.3f, 0);
 		buttonClickerComponent = button.AddComponent<ButtonClicker> ();
-		button.transform.parent = shieldButton.transform.parent;
-		buttonClickerComponent.init (controller, 0, 0, 1);
+		buttonClickerComponent.init (controller, .85f, -1.6f, 1, .5f, 0);
 
 		// engine health objects
 		// health bar
-		buttons[2] = engineButton = components[2].gameObject;
+		engineButton = new GameObject();
+		engineButton.name = "Health";
+		engineButton.transform.parent = components [2].transform;
+		engineButton.transform.localPosition = new Vector3 (.5f, -3.48f, 0);
+		engineButton.transform.localScale = new Vector3(.6f, 1.25f, 1);
 		healthComponent = engineButton.AddComponent<ComponentHealth> ();
-		healthComponent.init (controller, .218f, -3.1805f);
+		healthComponent.init (controller, 0, 0);
 		// button
 		button = new GameObject ();
+		button.name = "Button";
+		button.transform.parent = components[2].transform;
+		button.transform.localPosition = new Vector3 (-.15f, -.3f, 0);
 		buttonClickerComponent = button.AddComponent<ButtonClicker> ();
-		button.transform.parent = engineButton.transform.parent;
-		buttonClickerComponent.init (controller, 1, .3f, 0);
+		buttonClickerComponent.init (controller, -.85f, -1.6f, 0, 0, 1);
 
+		buttons = new GameObject[3]{laserButton, shieldButton, engineButton};
 
 		// nothing is activated, captain is not moving
 		laserShieldEngineNone = 3;

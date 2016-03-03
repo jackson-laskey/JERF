@@ -35,6 +35,7 @@ public class Ship : MonoBehaviour {
 		// loads template for laser prefab instantiation
 		projectile = Resources.Load ("Prefabs/PlayerLaser") as GameObject;
 
+
 		// clock tracks time passed, ship fires when clock passes threshold. clock then resets.
 		clock = 0;
 		fireInterval = 32f;

@@ -18,7 +18,7 @@ public class ButtonClicker : MonoBehaviour {
 	private Color downColor;
 
 	// Use this for initialization
-	public void init (GameController gContr, float quadR, float quadG, float quadB) {
+	public void init (GameController gContr, float x, float y, float quadR, float quadG, float quadB) {
 		controller = gContr;
 		healthBar = gameObject.transform.parent.FindChild("Health").GetComponent<ComponentHealth> ();
 		captain = GameObject.Find ("Crew").GetComponent<MoveCaptain> ();
@@ -26,6 +26,8 @@ public class ButtonClicker : MonoBehaviour {
 
 		model = GameObject.CreatePrimitive (PrimitiveType.Quad);
 		controller.MakeModel (model, "Button", transform, 0, 0, 1, 1);
+		model.GetComponent<Renderer> ().sortingLayerName = "BottomRhsUI";
+		model.transform.localPosition = new Vector3 (x, y, 0);
 		model.name = transform.parent.gameObject.name + "ButtonModel";
 		
 		mat = model.GetComponent<Renderer> ().material;
