@@ -22,15 +22,16 @@ public class ComponentHealth : MonoBehaviour {
 	public void init (GameController gCont, float x, float y) {
 		controller = gCont;
 		model = new GameObject();
-		controller.MakeSprite (model, "Bar", transform, x, y, 1, 1);
+		controller.MakeSprite (model, "Bar", transform, x, y, 1, 1, 200, .5f, 0);
 		model.GetComponent<SpriteRenderer> ().sortingLayerName = "BottomRhsUI";
+		model.transform.localPosition = new Vector3 (0, 0, 0);
 		mat = model.GetComponent<Renderer> ().material;
 		mat.color = new Color (0, .75f, 0);
 
 		GameObject outlineModel = new GameObject ();
-		controller.MakeSprite (outlineModel, "BarOutline", transform, 0, 0, 1, 1);
-		model.GetComponent<SpriteRenderer> ().sortingLayerName = "TopRhsUI";
-		outlineModel.transform.localPosition = new Vector3 (x, y, 0);
+		controller.MakeSprite (outlineModel, "BarOutline", transform, -.025f, 0, 1, 1, 200, .5f, 0);
+		outlineModel.GetComponent<SpriteRenderer> ().sortingLayerName = "TopRhsUI";
+		outlineModel.transform.localPosition = new Vector3 (0, -.005f, 0);
 
 		decaying = true;
 		health = 100;

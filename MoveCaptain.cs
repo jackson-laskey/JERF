@@ -35,12 +35,12 @@ public class MoveCaptain : MonoBehaviour {
 		GameObject button;
 
 		// laser health objects
-		// health bar- .9x, .052y, .6x, .125y
+		// health bar
 		laserButton = new GameObject();
 		laserButton.name = "Health";
 		laserButton.transform.parent = components [0].transform;
-		laserButton.transform.localPosition = new Vector3 (.9f, .03f, 0);
-		laserButton.transform.localScale = new Vector3(.6f, 1.25f, 1);
+		laserButton.transform.localPosition = new Vector3 (.6f, -.387f, 0);
+		laserButton.transform.localScale = new Vector3(1, 1, 1);
 		healthComponent = laserButton.AddComponent<ComponentHealth> ();
 		healthComponent.init (controller, 0, 0);
 		// button
@@ -48,6 +48,7 @@ public class MoveCaptain : MonoBehaviour {
 		button.name = "Button";
 		button.transform.parent = components[0].transform;
 		button.transform.localPosition = new Vector3 (0, 0, 0);
+		button.transform.localScale = new Vector3 (1, 1, 0);
 		buttonClickerComponent = button.AddComponent<ButtonClicker> ();
 		buttonClickerComponent.init (controller, 0, 1, 1, 0, 0);
 
@@ -56,8 +57,8 @@ public class MoveCaptain : MonoBehaviour {
 		shieldButton = new GameObject();
 		shieldButton.name = "Health";
 		shieldButton.transform.parent = components [1].transform;
-		shieldButton.transform.localPosition = new Vector3 (-.53f, -3.48f, 0);
-		shieldButton.transform.localScale = new Vector3(.6f, 1.25f, 1);
+		shieldButton.transform.localPosition = new Vector3 (-0.216f, -3.183f, 0);
+		shieldButton.transform.localScale = new Vector3(1, 1, 1);
 		healthComponent = shieldButton.AddComponent<ComponentHealth> ();
 		healthComponent.init (controller, 0, 0);
 		//button
@@ -65,6 +66,7 @@ public class MoveCaptain : MonoBehaviour {
 		button.name = "Button";
 		button.transform.parent = components[1].transform;
 		button.transform.localPosition = new Vector3 (.15f, -.3f, 0);
+		button.transform.localScale = new Vector3 (1, 1, 0);
 		buttonClickerComponent = button.AddComponent<ButtonClicker> ();
 		buttonClickerComponent.init (controller, .85f, -1.6f, 1, .5f, 0);
 
@@ -73,8 +75,8 @@ public class MoveCaptain : MonoBehaviour {
 		engineButton = new GameObject();
 		engineButton.name = "Health";
 		engineButton.transform.parent = components [2].transform;
-		engineButton.transform.localPosition = new Vector3 (.5f, -3.48f, 0);
-		engineButton.transform.localScale = new Vector3(.6f, 1.25f, 1);
+		engineButton.transform.localPosition = new Vector3 (.206f, -3.183f, 0);
+		engineButton.transform.localScale = new Vector3(1, 1, 1);
 		healthComponent = engineButton.AddComponent<ComponentHealth> ();
 		healthComponent.init (controller, 0, 0);
 		// button
@@ -82,6 +84,7 @@ public class MoveCaptain : MonoBehaviour {
 		button.name = "Button";
 		button.transform.parent = components[2].transform;
 		button.transform.localPosition = new Vector3 (-.15f, -.3f, 0);
+		button.transform.localScale = new Vector3 (1, 1, 0);
 		buttonClickerComponent = button.AddComponent<ButtonClicker> ();
 		buttonClickerComponent.init (controller, -.85f, -1.6f, 0, 0, 1);
 

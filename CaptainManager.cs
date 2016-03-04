@@ -23,14 +23,17 @@ public class CaptainManager : MonoBehaviour {
 		lasers.transform.parent = transform;
 		lasers.transform.localPosition = new Vector3 (0, 0, 0);
 		lasers.name = "Lasers";
+		lasers.transform.localScale = new Vector3 (1, 1, 1);
 		engines = new GameObject();
 		engines.transform.parent = transform;
 		engines.transform.localPosition = new Vector3 (0, 0, 0);
 		engines.name = "Engines";
+		engines.transform.localScale = new Vector3 (1, 1, 1);
 		shields = new GameObject();
 		shields.transform.parent = transform;
 		shields.transform.localPosition = new Vector3 (0, 0, 0);
 		shields.name = "Shields";
+		shields.transform.localScale = new Vector3 (1, 1, 1);
 		components = new GameObject[3]{ lasers, engines, shields };
 
 		crew = new GameObject ();
@@ -38,5 +41,6 @@ public class CaptainManager : MonoBehaviour {
 		crew.name = "Crew";
 		crew.AddComponent<MoveCaptain> ();
 		crew.GetComponent<MoveCaptain> ().init (controller, components);
+		controller.MakeSprite (crew, "Button", transform.parent, 0, -1.6f , .5f, .5f, 300);
 	}
 }

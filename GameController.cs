@@ -27,12 +27,8 @@ public class GameController : MonoBehaviour {
 
 	public void init (bool justDied) {
 		GameObject dividerModel = new GameObject();
-		MakeSprite(dividerModel, "Line", transform, .3f, 0, 2, 4);
+		MakeSprite(dividerModel, "Line", transform, .3f, 0, 2, 4, 100);
 		dividerModel.name = "Divider";
-		GameObject ProtoShip = GameObject.CreatePrimitive (PrimitiveType.Quad);
-		MakeModel ( ProtoShip, "ProtoShip", transform, 3.5f, 0, 6, 10);
-		ProtoShip.name = "ProtoShip";
-		ProtoShip.GetComponent<Renderer> ().sortingLayerName = "Default";
 		captain = new GameObject ();
 		captain.AddComponent<CaptainManager> ();
 		captain.transform.parent = transform;
@@ -50,6 +46,10 @@ public class GameController : MonoBehaviour {
 		this.GetInstructions ("JERF/level" + level.ToString()); //For now let's just worry about loading and executing a single level. Eventually, we will have to be more sophisticated about restarting levels and loading new levels. May not need separate function longterm.
 		captain.GetComponent<CaptainManager> ().init (this);
 		ship.GetComponent<Ship> ().init (this);
+		GameObject ProtoShip = new GameObject();
+		MakeSprite ( ProtoShip, "ProtoShip", captain.transform, 0, 0, 1, 1, 100);
+		ProtoShip.name = "ProtoShip";
+		ProtoShip.GetComponent<Renderer> ().sortingLayerName = "Default";
 	}
 
 	void Update() {//Needed an update to handle waiting. Checks if waiting once per frame instead of on infinite loop which crashes
@@ -102,15 +102,29 @@ public class GameController : MonoBehaviour {
 		mat.mainTexture = Resources.Load<Texture2D> ("Textures/" + textureName);
 	}
 
-	public void MakeSprite(GameObject obj, string textureName, Transform parentTransform, float x, float y, float xScale, float yScale) {
+	// fills the passed object with a sprite with the texture 
+	public void MakeSprite(GameObject obj, string textureName, Transform parentTransform, 
+				float x, float y, float xScale, float yScale, float pixelsPer, params float[] pivot) {
 		obj.transform.parent = parentTransform;
 		obj.transform.localPosition = new Vector3 (x, y, 0);
-		obj.transform.localScale = new Vector3 (xScale, yScale, 0);
-		obj.name = textureName + "Model";
+		obj.transform.localScale = new Vector3 (xScale, yScale, 1);
+		obj.name = textureName + "Sprite";
 		SpriteRenderer rend = obj.AddComponent<SpriteRenderer> ();
-		rend.sprite = Resources.Load<Sprite> ("Textures/" + textureName);
+		Texture2D texture = Resources.Load<Texture2D> ("Textures/" + textureName);
+		float xBound = .5f;
+		float yBound = .5f;
+		if (pivot.Length > 0) {
+			xBound = pivot [0];
+		} if (pivot.Length > 1) {
+			yBound = pivot [1];
+		}
+		rend.sprite = Sprite.Create(texture, 
+			new Rect(0, 0, texture.width, texture.height), 
+			new Vector2(xBound, yBound),
+			pixelsPer);
 		print (obj.name);
 	}
+
 
 	void GetInstructions (string level) {
 		iter = 0;
@@ -121,7 +135,6 @@ public class GameController : MonoBehaviour {
 	void EndLevel (int level) {
 		StartCoroutine (sleep (10));
 	}
-
 
 	IEnumerator sleep(int time){
 		waiting = true;

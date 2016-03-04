@@ -23,14 +23,11 @@ public class ButtonClicker : MonoBehaviour {
 		healthBar = gameObject.transform.parent.FindChild("Health").GetComponent<ComponentHealth> ();
 		captain = GameObject.Find ("Crew").GetComponent<MoveCaptain> ();
 		healthBar = gameObject.transform.parent.FindChild ("Health").GetComponent<ComponentHealth> ();
-
-		model = GameObject.CreatePrimitive (PrimitiveType.Quad);
-		controller.MakeModel (model, "Button", transform, 0, 0, 1, 1);
-		model.GetComponent<Renderer> ().sortingLayerName = "BottomRhsUI";
-		model.transform.localPosition = new Vector3 (x, y, 0);
-		model.name = transform.parent.gameObject.name + "ButtonModel";
+		controller.MakeSprite (gameObject, "Button", transform.parent, 0, 0, 1, 1, 300);
+		gameObject.GetComponent<SpriteRenderer> ().sortingLayerName = "BottomRhsUI";
+		gameObject.transform.localPosition = new Vector3 (x, y, 0);
 		
-		mat = model.GetComponent<Renderer> ().material;
+		//sprite = model.GetComponent<Renderer> ().material;
 		darkenSprite = (.7f);
 		upColor = new Color (quadR, quadG, quadB);
 		downColor = new Color (quadR*darkenSprite, quadG*darkenSprite, quadB*darkenSprite);
