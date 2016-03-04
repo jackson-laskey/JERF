@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class Ship : MonoBehaviour {
 
@@ -11,7 +12,7 @@ public class Ship : MonoBehaviour {
 	private Animator direction;
 	public GameObject JET;
 	private Animator jets;
-
+	public Button restart;
 	// projectile that the ship will fire
 	private GameObject projectile;
 
@@ -51,9 +52,12 @@ public class Ship : MonoBehaviour {
 			Fire ();
 		}
 
-		if (engineLevel.health >= 50) {
+		if (engineLevel.health >= 90) {
+			jets.SetInteger ("Power", 4);
+		}
+		else if (engineLevel.health >= 50) {
 			jets.SetInteger ("Power", 3);
-		} else if (engineLevel.health < 50) {
+		} else if (engineLevel.health < 50 && engineLevel.health > 20) {
 			jets.SetInteger ("Power", 2);
 		} else if (engineLevel.health <= 20) {
 			jets.SetInteger ("Power", 1);
@@ -115,7 +119,23 @@ public class Ship : MonoBehaviour {
 	private void Die() {
 		// send some message to the GameController
 		var x = Instantiate(death ,this.transform.position, Quaternion.identity);
-		Destroy (gameObject);
+		restart.gameObject.SetActive (true);
+		GameObject.Find ("Captain").SetActive (false);
+		JET.SetActive (false);
+		gameObject.transform.parent.gameObject.SetActive (false);
+
+
+	}
+
+	public void Refuel(){
+		laserLevel.health = 100;
+		shieldLevel.health = 100;
+		engineLevel.health = 100;
+		clock = 0;
+		JET.SetActive (true);
+		direction.SetInteger ("Direction", 0);
+		jets.SetInteger ("Power", 3);
+
 	}
 
 }

@@ -24,7 +24,7 @@ public class Spawner : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if ((elapsed += Time.deltaTime) >= freq) {
-			eMan.SpawnEnemy (type, x, 6);
+			eMan.SpawnEnemy (type, x, 5.5f);
 			num--;
 			elapsed = 0;
 		}

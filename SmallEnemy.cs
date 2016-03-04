@@ -41,7 +41,7 @@ public class SmallEnemy : ParentEnemy {
 			if (transform.position.x <= -6) {
 				direction = "R";
 			}
-			else if (transform.position.x >= 0) {
+			else if (transform.position.x >= -.5) {
 				direction = "L";
 			}
 			Move ();

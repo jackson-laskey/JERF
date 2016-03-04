@@ -6,6 +6,7 @@ using System;
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class GameController : MonoBehaviour {
 
@@ -19,22 +20,47 @@ public class GameController : MonoBehaviour {
 	private int iter = 0;
 	private bool waiting = false;
 	private bool done = false;
+	public Text levelBanner;
+	float bannerClock = 0f;
 
 	void Start() {
 		init (false);
 	}
 
 	public void init (bool justDied) {
-		ship.SetActive(true);
-		captain.SetActive(true);
-		eMan = gameObject.AddComponent<EnemyManager>();
-		eMan.init (this);
-		level = 1;
-		numLevels = 2;
-		this.GetInstructions ("JERF/level" + level.ToString()); //For now let's just worry about loading and executing a single level. Eventually, we will have to be more sophisticated about restarting levels and loading new levels. May not need separate function longterm.
+		if (!justDied) {
+			levelBanner.text = "";
+
+			ship.SetActive (true);
+			captain.SetActive (true);
+			eMan = gameObject.AddComponent<EnemyManager> ();
+			eMan.init (this);
+			level = 1;
+			numLevels = 3;
+			this.GetInstructions ("JERF/level" + level.ToString ()); //For now let's just worry about loading and executing a single level. Eventually, we will have to be more sophisticated about restarting levels and loading new levels. May not need separate function longterm.
+			SetBannerText();
+		} else {
+			ship.SetActive (true);
+			captain.SetActive (true);
+			Restart ();
+			eMan = gameObject.AddComponent<EnemyManager> ();
+			eMan.init (this);
+			numLevels = 3;
+			this.GetInstructions ("JERF/level" + level.ToString ());
+			GameObject.Find ("Restart").SetActive (false);
+			SetBannerText ();
+		}
 	}
 
 	void Update() {//Needed an update to handle waiting. Checks if waiting once per frame instead of on infinite loop which crashes
+		if (bannerClock > 0f) {
+			if (bannerClock < 5f) {
+				bannerClock += Time.deltaTime;
+			} else {
+				levelBanner.text = "";
+				bannerClock = 0;
+			}
+		}
 		if (!done) {
 			if (instructions [iter] != "X" && !waiting) { // Check if done/not waiting
 				ExecuteInstruction (instructions [iter].Split (':')); // Execute the instruction
@@ -80,7 +106,9 @@ public class GameController : MonoBehaviour {
 	}
 
 	void EndLevel (int level) {
+		SetBannerText ();
 		StartCoroutine (sleep (10));
+
 	}
 
 	IEnumerator sleep(int time){
@@ -90,6 +118,32 @@ public class GameController : MonoBehaviour {
     }
 		
 	void ParseInstruction () {
+	}
+
+	void Restart(){
+		ParentEnemy[] enemies = GameObject.FindObjectsOfType<ParentEnemy> ();
+		foreach (ParentEnemy i in enemies) {
+			Destroy (i.gameObject);
+		}
+		Projectile[] projectiles = GameObject.FindObjectsOfType<Projectile> ();
+		foreach (Projectile i in projectiles) {
+			Destroy (i.gameObject);
+		}
+		Destroy (GameObject.Find ("Death(Clone)").gameObject);
+		GameObject.Find ("Ship").gameObject.GetComponent<Ship> ().Refuel ();
+	}
+
+	public void Quit(){
+		Application.Quit ();
+	}
+
+	void SetBannerText(){
+		bannerClock += Time.deltaTime;
+		levelBanner.text = "Level: " + level.ToString ();
+	}
+
+	public void Menu(){
+		Application.LoadLevel ("Start Screen");
 	}
 }
 

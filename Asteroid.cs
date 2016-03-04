@@ -18,6 +18,7 @@ public class Asteroid : ParentEnemy {
 		model = modelObject.AddComponent<AsteroidModel>();
 		gameObject.name = "Asteroid";
 		this.tag = "asteroid";
+		transform.localScale = new Vector3 (.75f, .75f, .75f);
 		model.init(this);
 	}
 

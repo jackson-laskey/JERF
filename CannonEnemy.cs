@@ -14,7 +14,7 @@ public class CannonEnemy : ParentEnemy {
 		gameObject.name = "CannonEnemy";
 		hp = 5;
 		fireRate = .42f;
-		speed = 2;
+		speed = 3;
 		col = gameObject.AddComponent<BoxCollider2D> ();
 		body = gameObject.AddComponent<Rigidbody2D> ();
 		body.isKinematic = true;
@@ -37,10 +37,10 @@ public class CannonEnemy : ParentEnemy {
 			direction = "L";	
 			transform.position = new Vector3(transform.position.x,stopPosition,0);
 		}
-		if (transform.position.x <= -6) {
+		if (transform.position.x <= -6.1f) {
 			direction = "R";
 		}
-		if (transform.position.x >= 0) {
+		if (transform.position.x >= .1f) {
 			direction = "L";
 		}
 		Move ();
