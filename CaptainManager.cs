@@ -38,9 +38,9 @@ public class CaptainManager : MonoBehaviour {
 
 		crew = new GameObject ();
 		crew.transform.parent = transform;
-		crew.name = "Crew";
 		crew.AddComponent<MoveCaptain> ();
+		controller.MakeSprite (crew, "Button", transform, 0, -1.6f , .5f, .5f, 300);
+		crew.name = "Crew";
 		crew.GetComponent<MoveCaptain> ().init (controller, components);
-		controller.MakeSprite (crew, "Button", transform.parent, 0, -1.6f , .5f, .5f, 300);
 	}
 }

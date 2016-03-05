@@ -29,9 +29,8 @@ public class ComponentHealth : MonoBehaviour {
 		mat.color = new Color (0, .75f, 0);
 
 		GameObject outlineModel = new GameObject ();
-		controller.MakeSprite (outlineModel, "BarOutline", transform, -.025f, 0, 1, 1, 200, .5f, 0);
+		controller.MakeSprite (outlineModel, "BarOutline", transform, 0, -.03f, 1, 1, 200, .5f, 0);
 		outlineModel.GetComponent<SpriteRenderer> ().sortingLayerName = "TopRhsUI";
-		outlineModel.transform.localPosition = new Vector3 (0, -.005f, 0);
 
 		decaying = true;
 		health = 100;

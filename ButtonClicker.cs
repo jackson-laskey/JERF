@@ -11,9 +11,7 @@ public class ButtonClicker : MonoBehaviour {
 
 	private MoveCaptain captain;
 
-	private GameObject model;
-
-	private Material mat;
+	private SpriteRenderer sprite;
 	private Color upColor;
 	private Color downColor;
 
@@ -24,26 +22,23 @@ public class ButtonClicker : MonoBehaviour {
 		captain = GameObject.Find ("Crew").GetComponent<MoveCaptain> ();
 		healthBar = gameObject.transform.parent.FindChild ("Health").GetComponent<ComponentHealth> ();
 		controller.MakeSprite (gameObject, "Button", transform.parent, 0, 0, 1, 1, 300);
+		gameObject.name = "Button";
 		gameObject.GetComponent<SpriteRenderer> ().sortingLayerName = "BottomRhsUI";
 		gameObject.transform.localPosition = new Vector3 (x, y, 0);
+		gameObject.AddComponent<BoxCollider2D> ();
 		
-		//sprite = model.GetComponent<Renderer> ().material;
+		sprite = GetComponent<SpriteRenderer> ();
 		darkenSprite = (.7f);
 		upColor = new Color (quadR, quadG, quadB);
 		downColor = new Color (quadR*darkenSprite, quadG*darkenSprite, quadB*darkenSprite);
-		mat.color = upColor;
-	}
-
-
-	void OnMouseDown() {
-		captain.GoToLaserShieldEngine (gameObject.transform.parent.gameObject.tag);
+		sprite.color = upColor;
 	}
 
 	void PressButton(bool buttonDown) {
 		if (buttonDown) {
-			mat.color = downColor;
+			sprite.color = downColor;
 		} else {
-			mat.color = upColor;
+			sprite.color = upColor;
 		}
 		healthBar.decaying = !buttonDown;
 	}

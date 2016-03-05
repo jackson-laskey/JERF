@@ -15,10 +15,6 @@ public class Ship : MonoBehaviour {
 	// reference to GameController script
 	public GameController controller;
 
-	// projectile that the ship will fire
-	private GameObject projectile;
-	private GameObject model;
-
 	// tracks frames to determine frequency of laser launch
 	private float clock;
 	// when clock reaches threshold, fires and restarts clock
@@ -30,27 +26,28 @@ public class Ship : MonoBehaviour {
 
 	public void init (GameController gContr) {
 		controller = gContr;
-		transform.position = new Vector3 (-3.2f, -4.2f, 0);
+		gameObject.AddComponent<Rigidbody2D> ().isKinematic = true;
+		gameObject.AddComponent<BoxCollider2D> ().isTrigger = true;
+		transform.localPosition = new Vector3 (-3.2f, -4.2f, 0);
+		gameObject.name = "Ship";
+		tag = "PlayerController";
 
 		laserLevel = GameObject.Find("Lasers").GetComponentInChildren<ComponentHealth>();
 		shieldLevel = GameObject.Find("Shields").GetComponentInChildren<ComponentHealth>();
 		engineLevel = GameObject.Find("Engines").GetComponentInChildren<ComponentHealth>();
 
 		direction = this.gameObject.GetComponent<Animator> ();
-		jets = JET.GetComponent<Animator> ();
+		//jets = JET.GetComponent<Animator> ();
 
-		direction.SetInteger ("Direction", 0);
-		jets.SetInteger ("Power", 3);
+		//direction.SetInteger ("Direction", 0);
+		//jets.SetInteger ("Power", 3);
 		// loads template for laser prefab instantiation
-		projectile = Resources.Load ("Prefabs/PlayerLaser") as GameObject;
 
 
 		// clock tracks time passed, ship fires when clock passes threshold. clock then resets.
 		clock = 0;
 		fireInterval = 32f;
 
-		model = GameObject.CreatePrimitive (PrimitiveType.Quad);
-		controller.MakeModel (model, "rocket", transform, 0, 0, 1, 1);
 		initd = true;
 	}
 	
@@ -69,30 +66,30 @@ public class Ship : MonoBehaviour {
 			Fire ();
 		}
 
-		if (engineLevel.health >= 50) {
-			jets.SetInteger ("Power", 3);
-		} else if (engineLevel.health < 50) {
-			jets.SetInteger ("Power", 2);
-		} else if (engineLevel.health <= 20) {
-			jets.SetInteger ("Power", 1);
-		}
+//		if (engineLevel.health >= 50) {
+//			jets.SetInteger ("Power", 3);
+//		} else if (engineLevel.health < 50) {
+//			jets.SetInteger ("Power", 2);
+//		} else if (engineLevel.health <= 20) {
+//			jets.SetInteger ("Power", 1);
+//		}
 
-		// move left if "a" is being pressed, right if "d" is being pressed. Confined to LHS.
+//		// move left if "a" is being pressed, right if "d" is being pressed. Confined to LHS.
 		if (Input.GetKey ("a") && gameObject.transform.position.x > -6) {
-			jets.SetInteger ("Direction", 1);
-			direction.SetInteger ("Direction", 1);
-			JET.transform.localPosition = new Vector3 (.02f, -.37f, 0);
+//			jets.SetInteger ("Direction", 1);
+//			direction.SetInteger ("Direction", 1);
+//			JET.transform.localPosition = new Vector3 (.02f, -.37f, 0);
 			transform.Translate (-(Time.deltaTime * 5 * (engineLevel.health / 100)), 0, 0);
-
+//
 		} else if (Input.GetKey ("d") && gameObject.transform.position.x < -.5) {
-			jets.SetInteger ("Direction", 2);
-			direction.SetInteger ("Direction", 2);
-			JET.transform.localPosition = new Vector3 (-.02f, -.37f, 0);
+//			jets.SetInteger ("Direction", 2);
+//			direction.SetInteger ("Direction", 2);
+//			JET.transform.localPosition = new Vector3 (-.02f, -.37f, 0);
 			transform.Translate (Time.deltaTime * 5 * (engineLevel.health / 100), 0, 0);
 		} else {
-			jets.SetInteger ("Direction", 0);
-			direction.SetInteger ("Direction", 0);
-			JET.transform.localPosition = new Vector3 (0, -.37f, 0);
+//			jets.SetInteger ("Direction", 0);
+//			direction.SetInteger ("Direction", 0);
+//			JET.transform.localPosition = new Vector3 (0, -.37f, 0);
 		}
 	}
 
@@ -132,20 +129,18 @@ public class Ship : MonoBehaviour {
 //		mat.shader = Shader.Find ("Sprites/Default");
 //		mat.mainTexture = ShipTextures[0];
 //	}
-//
+
 	private void Fire() {
 		clock = 0;
 		GameObject shot = new GameObject();
 		shot.transform.parent = transform.parent;
-		shot.transform.position = new Vector3 (0, 0);
 		shot.AddComponent<PlayerLaser> ();
-		shot.transform.parent = transform.parent;
-		shot.transform.position = new Vector3(transform.position.x, transform.position.y + .75f);
+		shot.transform.position = new Vector3(transform.position.x, transform.position.y + .7f);
 	}
 
 	private void Die() {
 		// send some message to the GameController
-		var x = Instantiate(death ,this.transform.position, Quaternion.identity);
+		//var x = Instantiate(death ,this.transform.position, Quaternion.identity);
 		Destroy (gameObject);
 	}
 

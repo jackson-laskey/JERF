@@ -33,18 +33,21 @@ public class GameController : MonoBehaviour {
 		captain.AddComponent<CaptainManager> ();
 		captain.transform.parent = transform;
 		captain.name = "Captain";
+		GameObject shipH = new GameObject ();
+		shipH.transform.parent = transform;
+		shipH.name = "ShipHandler";
 		ship = new GameObject ();
-		ship.transform.parent = transform;
 		ship.AddComponent<Ship> ();
-		ship.name = "Ship";
+		MakeSprite (ship, "rocket", shipH.transform, 0, 0, 1, 1, 500);
 //		ship.SetActive(true);
 //		captain.SetActive(true);
 		eMan = gameObject.AddComponent<EnemyManager>();
 		eMan.init (this);
 		level = 1;
 		numLevels = 2;
-		this.GetInstructions ("JERF/level" + level.ToString()); //For now let's just worry about loading and executing a single level. Eventually, we will have to be more sophisticated about restarting levels and loading new levels. May not need separate function longterm.
-		captain.GetComponent<CaptainManager> ().init (this);
+		//For now let's just worry about loading and executing a single level. Eventually, we will have to be more sophisticated about restarting levels and loading new levels.
+		//May not need separate function longterm.
+		this.GetInstructions ("JERF/level" + level.ToString()); 		captain.GetComponent<CaptainManager> ().init (this);
 		ship.GetComponent<Ship> ().init (this);
 		GameObject ProtoShip = new GameObject();
 		MakeSprite ( ProtoShip, "ProtoShip", captain.transform, 0, 0, 1, 1, 100);
@@ -71,9 +74,13 @@ public class GameController : MonoBehaviour {
 	}
 
 
-	void ExecuteInstruction(string[] inst){
-		if (inst [0] == "A") { // Asteroids. IMPORTANT, asteroid int values correspond to a percentage frequency for random generation. Therefore if size is 84, then for each frame, if Random.value>.84, generate a random asteroid. Random.value creates a float between 0-1
-			eMan.getInstruction("A", Int32.Parse(inst[1]), Int32.Parse(inst[2])); //Need to cast strings as integers. Args for this eMan instruction are (string type, int size, int x). Type is enemy type. Size is squad size (squad implementation is up to you for now, coming in one after another maybe). X is x value of screen descent.
+	void ExecuteInstruction(string[] inst){ 
+		// Asteroids. IMPORTANT, asteroid int values correspond to a percentage frequency for random generation.
+		//Therefore if size is 84, then for each frame, if Random.value>.84, generate a random asteroid. Random.value creates a float between 0-1
+		if (inst [0] == "A") {
+			//Need to cast strings as integers. Args for this eMan instruction are (string type, int size, int x). Type is enemy type
+			//Size is squad size (squad implementation is up to you for now, coming in one after another maybe). X is x value of screen descent.
+			eMan.getInstruction("A", Int32.Parse(inst[1]), Int32.Parse(inst[2]));
 			if (inst.Length > 3) {
 				StartCoroutine (sleep(Int32.Parse(inst[3])));//Starts a routine that sets waiting to true and waits for arg seconds before flipping the bool back to false.
 			}

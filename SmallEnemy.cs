@@ -46,8 +46,8 @@ public class SmallEnemy : ParentEnemy {
 			}
 			Move ();
 			if (transform.position.y <= divePosition) {
- 				float playerx = owner.owner.ship.transform.GetChild (0).position.x;
-				float playery = owner.owner.ship.transform.GetChild (0).position.y;
+ 				float playerx = owner.owner.ship.transform.position.x;
+				float playery = owner.owner.ship.transform.position.y;
 				float angle = Mathf.Rad2Deg*Mathf.Acos (Mathf.Abs (playery - this.transform.position.y) / Mathf.Sqrt (Mathf.Pow((playerx - this.transform.position.x),2) + 
 					Mathf.Pow((playery - this.transform.position.y),2)));
 				float sign = (playerx - this.transform.position.x) / Mathf.Abs (playerx - this.transform.position.x);
