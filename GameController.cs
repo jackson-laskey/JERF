@@ -99,15 +99,15 @@ public class GameController : MonoBehaviour {
 		}
 	}
 
-	public void MakeModel(GameObject quad, string textureName, Transform parentTransform, float x, float y, float xScale, float yScale) {
-		quad.transform.parent = parentTransform;
-		quad.transform.localPosition = new Vector3 (x, y, 0);
-		quad.transform.localScale = new Vector3 (xScale, yScale, 0);
-		quad.name = quad.name + "Model";
-		Material mat = quad.GetComponent<Renderer> ().material;
-		mat.shader = Shader.Find ("Sprites/Default");
-		mat.mainTexture = Resources.Load<Texture2D> ("Textures/" + textureName);
-	}
+//	public void MakeModel(GameObject quad, string textureName, Transform parentTransform, float x, float y, float xScale, float yScale) {
+//		quad.transform.parent = parentTransform;
+//		quad.transform.localPosition = new Vector3 (x, y, 0);
+//		quad.transform.localScale = new Vector3 (xScale, yScale, 0);
+//		quad.name = quad.name + "Model";
+//		Material mat = quad.GetComponent<Renderer> ().material;
+//		mat.shader = Shader.Find ("Sprites/Default");
+//		mat.mainTexture = Resources.Load<Texture2D> ("Textures/" + textureName);
+//	}
 
 	// fills the passed object with a sprite with the texture 
 	public void MakeSprite(GameObject obj, string textureName, Transform parentTransform, 
@@ -129,14 +129,12 @@ public class GameController : MonoBehaviour {
 			new Rect(0, 0, texture.width, texture.height), 
 			new Vector2(xBound, yBound),
 			pixelsPer);
-		print (obj.name);
 	}
 
 
 	void GetInstructions (string level) {
 		iter = 0;
 		instructions = Resources.Load<TextAsset>(level).text.Split(new char[1]{'\n'});
-		print (instructions[0]);
 	}
 
 	void EndLevel (int level) {
