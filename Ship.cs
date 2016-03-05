@@ -37,10 +37,10 @@ public class Ship : MonoBehaviour {
 		engineLevel = GameObject.Find("Engines").GetComponentInChildren<ComponentHealth>();
 
 		direction = this.gameObject.GetComponent<Animator> ();
-		jets = JET.GetComponent<Animator> ();
+//		jets = JET.GetComponent<Animator> ();
 
-		direction.SetInteger ("Direction", 0);
-		jets.SetInteger ("Power", 3);
+//		direction.SetInteger ("Direction", 0);
+//		jets.SetInteger ("Power", 3);
 		// loads template for laser prefab instantiation
 
 
@@ -139,7 +139,7 @@ public class Ship : MonoBehaviour {
 
 	private void Die() {
 		// send some message to the GameController
-		var x = Instantiate(death ,this.transform.position, Quaternion.identity);
+//		var x = Instantiate(death ,this.transform.position, Quaternion.identity);
 		Destroy (gameObject);
 	}
 
