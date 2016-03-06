@@ -40,15 +40,9 @@ public class Ship : MonoBehaviour {
 		direction = this.gameObject.GetComponent<Animator> ();
 //		jets = JET.GetComponent<Animator> ();
 
-<<<<<<< HEAD
-
-
 		direction.SetInteger ("Direction", 0);
 		jets.SetInteger ("Power", 3);
-=======
-//		direction.SetInteger ("Direction", 0);
-//		jets.SetInteger ("Power", 3);
->>>>>>> origin/PrefabsToCode
+
 		// loads template for laser prefab instantiation
 
 
