@@ -59,15 +59,13 @@ public class GameController : MonoBehaviour {
 		animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController> ("Animation/Jet_Animation_Controller");
 //		ship.SetActive(true);
 //		captain.SetActive(true);
-		MakeSprite (ship, "rocket", shipH.transform, 0, 0, 1, 1, 500);
 		eMan = gameObject.AddComponent<EnemyManager>();
 		eMan.init (this);
 		level = 1;
-		numLevels = 5;
+		numLevels = 2;
 		//For now let's just worry about loading and executing a single level. Eventually, we will have to be more sophisticated about restarting levels and loading new levels.
 		//May not need separate function longterm.
-		this.GetInstructions ("JERF/level" + level.ToString());
-		captain.GetComponent<CaptainManager> ().init (this);
+		this.GetInstructions ("JERF/level" + level.ToString()); 		captain.GetComponent<CaptainManager> ().init (this);
 		ship.GetComponent<Ship> ().init (this);
 		GameObject ProtoShip = new GameObject();
 		stextures = Resources.LoadAll<Sprite> ("Textures/Captain_Effects_Sheet_2");
