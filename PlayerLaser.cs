@@ -7,9 +7,9 @@ public class PlayerLaser : Projectile {
 	// Use this for initialization
 	void Start () {
 		speed = 7;
+		base.init (false, "PlayerLaser", 2f, 2f, 200);
 		name = "PlayerLaser";
-		gameObject.transform.localScale = new Vector3 (.2f, .8f, 1);
-		base.init (false);
+		tag = "PlayerLaser";
 	}
 	
 	// Update is called once per frame
@@ -18,7 +18,7 @@ public class PlayerLaser : Projectile {
 	}
 
 	void OnTriggerEnter2D(Collider2D coll) {
-		if (coll.tag != "PlayerController") {
+		if (coll.name != "Ship") {
 			Hit ();
 		}
 	}
