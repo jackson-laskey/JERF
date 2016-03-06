@@ -127,11 +127,30 @@ public class Ship : MonoBehaviour {
 //	}
 
 	private void Fire() {
-		clock = 0;
-		GameObject shot = new GameObject();
-		shot.transform.parent = transform.parent;
-		shot.AddComponent<PlayerLaser> ();
-		shot.transform.position = new Vector3(transform.position.x, transform.position.y + .7f);
+		if (laserLevel.health < 50) {
+			GameObject shot = new GameObject ();
+			shot.transform.parent = transform.parent;
+			shot.AddComponent<PlayerLaser> ();
+			shot.transform.position = new Vector3 (transform.position.x, transform.position.y + .7f);
+		} else if (laserLevel.health < 100) {
+			GameObject shot = new GameObject ();
+			shot.transform.parent = transform.parent;
+			shot.AddComponent<PlayerLaser> ();
+			shot.transform.position = new Vector3 (transform.position.x-.1f, transform.position.y + .7f);
+			GameObject shot2 = new GameObject ();
+			shot2.transform.parent = transform.parent;
+			shot2.AddComponent<PlayerLaser> ();
+			shot2.transform.position = new Vector3 (transform.position.x+.1f, transform.position.y + .7f);
+		} else {
+			GameObject shot = new GameObject ();
+			shot.transform.parent = transform.parent;
+			shot.AddComponent<SuperPlayerLaser> ();
+			shot.transform.position = new Vector3 (transform.position.x-.1f, transform.position.y + .7f);
+			GameObject shot2 = new GameObject ();
+			shot2.transform.parent = transform.parent;
+			shot2.AddComponent<SuperPlayerLaser> ();
+			shot2.transform.position = new Vector3 (transform.position.x+.1f, transform.position.y + .7f);
+		}
 		laserLevel.fire ();
 	}
 

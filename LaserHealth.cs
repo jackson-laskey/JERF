@@ -63,8 +63,8 @@ public class LaserHealth : MonoBehaviour {
 
 	// damages the part and returns true if it lowers the part's health to 0
 	public void fire() {
-		if (health > 5) {
-			health = health - 5;
+		if (health > 7) {
+			health = health - 7;
 			model.transform.localScale = new Vector3 (1, health/100f);
 		} else {
 			health = 0;
