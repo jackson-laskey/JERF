@@ -32,7 +32,9 @@ public class MoveCaptain : MonoBehaviour {
 		controller = gContr;
 
 		ButtonClicker buttonClickerComponent;
+		LaserButtonClicker laserButtonClicker;
 		ComponentHealth healthComponent;
+		LaserHealth laserHealth;
 
 		// laser health objects
 		// health bar
@@ -41,17 +43,17 @@ public class MoveCaptain : MonoBehaviour {
 		laserButton.transform.parent = components [0].transform;
 		laserButton.transform.localPosition = new Vector3 (.6f, -.387f, 0);
 		laserButton.transform.localScale = new Vector3(1, 1, 1);
-		healthComponent = laserButton.AddComponent<ComponentHealth> ();
-		healthComponent.init (controller, 0, 0);
+		laserHealth = laserButton.AddComponent<LaserHealth> ();
+		laserHealth.init (controller, 0, 0);
 		// button
 		button = new GameObject ();
 		button.name = "Button";
 		button.transform.parent = components[0].transform;
 		button.transform.localPosition = new Vector3 (0, 0, 0);
 		button.transform.localScale = new Vector3 (1, 1, 0);
-		buttonClickerComponent = button.AddComponent<ButtonClicker> ();
-		buttonClickerComponent.init (controller, 0, 1, 1, 0, 0);
-		laserButton = buttonClickerComponent.gameObject;
+		laserButtonClicker = button.AddComponent<LaserButtonClicker> ();
+		laserButtonClicker.init (controller, 0, 1, 1, 0, 0);
+		laserButton = laserButtonClicker.gameObject;
 
 		// shield health objects
 		// health bar

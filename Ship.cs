@@ -4,7 +4,7 @@ using System.Collections;
 public class Ship : MonoBehaviour {
 
 	// the health bar of each component on the RHS; 0 <= .health <= 100
-	public ComponentHealth laserLevel;
+	public LaserHealth laserLevel;
 	public ComponentHealth shieldLevel;
 	public ComponentHealth engineLevel;
 	public GameObject death;
@@ -32,7 +32,7 @@ public class Ship : MonoBehaviour {
 		gameObject.name = "Ship";
 		tag = "PlayerController";
 
-		laserLevel = GameObject.Find("Lasers").GetComponentInChildren<ComponentHealth>();
+		laserLevel = GameObject.Find("Lasers").GetComponentInChildren<LaserHealth>();
 		shieldLevel = GameObject.Find("Shields").GetComponentInChildren<ComponentHealth>();
 		engineLevel = GameObject.Find("Engines").GetComponentInChildren<ComponentHealth>();
 
@@ -57,12 +57,9 @@ public class Ship : MonoBehaviour {
 			return;
 		}
 		// clock increment is modified by laser health so fire rate is proportional to laser health
-		clock += Time.deltaTime * laserLevel.health;
+		//print(laserLevel.health);
 		// fire lasers if thresholds have been reached- extra-fast firing cycle for laser health == 100
-		if (laserLevel.health == 100 && clock > fireInterval / 1.3f) {
-			Fire ();
-		}
-		if (clock > fireInterval) {
+		if (Input.GetKeyDown(KeyCode.Space) && laserLevel.health>0) {
 			Fire ();
 		}
 
@@ -135,6 +132,7 @@ public class Ship : MonoBehaviour {
 		shot.transform.parent = transform.parent;
 		shot.AddComponent<PlayerLaser> ();
 		shot.transform.position = new Vector3(transform.position.x, transform.position.y + .7f);
+		laserLevel.fire ();
 	}
 
 	private void Die() {
