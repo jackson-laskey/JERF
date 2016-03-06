@@ -12,7 +12,6 @@ public class Ship : MonoBehaviour {
 	public GameObject JET;
 	private Animator jets;
 
-
 	// reference to GameController script
 	public GameController controller;
 
@@ -29,18 +28,16 @@ public class Ship : MonoBehaviour {
 		controller = gContr;
 		gameObject.AddComponent<Rigidbody2D> ().isKinematic = true;
 		gameObject.AddComponent<BoxCollider2D> ().isTrigger = true;
-		transform.localPosition = new Vector3 (-3.2f, -4, 0);
+		transform.localPosition = new Vector3 (-3.2f, -4.2f, 0);
 		gameObject.name = "Ship";
 		tag = "PlayerController";
 
 		laserLevel = GameObject.Find("Lasers").GetComponentInChildren<ComponentHealth>();
 		shieldLevel = GameObject.Find("Shields").GetComponentInChildren<ComponentHealth>();
 		engineLevel = GameObject.Find("Engines").GetComponentInChildren<ComponentHealth>();
-		JET = GameObject.Find ("Jets");
+
 		direction = this.gameObject.GetComponent<Animator> ();
 		jets = JET.GetComponent<Animator> ();
-
-
 
 		direction.SetInteger ("Direction", 0);
 		jets.SetInteger ("Power", 3);
@@ -69,33 +66,29 @@ public class Ship : MonoBehaviour {
 			Fire ();
 		}
 
-		if (engineLevel.health >= 90) {
-			jets.SetInteger ("Power", 4);
-		}
-		else if (engineLevel.health >= 50) {
-			jets.SetInteger ("Power", 3);
-		} else if (engineLevel.health < 50) {
-			jets.SetInteger ("Power", 2);
-		} else if (engineLevel.health <= 20) {
-			jets.SetInteger ("Power", 1);
-		}
+//		if (engineLevel.health >= 50) {
+//			jets.SetInteger ("Power", 3);
+//		} else if (engineLevel.health < 50) {
+//			jets.SetInteger ("Power", 2);
+//		} else if (engineLevel.health <= 20) {
+//			jets.SetInteger ("Power", 1);
+//		}
 
 //		// move left if "a" is being pressed, right if "d" is being pressed. Confined to LHS.
 		if (Input.GetKey ("a") && gameObject.transform.position.x > -6) {
-			jets.SetInteger ("Direction", 1);
-			direction.SetInteger ("Direction", 1);
-			JET.transform.localPosition = new Vector3 (.02f, -.37f, 0);
+//			jets.SetInteger ("Direction", 1);
+//			direction.SetInteger ("Direction", 1);
+//			JET.transform.localPosition = new Vector3 (.02f, -.37f, 0);
 			transform.Translate (-(Time.deltaTime * 5 * (engineLevel.health / 100)), 0, 0);
-
+//
 		} else if (Input.GetKey ("d") && gameObject.transform.position.x < -.5) {
-			jets.SetInteger ("Direction", 2);
-			direction.SetInteger ("Direction", 2);
-			JET.transform.localPosition = new Vector3 (-.02f, -.37f, 0);
+//			jets.SetInteger ("Direction", 2);
+//			direction.SetInteger ("Direction", 2);
+//			JET.transform.localPosition = new Vector3 (-.02f, -.37f, 0);
 			transform.Translate (Time.deltaTime * 5 * (engineLevel.health / 100), 0, 0);
 		} else {
-			jets.SetInteger ("Direction", 0);
-			JET.transform.localPosition = new Vector3 (0, -.38f, 0);
-			direction.SetInteger ("Direction", 0);
+//			jets.SetInteger ("Direction", 0);
+//			direction.SetInteger ("Direction", 0);
         }
 	}
 
@@ -146,16 +139,8 @@ public class Ship : MonoBehaviour {
 
 	private void Die() {
 		// send some message to the GameController
-		GameObject death = new GameObject ();
-		controller.MakeSprite (death,"", GameObject.Find("ShipHandler").transform, 0, 0, 1, 1, 500);
-		death.transform.localPosition = this.transform.position;
-		death.AddComponent<Animator> ();
-		Animator animator = death.GetComponent<Animator> ();
-		animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController> ("Animation/ship_Death_Controller");
-		death.transform.localScale = new Vector3 (2, 2, 0);
-
-		GameObject.Find ("Captain").GetComponent<CaptainManager> ().Die ();
-		Destroy (this.gameObject);
+		var x = Instantiate(death ,this.transform.position, Quaternion.identity);
+		Destroy (gameObject);
 	}
 
 }
