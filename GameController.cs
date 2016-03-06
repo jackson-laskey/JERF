@@ -29,9 +29,13 @@ public class GameController : MonoBehaviour {
 		captain.SetActive(true);
 		eMan = gameObject.AddComponent<EnemyManager>();
 		eMan.init (this);
+<<<<<<< Updated upstream
 		level = 1;
 		numLevels = 2;
 		this.GetInstructions ("JERF/level" + level.ToString()); //For now let's just worry about loading and executing a single level. Eventually, we will have to be more sophisticated about restarting levels and loading new levels. May not need separate function longterm.
+=======
+		this.GetInstructions ("Assets/Resources/JERF/level1.txt"); //For now let's just worry about loading and executing a single level. Eventually, we will have to be more sophisticated about restarting levels and loading new levels. May not need separate function longterm.
+>>>>>>> Stashed changes
 	}
 
 	void Update() {//Needed an update to handle waiting. Checks if waiting once per frame instead of on infinite loop which crashes

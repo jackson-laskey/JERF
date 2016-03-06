@@ -7,6 +7,10 @@ public class Ship : MonoBehaviour {
 	public ComponentHealth laserLevel;
 	public ComponentHealth shieldLevel;
 	public ComponentHealth engineLevel;
+	public GameObject death;
+	public GameObject Jet;
+	private Animator animator;
+	private Animator jets;
 
 	// projectile that the ship will fire
 	private GameObject projectile;
@@ -21,6 +25,11 @@ public class Ship : MonoBehaviour {
 		laserLevel = GameObject.Find("Lasers").GetComponentInChildren<ComponentHealth>();
 		shieldLevel = GameObject.Find("Shields").GetComponentInChildren<ComponentHealth>();
 		engineLevel = GameObject.Find("Engines").GetComponentInChildren<ComponentHealth>();
+		animator = this.GetComponent<Animator> ();
+		animator.SetInteger ("Direction", 0);
+		jets = Jet.GetComponent<Animator> ();
+		jets.SetInteger ("Direction", 0);
+		jets.SetInteger ("Power", 3);
 
 		// loads template for laser prefab instantiation
 		projectile = Resources.Load ("Prefabs/PlayerLaser") as GameObject;
@@ -42,12 +51,37 @@ public class Ship : MonoBehaviour {
 			Fire ();
 		}
 
-		// move left if "a" is being pressed, right if "d" is being pressed. Confined to LHS.
-		if (Input.GetKey ("a") && gameObject.transform.position.x>-6)
-			transform.Translate(-(Time.deltaTime * 5 * (engineLevel.health/100)), 0, 0);
+		if (engineLevel.health >= 50) {
+			
+			jets.SetInteger ("Power", 3);
+		}
+		else if (engineLevel.health < 50 ) {
+			
+			jets.SetInteger ("Power", 2);
+		} else if (engineLevel.health <= 20) {
+			jets.SetInteger ("Power", 1);
+		}
 
-		if (Input.GetKey ("d") && gameObject.transform.position.x<-.5)
-			transform.Translate(Time.deltaTime * 5 * (engineLevel.health/100), 0, 0);
+
+		// move left if "a" is being pressed, right if "d" is being pressed. Confined to LHS.
+		if (Input.GetKey ("a") && gameObject.transform.position.x > -6) {
+			animator.SetInteger ("Direction", 1);
+			jets.SetInteger ("Direction", 1);
+
+
+			transform.Translate (-(Time.deltaTime * 5 * (engineLevel.health / 100)), 0, 0);
+		} else if (Input.GetKey ("d") && gameObject.transform.position.x < -.5) {
+			animator.SetInteger ("Direction", 2);
+			jets.SetInteger ("Direction", 2);
+
+			transform.Translate (Time.deltaTime * 5 * (engineLevel.health / 100), 0, 0);
+
+		} else {
+			animator.SetInteger ("Direction", 0);
+			jets.SetInteger ("Direction", 0);
+		}
+
+
 	}
 
 	// Handles hits
@@ -86,7 +120,8 @@ public class Ship : MonoBehaviour {
 
 	private void Die() {
 		// send some message to the GameController
-		Destroy (gameObject);
+		var x = Instantiate(death, new Vector3(this.transform.position.x, this.transform.position.y, 0), Quaternion.identity);
+			Destroy (gameObject);
 	}
 
 }
