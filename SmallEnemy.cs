@@ -34,7 +34,7 @@ public class SmallEnemy : ParentEnemy {
 	}
 		
 	void Update () {
-		if (hp == 0) {
+		if (hp <= 0) {
 			Destroy (this.gameObject);
 		}
 		if (!diving) {
@@ -78,6 +78,9 @@ public class SmallEnemy : ParentEnemy {
 
 	void OnTriggerEnter2D(Collider2D other){
 		if (other.name == "PlayerLaser") {
+			hp--;
+		}
+		if (other.name == "SuperPlayerLaser") {
 			hp--;
 		}
 		if (other.tag == "PlayerController") {
