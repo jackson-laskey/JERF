@@ -13,44 +13,68 @@ public class GameController : MonoBehaviour {
 	public EnemyManager eMan;
 	public GameObject ship;
 	public GameObject captain;
+	public GameObject jets;
 	public int level;
 	public int numLevels;
 	private string[] instructions;
 	private int iter = 0;
 	private bool waiting = false;
 	private bool done = true;
+	Sprite[] stextures;
+	string[] snames;
 
 	void Start() {
 		init (false);
 		done = false;
+
+			
 	}
 
 	public void init (bool justDied) {
-		GameObject dividerModel = new GameObject();
-		MakeSprite(dividerModel, "Line", transform, .3f, 0, 2, 4, 100);
-		dividerModel.name = "Divider";
+		stextures = Resources.LoadAll<Sprite> ("Textures/Ship Sprite Sheet");
+		snames = new string[stextures.Length];
+		for(int ii=0; ii< snames.Length; ii++) {
+			snames[ii] = stextures[ii].name;
+		}
 		captain = new GameObject ();
 		captain.AddComponent<CaptainManager> ();
 		captain.transform.parent = transform;
 		captain.name = "Captain";
 		GameObject shipH = new GameObject ();
 		shipH.transform.parent = transform;
+		shipH.transform.localPosition = new Vector3 (0, 0, 0);
 		shipH.name = "ShipHandler";
 		ship = new GameObject ();
 		ship.AddComponent<Ship> ();
-		MakeSprite (ship, "rocket", shipH.transform, 0, 0, 1, 1, 500);
+		MakeSprite (ship,stextures[11], shipH.transform, 0, 0, 1, 1, 500);
+		ship.AddComponent<Animator> ();
+		Animator animator = ship.GetComponent<Animator> ();
+		animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController> ("Animation/Ship_Animation_Controller");
+		ship.transform.localScale = new Vector3 (2, 2, 0);jets = new GameObject ();
+		stextures = Resources.LoadAll<Sprite> ("Textures/Ship Effects Sheet");
+		MakeSprite(jets, stextures[14], ship.transform, 0, -.38f, 1, 1, 100);
+		jets.name = "Jets";
+		jets.AddComponent<Animator> ();
+		animator = jets.GetComponent<Animator> ();
+		animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController> ("Animation/Jet_Animation_Controller");
 //		ship.SetActive(true);
 //		captain.SetActive(true);
 		eMan = gameObject.AddComponent<EnemyManager>();
 		eMan.init (this);
 		level = 1;
-		numLevels = 2;
+		numLevels = 5;
 		//For now let's just worry about loading and executing a single level. Eventually, we will have to be more sophisticated about restarting levels and loading new levels.
 		//May not need separate function longterm.
-		this.GetInstructions ("JERF/level" + level.ToString()); 		captain.GetComponent<CaptainManager> ().init (this);
+		this.GetInstructions ("JERF/level" + level.ToString());
+		captain.GetComponent<CaptainManager> ().init (this);
 		ship.GetComponent<Ship> ().init (this);
 		GameObject ProtoShip = new GameObject();
-		MakeSprite ( ProtoShip, "ProtoShip", captain.transform, 0, 0, 1, 1, 100);
+		stextures = Resources.LoadAll<Sprite> ("Textures/Captain_Effects_Sheet_2");
+
+		//for(int ii=0; ii< snames.Length; ii++) {
+		//	snames[ii] = stextures[ii].name;
+		//}
+		MakeSprite ( ProtoShip, stextures[0], captain.transform, 0, 0, 1, 1, 100);
 		ProtoShip.name = "ProtoShip";
 		ProtoShip.GetComponent<Renderer> ().sortingLayerName = "Default";
 	}
@@ -99,15 +123,7 @@ public class GameController : MonoBehaviour {
 		}
 	}
 
-//	public void MakeModel(GameObject quad, string textureName, Transform parentTransform, float x, float y, float xScale, float yScale) {
-//		quad.transform.parent = parentTransform;
-//		quad.transform.localPosition = new Vector3 (x, y, 0);
-//		quad.transform.localScale = new Vector3 (xScale, yScale, 0);
-//		quad.name = quad.name + "Model";
-//		Material mat = quad.GetComponent<Renderer> ().material;
-//		mat.shader = Shader.Find ("Sprites/Default");
-//		mat.mainTexture = Resources.Load<Texture2D> ("Textures/" + textureName);
-//	}
+
 
 	// fills the passed object with a sprite with the texture 
 	public void MakeSprite(GameObject obj, string textureName, Transform parentTransform, 
@@ -117,7 +133,7 @@ public class GameController : MonoBehaviour {
 		obj.transform.localScale = new Vector3 (xScale, yScale, 1);
 		obj.name = textureName + "Sprite";
 		SpriteRenderer rend = obj.AddComponent<SpriteRenderer> ();
-		Texture2D texture = Resources.Load<Texture2D> ("Textures/" + textureName);
+		Sprite texture = Resources.Load<Sprite> ("Textures/" + textureName);
 		float xBound = .5f;
 		float yBound = .5f;
 		if (pivot.Length > 0) {
@@ -125,10 +141,25 @@ public class GameController : MonoBehaviour {
 		} if (pivot.Length > 1) {
 			yBound = pivot [1];
 		}
-		rend.sprite = Sprite.Create(texture, 
-			new Rect(0, 0, texture.width, texture.height), 
-			new Vector2(xBound, yBound),
-			pixelsPer);
+		rend.sprite = texture;
+	}
+
+	public void MakeSprite(GameObject obj, Sprite s, Transform parentTransform, 
+		float x, float y, float xScale, float yScale, float pixelsPer, params float[] pivot) {
+		obj.transform.parent = parentTransform;
+		obj.transform.localPosition = new Vector3 (x, y, 0);
+		obj.transform.localScale = new Vector3 (xScale, yScale, 1);
+		obj.name = s.name + "Sprite";
+		SpriteRenderer rend = obj.AddComponent<SpriteRenderer> ();
+		Sprite texture = s;
+		float xBound = .5f;
+		float yBound = .5f;
+		if (pivot.Length > 0) {
+			xBound = pivot [0];
+		} if (pivot.Length > 1) {
+			yBound = pivot [1];
+		}
+		rend.sprite = texture;
 	}
 
 
