@@ -7,7 +7,7 @@ public class PlayerLaser : Projectile {
 	// Use this for initialization
 	void Start () {
 		speed = 7;
-		base.init (false, "PlayerLaser", 2f, 3f, 200);
+		base.init (false, "PlayerLaser", 2f, 2f, 200);
 		name = "PlayerLaser";
 		tag = "PlayerLaser";
 	}
