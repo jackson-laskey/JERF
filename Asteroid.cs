@@ -10,7 +10,7 @@ public class Asteroid : ParentEnemy {
 		fireRate = 0;
 		speed = 3;
 		this.owner = owner;
-		col = gameObject.AddComponent<CircleCollider2D> ();
+		col = gameObject.AddComponent<BoxCollider2D> ();
 		body = gameObject.AddComponent<Rigidbody2D> ();
 		body.isKinematic = true;
 		transform.eulerAngles = new Vector3(0,0,180);

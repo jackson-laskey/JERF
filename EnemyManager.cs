@@ -63,5 +63,15 @@ public class EnemyManager : MonoBehaviour {
 			enemy.transform.position = new Vector3 (x, y, 0);
 			enemy.init (this);
 		}
+		if (type == "B") {
+			BeamEnemy enemy = enemyObject.AddComponent<BeamEnemy> ();
+			enemy.transform.position = new Vector3 (x, y, 0);
+			enemy.init (this);
+		}
+		if (type == "S") {
+			SparkEnemy enemy = enemyObject.AddComponent<SparkEnemy> ();
+			enemy.transform.position = new Vector3 (x, y, 0);
+			enemy.init (this);
+		}
 	}
 }

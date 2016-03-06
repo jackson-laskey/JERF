@@ -1,21 +1,22 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class AsteroidModel : MonoBehaviour {
+public class SparkEnemyModel : MonoBehaviour {
 
 	private Material mat;
-	private Asteroid owner;
+	private SparkEnemy owner;
 
-	public void init(Asteroid owner) {
+	public void init(SparkEnemy owner) {
+		name = "SparkEnemyModel";
 		this.owner = owner;
 		transform.parent = owner.transform;	
 		transform.localPosition = new Vector3(0,0,0);
-		name = "Asteroid Model";
+		transform.localScale = new Vector3 (.85f, 1f, 1f);
+		name = "Spark Enemy";
 		mat = GetComponent<Renderer>().material;	
 		mat.shader = Shader.Find ("Sprites/Default");	// Tell the renderer that our textures have transparency. // Get the material component of this quad object.
-		mat.mainTexture = Resources.Load<Texture2D>("Textures/asteroid");	// Set the texture.  Must be in Resources folder.
-		mat.color = new Color(1,1,1);
-		transform.localScale = new Vector3 (.75f, .75f, .75f);// Set the color (easy way to tint things).
+		mat.mainTexture = Resources.Load<Texture2D>("Textures/SmallShip");	// Set the texture.  Must be in Resources folder.
+		mat.color = new Color(1,1,1);											// Set the color (easy way to tint things).
 	}
 
 	// Update is called once per frame

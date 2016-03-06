@@ -10,7 +10,7 @@ public class ParentEnemy : MonoBehaviour {
 
     protected EnemyManager owner;
 
-	protected Collider2D col;
+	protected BoxCollider2D col;
 	protected Rigidbody2D body;
 
 
