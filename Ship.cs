@@ -4,7 +4,7 @@ using System.Collections;
 public class Ship : MonoBehaviour {
 
 	// the health bar of each component on the RHS; 0 <= .health <= 100
-	public ComponentHealth laserLevel;
+	public LaserHealth laserLevel;
 	public ComponentHealth shieldLevel;
 	public ComponentHealth engineLevel;
 	public GameObject death;
@@ -33,7 +33,7 @@ public class Ship : MonoBehaviour {
 		gameObject.name = "Ship";
 		tag = "PlayerController";
 
-		laserLevel = GameObject.Find("Lasers").GetComponentInChildren<ComponentHealth>();
+		laserLevel = GameObject.Find("Lasers").GetComponentInChildren<LaserHealth>();
 		shieldLevel = GameObject.Find("Shields").GetComponentInChildren<ComponentHealth>();
 		engineLevel = GameObject.Find("Engines").GetComponentInChildren<ComponentHealth>();
 		JET = GameObject.Find ("Jets");
@@ -62,10 +62,7 @@ public class Ship : MonoBehaviour {
 		// clock increment is modified by laser health so fire rate is proportional to laser health
 		clock += Time.deltaTime * laserLevel.health;
 		// fire lasers if thresholds have been reached- extra-fast firing cycle for laser health == 100
-		if (laserLevel.health == 100 && clock > fireInterval / 1.3f) {
-			Fire ();
-		}
-		if (clock > fireInterval) {
+		if (Input.GetKeyDown(KeyCode.Space) && laserLevel.health>0){
 			Fire ();
 		}
 
@@ -137,11 +134,32 @@ public class Ship : MonoBehaviour {
 //	}
 
 	private void Fire() {
-		clock = 0;
-		GameObject shot = new GameObject();
-		shot.transform.parent = transform.parent;
-		shot.AddComponent<PlayerLaser> ();
-		shot.transform.position = new Vector3(transform.position.x, transform.position.y + .7f);
+		print (laserLevel.health);
+				if (laserLevel.health < 50) {
+						GameObject shot = new GameObject ();
+						shot.transform.parent = transform.parent;
+						shot.AddComponent<PlayerLaser> ();
+						shot.transform.position = new Vector3 (transform.position.x, transform.position.y + .7f);
+				} else if (laserLevel.health < 100) {
+						GameObject shot = new GameObject ();
+						shot.transform.parent = transform.parent;
+						shot.AddComponent<PlayerLaser> ();
+						shot.transform.position = new Vector3 (transform.position.x-.1f, transform.position.y + .7f);
+						GameObject shot2 = new GameObject ();
+						shot2.transform.parent = transform.parent;
+						shot2.AddComponent<PlayerLaser> ();
+						shot2.transform.position = new Vector3 (transform.position.x+.1f, transform.position.y + .7f);
+				} else {
+						GameObject shot = new GameObject ();
+						shot.transform.parent = transform.parent;
+						shot.AddComponent<SuperPlayerLaser> ();
+					shot.transform.position = new Vector3 (transform.position.x-.1f, transform.position.y + .7f);
+						GameObject shot2 = new GameObject ();
+						shot2.transform.parent = transform.parent;
+						shot2.AddComponent<SuperPlayerLaser> ();
+						shot2.transform.position = new Vector3 (transform.position.x+.1f, transform.position.y + .7f);
+					}
+		laserLevel.fire ();
 	}
 
 	private void Die() {

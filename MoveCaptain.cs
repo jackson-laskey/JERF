@@ -10,6 +10,7 @@ public class MoveCaptain : MonoBehaviour {
 
 	// the rendered objects of the different buttons
 	private GameObject laserButton;
+	public LaserHealth laserHealth;
 	private GameObject shieldButton;
 	private GameObject engineButton;
 	// holds the above objects
@@ -32,6 +33,7 @@ public class MoveCaptain : MonoBehaviour {
 	public void init (GameController gContr, GameObject[] components) {
 		controller = gContr;
 
+		LaserButtonClicker laserButtonClicker;
 		ButtonClicker buttonClickerComponent;
 		ComponentHealth healthComponent;
 
@@ -42,17 +44,17 @@ public class MoveCaptain : MonoBehaviour {
 		laserButton.transform.parent = components [0].transform;
 		laserButton.transform.localPosition = new Vector3 (.6f, 2.3f, 0);
 		laserButton.transform.localScale = new Vector3(1, 1, 1);
-		healthComponent = laserButton.AddComponent<ComponentHealth> ();
-		healthComponent.init (controller, 0, 0, 0);
+		laserHealth = laserButton.AddComponent<LaserHealth> ();
+		laserHealth.init (controller, 0, 0);
 		// button
 		button = new GameObject ();
 		button.name = "Button";
 		button.transform.parent = components[0].transform;
 		button.transform.localPosition = new Vector3 (0, 0, 0);
 		button.transform.localScale = new Vector3 (1, 1, 0);
-		buttonClickerComponent = button.AddComponent<ButtonClicker> ();
-		buttonClickerComponent.init (controller, .004f, 1.8f, 1, 0, 0);
-		laserButton = buttonClickerComponent.gameObject;
+		laserButtonClicker = button.AddComponent<LaserButtonClicker> ();
+		laserButtonClicker.init (controller, .004f, 1.8f, 1, 0, 0);
+		laserButton = laserButtonClicker.gameObject;
 		button.GetComponent<SpriteRenderer> ().enabled = false;
 
 		// shield health objects
