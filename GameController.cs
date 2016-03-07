@@ -15,6 +15,7 @@ public class GameController : MonoBehaviour {
 	public GameObject ship;
 	public GameObject captain;
 	public GameObject jets;
+	public GameObject leftShield;
 	public int level;
 	public int numLevels;
 	private string[] instructions;
@@ -22,15 +23,13 @@ public class GameController : MonoBehaviour {
 	private bool waiting = false;
 	private bool done = true;
 	Sprite[] stextures;
-
+	public Text levelCount;
 	public Button restart;
 
-
 	void Start() {
+		levelCount.text = "";
 		init (false);
 		done = false;
-
-			
 	}
 
 	public void init (bool justDied) {
@@ -58,6 +57,16 @@ public class GameController : MonoBehaviour {
 			jets.AddComponent<Animator> ();
 			animator = jets.GetComponent<Animator> ();
 			animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController> ("Animation/Jet_Animation_Controller");
+			leftShield = new GameObject ();
+			MakeSprite (leftShield, stextures [26], ship.transform, 0, 0, 1, 1, 500);
+			leftShield.AddComponent<Animator> ();
+			animator = leftShield.GetComponent<Animator> ();
+			Material colorShield = leftShield.GetComponent<Renderer> ().material;
+			colorShield.color = new Color (colorShield.color.a, colorShield.color.g, colorShield.color.b, .40f);
+			animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController> ("Animation/Left_Shield");
+			leftShield.transform.localScale = new Vector3 (1, 1, 0);
+			leftShield.name = "LeftShield";
+			leftShield.GetComponent<Renderer> ().sortingOrder = 1;
 //		ship.SetActive(true);
 //		captain.SetActive(true);
 			eMan = gameObject.AddComponent<EnemyManager> ();
@@ -79,6 +88,8 @@ public class GameController : MonoBehaviour {
 			ProtoShip.name = "ProtoShip";
 			ProtoShip.GetComponent<Renderer> ().sortingLayerName = "Default";
 
+			setLevelText ();
+
 			for (int x = -6; x < 0; x++) {
 				GameObject Starspawner = new GameObject ();
 				Spawner spawner = Starspawner.AddComponent<Spawner> ();
@@ -90,11 +101,10 @@ public class GameController : MonoBehaviour {
 				spawner.init ("BS", 1, (x -.5f), 2f, eMan, true,false);
 			}
 
+		
+
 		} else {
-
-
-
-
+			
 			stextures = Resources.LoadAll<Sprite> ("Textures/Ship Sprite Sheet");
 			captain = new GameObject ();
 			captain.AddComponent<CaptainManager> ();
@@ -118,12 +128,20 @@ public class GameController : MonoBehaviour {
 			jets.AddComponent<Animator> ();
 			animator = jets.GetComponent<Animator> ();
 			animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController> ("Animation/Jet_Animation_Controller");
+			leftShield = new GameObject ();
+			MakeSprite (leftShield, stextures [26], ship.transform, 0, 0, 1, 1, 500);
+			leftShield.AddComponent<Animator> ();
+			animator = leftShield.GetComponent<Animator> ();
+			Material colorShield = leftShield.GetComponent<Renderer> ().material;
+			colorShield.color = new Color (colorShield.color.a, colorShield.color.g, colorShield.color.b, .40f);
+			animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController> ("Animation/Left_Shield");
+			leftShield.transform.localScale = new Vector3 (1, 1, 0);
+			leftShield.name = "LeftShield";
+			leftShield.GetComponent<Renderer> ().sortingOrder = 1;
 			//		ship.SetActive(true);
 			//		captain.SetActive(true);
 			eMan = gameObject.AddComponent<EnemyManager> ();
 			eMan.init (this);
-			level = 1;
-			numLevels = 2;
 			//For now let's just worry about loading and executing a single level. Eventually, we will have to be more sophisticated about restarting levels and loading new levels.
 			//May not need separate function longterm.
 			this.GetInstructions ("JERF/level" + level.ToString ());
@@ -131,13 +149,14 @@ public class GameController : MonoBehaviour {
 			ship.GetComponent<Ship> ().init (this, restart);
 			GameObject ProtoShip = new GameObject ();
 			stextures = Resources.LoadAll<Sprite> ("Textures/Captain_Effects_Sheet_2");
-
 			//for(int ii=0; ii< snames.Length; ii++) {
 			//	snames[ii] = stextures[ii].name;
 			//}
 			MakeSprite (ProtoShip, stextures [0], captain.transform, 0, 0, 1, 1, 100);
 			ProtoShip.name = "ProtoShip";
 			ProtoShip.GetComponent<Renderer> ().sortingLayerName = "Default";
+
+			setLevelText ();
 
 		for (int x = -6; x < 0; x++) {
 			GameObject Starspawner = new GameObject ();
@@ -149,11 +168,15 @@ public class GameController : MonoBehaviour {
 			Spawner spawner = Starspawner.AddComponent<Spawner> ();
 			spawner.init ("BS", 1, (x -.5f), 2f, eMan, true,false);
 		}
+
+
 	}
 
 	}
 
 	void Update() {//Needed an update to handle waiting. Checks if waiting once per frame instead of on infinite loop which crashes
+
+		//levelCount.text = "";
 		if (!done) {
 			if (instructions [iter] != "X" && !waiting) { // Check if done/not waiting
 				ExecuteInstruction (instructions [iter].Split (':')); // Execute the instruction
@@ -237,6 +260,9 @@ public class GameController : MonoBehaviour {
 		rend.sprite = texture;
 	}
 
+	void setLevelText(){
+		levelCount.text = "Level: " + level;
+	}
 
 	void GetInstructions (string level) {
 		iter = 0;

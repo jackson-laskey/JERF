@@ -77,6 +77,7 @@ public class ComponentHealth : MonoBehaviour {
 				} else {
 					animator.SetInteger ("Power", 0);
 					GameObject.Find ("HyperShield").GetComponent<SpriteRenderer> ().enabled = false;
+					GameObject.Find ("LeftShield").GetComponent<SpriteRenderer> ().enabled = false;
 				}
 				model.transform.localScale = new Vector3(1, 0);
 				//model.transform.localPosition = new Vector3 (model.transform.localPosition.x, model.transform.localPosition.y + ((health/100f)/50));
@@ -94,6 +95,7 @@ public class ComponentHealth : MonoBehaviour {
 				} else {
 					animator.SetInteger ("Power", 1);
 					GameObject.Find ("HyperShield").GetComponent<SpriteRenderer> ().enabled = false;
+					GameObject.Find ("LeftShield").GetComponent<SpriteRenderer> ().enabled = true;
 				}
 
 			}
@@ -109,6 +111,7 @@ public class ComponentHealth : MonoBehaviour {
 				} else {
 					animator.SetInteger ("Power", 2);
 					GameObject.Find ("HyperShield").GetComponent<SpriteRenderer> ().enabled = true;
+					GameObject.Find ("LeftShield").GetComponent<SpriteRenderer> ().enabled = true;
 				}
 			} else if (health >= 90) {
 				model.transform.localScale = new Vector3 (1, .92f* (health/100f));
@@ -122,6 +125,7 @@ public class ComponentHealth : MonoBehaviour {
 				} else {
 					animator.SetInteger ("Power", 2);
 					GameObject.Find ("HyperShield").GetComponent<SpriteRenderer> ().enabled = true;
+					GameObject.Find ("LeftShield").GetComponent<SpriteRenderer> ().enabled = true;
 				}
 
 			}
@@ -136,6 +140,7 @@ public class ComponentHealth : MonoBehaviour {
 				} else {
 					animator.SetInteger ("Power", 1);
 					GameObject.Find ("HyperShield").GetComponent<SpriteRenderer> ().enabled = false;
+					GameObject.Find ("LeftShield").GetComponent<SpriteRenderer> ().enabled = true;
 				}
 			}
 		}

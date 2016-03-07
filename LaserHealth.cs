@@ -44,7 +44,6 @@ public class LaserHealth : MonoBehaviour {
 		outlineModel.GetComponent<SpriteRenderer> ().sortingLayerName = "TopRhsUI";
 		
 		health = 100;
-		print (health);
 		
 		repairRate = 30f;
 		decaying = true;

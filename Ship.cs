@@ -14,6 +14,7 @@ public class Ship : MonoBehaviour {
 	private Button restart;
 
 
+
 	// reference to GameController script
 	public GameController controller;
 
@@ -29,10 +30,11 @@ public class Ship : MonoBehaviour {
 	public void init (GameController gContr, Button r) {
 		controller = gContr;
 		gameObject.AddComponent<Rigidbody2D> ().isKinematic = true;
-		gameObject.AddComponent<BoxCollider2D> ().isTrigger = true;
+		gameObject.AddComponent<PolygonCollider2D> ().isTrigger = true;
 		transform.localPosition = new Vector3 (-3.2f, -4, 0);
 		gameObject.name = "Ship";
 		tag = "PlayerController";
+
 
 		restart = r;
 
@@ -73,13 +75,17 @@ public class Ship : MonoBehaviour {
 
 		if (engineLevel.health >= 90) {
 			jets.SetInteger ("Power", 4);
-		}
-		else if (engineLevel.health < 90) {
+		} if (engineLevel.health < 90) {
 			jets.SetInteger ("Power", 3);
-		} else if (engineLevel.health <= 50) {
+			JET.SetActive (true);
+		} if (engineLevel.health <= 50) {
 			jets.SetInteger ("Power", 2);
-		} else if (engineLevel.health <= 20) {
+			JET.SetActive (true);
+		} if (engineLevel.health <= 20) {
 			jets.SetInteger ("Power", 1);
+			JET.SetActive (true);
+		} if (engineLevel.health == 0) {
+			JET.SetActive (false);
 		}
 
 //		// move left if "a" is being pressed, right if "d" is being pressed. Confined to LHS.
@@ -139,7 +145,7 @@ public class Ship : MonoBehaviour {
 //	}
 
 	private void Fire() {
-		print (laserLevel.health);
+		
 				if (laserLevel.health < 50) {
 						GameObject shot = new GameObject ();
 						shot.transform.parent = transform.parent;
