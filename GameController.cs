@@ -81,12 +81,12 @@ public class GameController : MonoBehaviour {
 		for (int x = -6; x < 0; x++) {
 			GameObject Starspawner = new GameObject ();
 			Spawner spawner = Starspawner.AddComponent<Spawner> ();
-			spawner.init ("BS", 1, x, 1f, eMan, true);
+			spawner.init ("BS", 1, x, 1f, eMan, true,false);
 		}
 		for (int x = -6; x < 0; x++) {
 			GameObject Starspawner = new GameObject ();
 			Spawner spawner = Starspawner.AddComponent<Spawner> ();
-			spawner.init ("BS", 1, (x -.5f), 2f, eMan, true);
+			spawner.init ("BS", 1, (x -.5f), 2f, eMan, true,false);
 		}
 	}
 
