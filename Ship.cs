@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+using UnityEngine.UI;
 public class Ship : MonoBehaviour {
 
 	// the health bar of each component on the RHS; 0 <= .health <= 100
@@ -72,9 +72,9 @@ public class Ship : MonoBehaviour {
 		if (engineLevel.health >= 90) {
 			jets.SetInteger ("Power", 4);
 		}
-		else if (engineLevel.health >= 50) {
+		else if (engineLevel.health < 90) {
 			jets.SetInteger ("Power", 3);
-		} else if (engineLevel.health < 50) {
+		} else if (engineLevel.health <= 50) {
 			jets.SetInteger ("Power", 2);
 		} else if (engineLevel.health <= 20) {
 			jets.SetInteger ("Power", 1);
@@ -153,8 +153,8 @@ public class Ship : MonoBehaviour {
 		Animator animator = death.GetComponent<Animator> ();
 		animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController> ("Animation/ship_Death_Controller");
 		death.transform.localScale = new Vector3 (2, 2, 0);
-
-		GameObject.Find ("Captain").GetComponent<CaptainManager> ().Die ();
+		death.name = "Death";
+		controller.GetComponentInChildren<CaptainManager> ().Die ();
 		Destroy (this.gameObject);
 	}
 
