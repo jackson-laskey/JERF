@@ -17,6 +17,5 @@ public class SuperPlayerLaser : Projectile {
 			}
 	
 		void OnTriggerEnter2D(Collider2D coll) {
-				print ("here");
 			}
 	}
