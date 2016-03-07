@@ -110,7 +110,7 @@ public class GameController : MonoBehaviour {
 		} else {
 			Reload ();
 
-			//restart.gameObject.SetActive (false);
+			restart.gameObject.SetActive (false);
 			stextures = Resources.LoadAll<Sprite> ("Textures/Ship Sprite Sheet");
 			captain = new GameObject ();
 			captain.AddComponent<CaptainManager> ();
