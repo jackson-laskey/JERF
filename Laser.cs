@@ -7,9 +7,9 @@ public class Laser : Projectile {
 	// Use this for initialization
 	void Start () {
 		speed = 7;
-		base.init (true, "Laser", 2f, 3f, 200);
 		name = "Laser";
-		tag = "Laser";
+		gameObject.transform.localScale = new Vector3 (.2f, .8f, 1);
+		base.init (true);
 	}
 
 	// Update is called once per frame

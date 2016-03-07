@@ -89,8 +89,5 @@ public class CannonEnemy : ParentEnemy {
 		if (other.name == "PlayerLaser") {
 			hp--;
 		}
-		if (other.name == "SuperPlayerLaser") {
-			hp--;
-		}
 	}
 }
