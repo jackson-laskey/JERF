@@ -1,10 +1,18 @@
 fileFormatVersion: 2
 guid: bd202613312c24c2bb5de8d329e5d097
-timeCreated: 1456879994
+timeCreated: 1457388902
 licenseType: Free
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - laserLevel: {instanceID: 0}
+  - shieldLevel: {instanceID: 0}
+  - engineLevel: {instanceID: 0}
+  - death: {instanceID: 0}
+  - JET: {instanceID: 0}
+  - EngineSound: {fileID: 8300000, guid: 46fac0552b3f9457197e3693cef356ac, type: 3}
+  - audio: {instanceID: 0}
+  - controller: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
