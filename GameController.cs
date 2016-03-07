@@ -151,6 +151,8 @@ public class GameController : MonoBehaviour {
 		}
 	}
 
+	}
+
 	void Update() {//Needed an update to handle waiting. Checks if waiting once per frame instead of on infinite loop which crashes
 		if (!done) {
 			if (instructions [iter] != "X" && !waiting) { // Check if done/not waiting
