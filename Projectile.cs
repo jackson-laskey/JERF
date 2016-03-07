@@ -11,26 +11,16 @@ public class Projectile : MonoBehaviour {
 
 	protected GameObject model;
 
-	protected void init(bool isEnemy) {
+	protected void init(bool isEnemy, string textureName, float xScale, float yScale, int textPixels) {
 		minY = -5;
 		maxY = 5;
 		if (!isEnemy) {
 			speed = -speed;
 		}
-		MakeModel ();
-		Collider2D collider = gameObject.AddComponent<BoxCollider2D> ();
-		collider.isTrigger = true;
-	}
-
-	protected void MakeModel() {
-		model = GameObject.CreatePrimitive (PrimitiveType.Quad);
-		model.transform.parent = gameObject.transform;
-		model.transform.localPosition = new Vector3 (0, 0, 0);
-		model.transform.localScale = transform.localScale;
-		model.name = gameObject.name + "Model";
-		Material mat = model.GetComponent<Renderer> ().material;
-		mat.shader = Shader.Find ("Sprites/Default");
-		mat.mainTexture = Resources.Load<Texture2D> ("Textures/" + name);
+		GameObject.Find ("GameController").GetComponent<GameController> ().MakeSprite (gameObject, textureName, transform.parent,
+			transform.position.x, transform.position.y, xScale, yScale, textPixels);
+		gameObject.AddComponent<BoxCollider2D> ().isTrigger = true;
+		gameObject.GetComponent<BoxCollider2D> ().size = new Vector2 (.1f, .1f);
 	}
 	
 	// if out of view, 

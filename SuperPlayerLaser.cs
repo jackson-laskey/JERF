@@ -2,14 +2,14 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class Laser : Projectile {
+public class SuperPlayerLaser : Projectile {
 
 	// Use this for initialization
 	void Start () {
 		speed = 7;
-		base.init (true, "Laser", 2f, 3f, 200);
-		name = "Laser";
-		tag = "Laser";
+		base.init (false, "SuperPlayerLaser", 2f, 3f, 200);
+		name = "SuperPlayerLaser";
+		tag = "SuperPlayerLaser";
 	}
 
 	// Update is called once per frame
@@ -18,8 +18,6 @@ public class Laser : Projectile {
 	}
 
 	void OnTriggerEnter2D(Collider2D coll) {
-		if (coll.tag == "PlayerController") {
-			Hit ();
-		}
+		print ("here");
 	}
 }

@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ButtonClicker : MonoBehaviour {
+public class LaserButtonClicker : MonoBehaviour {
 
 	public GameController controller;
 
 	private float darkenSprite;
 
-	private ComponentHealth healthBar; 
+	private LaserHealth healthBar; 
 
 	private MoveCaptain captain;
 
@@ -18,15 +18,15 @@ public class ButtonClicker : MonoBehaviour {
 	// Use this for initialization
 	public void init (GameController gContr, float x, float y, float quadR, float quadG, float quadB) {
 		controller = gContr;
-		healthBar = gameObject.transform.parent.FindChild("Health").GetComponent<ComponentHealth> ();
+		healthBar = gameObject.transform.parent.FindChild("Health").GetComponent<LaserHealth> ();
 		captain = GameObject.Find ("Crew").GetComponent<MoveCaptain> ();
-		healthBar = gameObject.transform.parent.FindChild ("Health").GetComponent<ComponentHealth> ();
+		healthBar = gameObject.transform.parent.FindChild ("Health").GetComponent<LaserHealth> ();
 		controller.MakeSprite (gameObject, "Button", transform.parent, 0, 0, 1, 1, 300);
 		gameObject.name = "Button";
 		gameObject.GetComponent<SpriteRenderer> ().sortingLayerName = "BottomRhsUI";
 		gameObject.transform.localPosition = new Vector3 (x, y, 0);
 		gameObject.AddComponent<BoxCollider2D> ();
-		
+
 		sprite = GetComponent<SpriteRenderer> ();
 		darkenSprite = (.7f);
 		upColor = new Color (quadR, quadG, quadB);
@@ -42,7 +42,7 @@ public class ButtonClicker : MonoBehaviour {
 		}
 		healthBar.decaying = !buttonDown;
 	}
-		
+
 
 	void OnTriggerEnter2D(Collider2D collider) {
 		if (collider.gameObject.name == "Crew") {
