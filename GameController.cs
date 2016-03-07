@@ -65,7 +65,8 @@ public class GameController : MonoBehaviour {
 		numLevels = 2;
 		//For now let's just worry about loading and executing a single level. Eventually, we will have to be more sophisticated about restarting levels and loading new levels.
 		//May not need separate function longterm.
-		this.GetInstructions ("JERF/level" + level.ToString()); 		captain.GetComponent<CaptainManager> ().init (this);
+		this.GetInstructions ("JERF/level" + level.ToString()); 		
+		captain.GetComponent<CaptainManager> ().init (this);
 		ship.GetComponent<Ship> ().init (this);
 		GameObject ProtoShip = new GameObject();
 		stextures = Resources.LoadAll<Sprite> ("Textures/Captain_Effects_Sheet_2");
@@ -117,21 +118,10 @@ public class GameController : MonoBehaviour {
 			if (inst.Length == 3) {
 				eMan.getInstruction (inst [0], Int32.Parse (inst [1]), Int32.Parse (inst [2]));
 			} else if (inst.Length == 2) {
-				eMan.getFormation (inst [0], inst [1]);
-			}
-			if (inst.Length > 3) {
-				StartCoroutine (sleep(Int32.Parse(inst[3])));//Starts a routine that sets waiting to true and waits for arg seconds before flipping the bool back to false.
-			}
-		} else if (inst [0] == "L") { // Light Enemies
-			eMan.getInstruction("L", Int32.Parse(inst[1]), Int32.Parse(inst[2]));
-			if (inst.Length > 3) {
-				StartCoroutine (sleep(Int32.Parse(inst[3])));
+				eMan.getFormation (inst [0], Int32.Parse (inst [1]));
 			}
 		} else if (inst [0] == "H") { // Heavy Enemies
 			eMan.getInstruction("H", Int32.Parse(inst[1]), Int32.Parse(inst[2]));
-			if (inst.Length > 3) {
-				StartCoroutine (sleep(Int32.Parse(inst[3])));
-			}
 		} else { //Integer for Waiting
 			StartCoroutine (sleep(Int32.Parse(inst[0])));
 		}

@@ -38,16 +38,26 @@ public class EnemyManager : MonoBehaviour {
 		} else if (type == "L") {
 			GameObject lightSpawner = new GameObject ();
 			Spawner spawner = lightSpawner.AddComponent<Spawner> ();
-			spawner.init (type, size, x, .5f, this, false);
+			spawner.init (type, size, x, .5f, this, false,false);
 		} else if (type == "H") {
 			GameObject heavySpawner = new GameObject ();
 			Spawner spawner = heavySpawner.AddComponent<Spawner> ();
-			spawner.init (type, size, x, .5f, this, false);
+			spawner.init (type, size, x, .5f, this, false,false);
 		}
 	}
 
-	public void getFormation(string type, string f){
-
+	public void getFormation(string type, int f){
+		if (type == "L") {
+			GameObject lightSpawner = new GameObject ();
+			Spawner spawner = lightSpawner.AddComponent<Spawner> ();
+			spawner.init (type, 1, 0, 0, this, false,true);
+			spawner.giveFormation (f);
+		} else if (type == "A") {
+			GameObject asteroidSpawner = new GameObject ();
+			Spawner spawner = asteroidSpawner.AddComponent<Spawner> ();
+			spawner.init (type, 1, 0, 0, this, false,true);
+			spawner.giveFormation (f);
+		}
 	}
 
 	public void SpawnEnemy(string type,float x, float y){
