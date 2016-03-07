@@ -100,10 +100,14 @@ public class GameController : MonoBehaviour {
 	void ExecuteInstruction(string[] inst){ 
 		// Asteroids. IMPORTANT, asteroid int values correspond to a percentage frequency for random generation.
 		//Therefore if size is 84, then for each frame, if Random.value>.84, generate a random asteroid. Random.value creates a float between 0-1
-		if (inst [0] == "A") {
+		if (inst [0] == "A" || inst [0] == "L") {
 			//Need to cast strings as integers. Args for this eMan instruction are (string type, int size, int x). Type is enemy type
 			//Size is squad size (squad implementation is up to you for now, coming in one after another maybe). X is x value of screen descent.
-			eMan.getInstruction("A", Int32.Parse(inst[1]), Int32.Parse(inst[2]));
+			if (inst.Length == 3) {
+				eMan.getInstruction (inst [0], Int32.Parse (inst [1]), Int32.Parse (inst [2]));
+			} else if (inst.Length == 2) {
+				eMan.getFormation (inst [0], inst [1]);
+			}
 			if (inst.Length > 3) {
 				StartCoroutine (sleep(Int32.Parse(inst[3])));//Starts a routine that sets waiting to true and waits for arg seconds before flipping the bool back to false.
 			}

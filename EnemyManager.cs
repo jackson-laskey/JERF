@@ -46,6 +46,10 @@ public class EnemyManager : MonoBehaviour {
 		}
 	}
 
+	public void getFormation(string type, string f){
+
+	}
+
 	public void SpawnEnemy(string type,float x, float y){
 		GameObject enemyObject = new GameObject();
 		if (type == "A") {
