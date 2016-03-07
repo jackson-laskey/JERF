@@ -77,7 +77,7 @@ public class SmallEnemy : ParentEnemy {
 	}
 
 	void OnTriggerEnter2D(Collider2D other){
-		if (other.name == "PlayerLaser") {
+		if (other.name == "PlayerLaser" || other.name == "SuperPlayerLaser") {
 			hp--;
 		}
 		if (other.tag == "PlayerController") {
