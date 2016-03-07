@@ -45,7 +45,7 @@ public class MoveCaptain : MonoBehaviour {
 		laserButton.transform.localPosition = new Vector3 (.6f, 2.3f, 0);
 		laserButton.transform.localScale = new Vector3(1, 1, 1);
 		laserHealth = laserButton.AddComponent<LaserHealth> ();
-		laserHealth.init (controller, 0, 0);
+		laserHealth.init (controller, 0, 0, 1);
 		// button
 		button = new GameObject ();
 		button.name = "Button";
