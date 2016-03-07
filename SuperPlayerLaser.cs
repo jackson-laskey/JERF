@@ -9,7 +9,6 @@ public class SuperPlayerLaser : Projectile {
 				speed = 7;
 				base.init (false, "SuperPlayerLaser", 2f, 3f, 200);
 				name = "SuperPlayerLaser";
-				tag = "SuperPlayerLaser";
 			}
 	
 		// Update is called once per frame

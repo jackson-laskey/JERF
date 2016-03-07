@@ -56,11 +56,11 @@ public class LaserHealth : MonoBehaviour {
 		if (decaying) {
 		} else {
 			if (health >= 99) {
-				model.transform.localScale = new Vector3 (1, 1);
+				model.transform.localScale = new Vector3 (1, 1*.92f);
 				health = 100;
 			} else {
-				model.transform.localScale = new Vector3 (1, health/100f);
-				health = Time.deltaTime * repairRate;
+				model.transform.localScale = new Vector3 (1, .92f*health/100f);
+				health += Time.deltaTime * repairRate;
 				}
 			}
 			if (health > 50) {
@@ -74,7 +74,7 @@ public class LaserHealth : MonoBehaviour {
 		public void fire() {
 				if (health > 7) {
 						health = health - 7;
-						model.transform.localScale = new Vector3 (1, health/100f);
+						model.transform.localScale = new Vector3 (1, .92f*health/100f);
 				} else {
 						health = 0;
 						model.transform.localScale = new Vector3 (1, 0);

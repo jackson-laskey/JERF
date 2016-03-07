@@ -67,7 +67,7 @@ public class Ship : MonoBehaviour {
 		// clock increment is modified by laser health so fire rate is proportional to laser health
 		clock += Time.deltaTime * laserLevel.health;
 		// fire lasers if thresholds have been reached- extra-fast firing cycle for laser health == 100
-		if (Input.GetKeyDown(KeyCode.Space) && laserLevel.health>0){
+		if (clock > fireInterval && Input.GetKey(KeyCode.Space) && laserLevel.health>0){
 			Fire ();
 		}
 
@@ -165,6 +165,7 @@ public class Ship : MonoBehaviour {
 						shot2.transform.position = new Vector3 (transform.position.x+.1f, transform.position.y + .7f);
 					}
 		laserLevel.fire ();
+		clock = 0;
 	}
 
 	private void Die() {
