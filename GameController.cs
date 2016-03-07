@@ -25,9 +25,11 @@ public class GameController : MonoBehaviour {
 	Sprite[] stextures;
 	public Text levelCount;
 	public Button restart;
+	float bannerCount;
 
 	void Start() {
 		levelCount.text = "";
+		bannerCount = 5f;
 		init (false);
 		done = false;
 	}
@@ -104,7 +106,11 @@ public class GameController : MonoBehaviour {
 		
 
 		} else {
-			
+
+
+
+
+			//restart.gameObject.SetActive (false);
 			stextures = Resources.LoadAll<Sprite> ("Textures/Ship Sprite Sheet");
 			captain = new GameObject ();
 			captain.AddComponent<CaptainManager> ();
@@ -176,7 +182,12 @@ public class GameController : MonoBehaviour {
 
 	void Update() {//Needed an update to handle waiting. Checks if waiting once per frame instead of on infinite loop which crashes
 
-		//levelCount.text = "";
+		if (bannerCount > 0) {
+			bannerCount = bannerCount - (1.0f * Time.deltaTime);
+		}
+		if (bannerCount <= 0) {
+			levelCount.text = "";
+		}
 		if (!done) {
 			if (instructions [iter] != "X" && !waiting) { // Check if done/not waiting
 				ExecuteInstruction (instructions [iter].Split (':')); // Execute the instruction
@@ -262,6 +273,7 @@ public class GameController : MonoBehaviour {
 
 	void setLevelText(){
 		levelCount.text = "Level: " + level;
+		bannerCount = 5;
 	}
 
 	void GetInstructions (string level) {

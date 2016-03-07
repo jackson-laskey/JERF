@@ -104,6 +104,7 @@ public class CaptainManager : MonoBehaviour {
 		death.AddComponent<Animator> ();
 		Animator animator = death.GetComponent<Animator> ();
 		animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController> ("Animation/Captain_Death_Animation_Controller");
+		death.name = "CaptainDeath";
 		Destroy (this.gameObject);
 	}
 }
