@@ -25,14 +25,16 @@ public class GameController : MonoBehaviour {
 	Sprite[] stextures;
 	public Text levelCount;
 	public Button restart;
+	public bool isDead;
 
 	void Start() {
-		levelCount.text = "";
+//		levelCount.text = "";
 		init (false);
 		done = false;
 	}
 
 	public void init (bool justDied) {
+		isDead = false;
 		if (!justDied) {
 			stextures = Resources.LoadAll<Sprite> ("Textures/Ship Sprite Sheet");
 			captain = new GameObject ();
@@ -104,7 +106,7 @@ public class GameController : MonoBehaviour {
 		
 
 		} else {
-			
+			Reload ();
 			stextures = Resources.LoadAll<Sprite> ("Textures/Ship Sprite Sheet");
 			captain = new GameObject ();
 			captain.AddComponent<CaptainManager> ();
@@ -175,6 +177,9 @@ public class GameController : MonoBehaviour {
 	}
 
 	void Update() {//Needed an update to handle waiting. Checks if waiting once per frame instead of on infinite loop which crashes
+		if (isDead) {
+			return;
+		}
 
 		//levelCount.text = "";
 		if (!done) {
@@ -261,7 +266,7 @@ public class GameController : MonoBehaviour {
 	}
 
 	void setLevelText(){
-		levelCount.text = "Level: " + level;
+//		levelCount.text = "Level: " + level;
 	}
 
 	void GetInstructions (string level) {
@@ -272,6 +277,22 @@ public class GameController : MonoBehaviour {
 	void EndLevel (int level) {
 		StartCoroutine (sleep (10));
 	}
+
+	void Reload() {
+		Destroy(GameObject.Find("CaptainDeath"));
+		Destroy(GameObject.Find("Death"));
+	}
+
+	public void DestroyEnemies() {
+		foreach (ParentEnemy i in GameObject.FindObjectsOfType<ParentEnemy> ()) {
+			Destroy (i.gameObject);
+		}
+		foreach (Spawner i in GameObject.FindObjectsOfType<Spawner> ()) {
+			Destroy (i.gameObject);
+		}
+		isDead = true;
+	}
+
 
 	IEnumerator sleep(int time){
 		waiting = true;
