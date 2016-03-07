@@ -34,7 +34,7 @@ public class SmallEnemy : ParentEnemy {
 	}
 		
 	void Update () {
-		if (hp == 0) {
+		if (hp <= 0) {
 			Destroy (this.gameObject);
 		}
 		if (!diving) {

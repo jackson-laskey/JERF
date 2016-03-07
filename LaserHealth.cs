@@ -20,6 +20,9 @@ public class LaserHealth : MonoBehaviour {
 	private bool initd;
 
 	private int type;
+
+	private float slowDownThreshold;
+	private float slowDownModifier;
 	
 		// Use this for initialization
 	public void init (GameController gCont, float x, float y, int type) {
@@ -46,6 +49,9 @@ public class LaserHealth : MonoBehaviour {
 		repairRate = 30f;
 		decaying = true;
 		initd = true;
+
+		slowDownThreshold = 90f;
+		slowDownModifier = .4f;
 		}
 	
 		// Update is called once per frame
@@ -56,12 +62,14 @@ public class LaserHealth : MonoBehaviour {
 		if (decaying) {
 		} else {
 			if (health >= 99) {
-				model.transform.localScale = new Vector3 (1, 1*.92f);
+				model.transform.localScale = new Vector3 (1, 1 * .92f);
 				health = 100;
+			} else if (health >= slowDownThreshold) {
+				model.transform.localScale = new Vector3 (1, .92f * health / 100f);
+				health += Time.deltaTime * repairRate * slowDownModifier;
 			} else {
 				model.transform.localScale = new Vector3 (1, .92f*health/100f);
 				health += Time.deltaTime * repairRate;
-				}
 			}
 			if (health > 50) {
 				mat.color = new Color((100-health)*.015f, .75f, 0);
@@ -69,6 +77,7 @@ public class LaserHealth : MonoBehaviour {
 				mat.color = new Color(.75f, health*.015f, 0);
 			}
 		}
+	}
 	
 		// damages the part and returns true if it lowers the part's health to 0
 		public void fire() {

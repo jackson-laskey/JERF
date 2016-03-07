@@ -39,7 +39,7 @@ public class BeamEnemy : ParentEnemy {
 
 	// Update is called once per frame
 	void Update () {
-		if (hp == 0) {
+		if (hp <= 0) {
 			Destroy (this.gameObject);
 		}
 		if (transform.position.y > 7 && retreating) {

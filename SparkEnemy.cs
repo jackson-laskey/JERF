@@ -21,7 +21,7 @@ public class SparkEnemy : ParentEnemy {
 	}
 
 	void Update () {
-		if (hp == 0) {
+		if (hp <= 0) {
 			Destroy (this.gameObject);
 		}
 
