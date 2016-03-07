@@ -38,11 +38,11 @@ public class EnemyManager : MonoBehaviour {
 		} else if (type == "L") {
 			GameObject lightSpawner = new GameObject ();
 			Spawner spawner = lightSpawner.AddComponent<Spawner> ();
-			spawner.init (type, size, x, .5f, this);
+			spawner.init (type, size, x, .5f, this, false);
 		} else if (type == "H") {
 			GameObject heavySpawner = new GameObject ();
 			Spawner spawner = heavySpawner.AddComponent<Spawner> ();
-			spawner.init (type, size, x, .5f, this);
+			spawner.init (type, size, x, .5f, this, false);
 		}
 	}
 
@@ -76,6 +76,10 @@ public class EnemyManager : MonoBehaviour {
 			SparkEnemy enemy = enemyObject.AddComponent<SparkEnemy> ();
 			enemy.transform.position = new Vector3 (x, y, 0);
 			enemy.init (this);
+		}
+		if (type == "BS") {
+			BackgroundStars enemy = enemyObject.AddComponent<BackgroundStars> ();
+			enemy.transform.position = new Vector3 (x, y, 0);
 		}
 	}
 }

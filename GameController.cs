@@ -76,6 +76,17 @@ public class GameController : MonoBehaviour {
 		MakeSprite ( ProtoShip, stextures[0], captain.transform, 0, 0, 1, 1, 100);
 		ProtoShip.name = "ProtoShip";
 		ProtoShip.GetComponent<Renderer> ().sortingLayerName = "Default";
+
+		for (int x = -6; x < 0; x++) {
+			GameObject Starspawner = new GameObject ();
+			Spawner spawner = Starspawner.AddComponent<Spawner> ();
+			spawner.init ("BS", 1, x, 1f, eMan, true);
+		}
+		for (int x = -6; x < 0; x++) {
+			GameObject Starspawner = new GameObject ();
+			Spawner spawner = Starspawner.AddComponent<Spawner> ();
+			spawner.init ("BS", 1, (x -.5f), 2f, eMan, true);
+		}
 	}
 
 	void Update() {//Needed an update to handle waiting. Checks if waiting once per frame instead of on infinite loop which crashes
