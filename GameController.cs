@@ -6,6 +6,7 @@ using System;
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class GameController : MonoBehaviour {
 
@@ -21,7 +22,9 @@ public class GameController : MonoBehaviour {
 	private bool waiting = false;
 	private bool done = true;
 	Sprite[] stextures;
-	string[] snames;
+
+	public Button restart;
+
 
 	void Start() {
 		init (false);
@@ -31,51 +34,99 @@ public class GameController : MonoBehaviour {
 	}
 
 	public void init (bool justDied) {
-		stextures = Resources.LoadAll<Sprite> ("Textures/Ship Sprite Sheet");
-		snames = new string[stextures.Length];
-		for(int ii=0; ii< snames.Length; ii++) {
-			snames[ii] = stextures[ii].name;
-		}
-		captain = new GameObject ();
-		captain.AddComponent<CaptainManager> ();
-		captain.transform.parent = transform;
-		captain.name = "Captain";
-		GameObject shipH = new GameObject ();
-		shipH.transform.parent = transform;
-		shipH.transform.localPosition = new Vector3 (0, 0, 0);
-		shipH.name = "ShipHandler";
-		ship = new GameObject ();
-		ship.AddComponent<Ship> ();
-		MakeSprite (ship,stextures[11], shipH.transform, 0, 0, 1, 1, 500);
-		ship.AddComponent<Animator> ();
-		Animator animator = ship.GetComponent<Animator> ();
-		animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController> ("Animation/Ship_Animation_Controller");
-		ship.transform.localScale = new Vector3 (2, 2, 0);jets = new GameObject ();
-		stextures = Resources.LoadAll<Sprite> ("Textures/Ship Effects Sheet");
-		MakeSprite(jets, stextures[14], ship.transform, 0, -.38f, 1, 1, 100);
-		jets.name = "Jets";
-		jets.AddComponent<Animator> ();
-		animator = jets.GetComponent<Animator> ();
-		animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController> ("Animation/Jet_Animation_Controller");
+		if (!justDied) {
+			stextures = Resources.LoadAll<Sprite> ("Textures/Ship Sprite Sheet");
+			captain = new GameObject ();
+			captain.AddComponent<CaptainManager> ();
+			captain.transform.parent = transform;
+			captain.name = "Captain";
+			GameObject shipH = new GameObject ();
+			shipH.transform.parent = transform;
+			shipH.transform.localPosition = new Vector3 (0, 0, 0);
+			shipH.name = "ShipHandler";
+			ship = new GameObject ();
+			ship.AddComponent<Ship> ();
+			MakeSprite (ship, stextures [11], shipH.transform, 0, 0, 1, 1, 500);
+			ship.AddComponent<Animator> ();
+			Animator animator = ship.GetComponent<Animator> ();
+			animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController> ("Animation/Ship_Animation_Controller");
+			ship.transform.localScale = new Vector3 (2, 2, 0);
+			jets = new GameObject ();
+			stextures = Resources.LoadAll<Sprite> ("Textures/Ship Effects Sheet");
+			MakeSprite (jets, stextures [14], ship.transform, 0, -.38f, 1, 1, 100);
+			jets.name = "Jets";
+			jets.AddComponent<Animator> ();
+			animator = jets.GetComponent<Animator> ();
+			animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController> ("Animation/Jet_Animation_Controller");
 //		ship.SetActive(true);
 //		captain.SetActive(true);
-		eMan = gameObject.AddComponent<EnemyManager>();
-		eMan.init (this);
-		level = 1;
-		numLevels = 2;
-		//For now let's just worry about loading and executing a single level. Eventually, we will have to be more sophisticated about restarting levels and loading new levels.
-		//May not need separate function longterm.
-		this.GetInstructions ("JERF/level" + level.ToString()); 		captain.GetComponent<CaptainManager> ().init (this);
-		ship.GetComponent<Ship> ().init (this);
-		GameObject ProtoShip = new GameObject();
-		stextures = Resources.LoadAll<Sprite> ("Textures/Captain_Effects_Sheet_2");
+			eMan = gameObject.AddComponent<EnemyManager> ();
+			eMan.init (this);
+			level = 1;
+			numLevels = 2;
+			//For now let's just worry about loading and executing a single level. Eventually, we will have to be more sophisticated about restarting levels and loading new levels.
+			//May not need separate function longterm.
+			this.GetInstructions ("JERF/level" + level.ToString ());
+			captain.GetComponent<CaptainManager> ().init (this);
+			ship.GetComponent<Ship> ().init (this, restart);
+			GameObject ProtoShip = new GameObject ();
+			stextures = Resources.LoadAll<Sprite> ("Textures/Captain_Effects_Sheet_2");
 
-		//for(int ii=0; ii< snames.Length; ii++) {
-		//	snames[ii] = stextures[ii].name;
-		//}
-		MakeSprite ( ProtoShip, stextures[0], captain.transform, 0, 0, 1, 1, 100);
-		ProtoShip.name = "ProtoShip";
-		ProtoShip.GetComponent<Renderer> ().sortingLayerName = "Default";
+			//for(int ii=0; ii< snames.Length; ii++) {
+			//	snames[ii] = stextures[ii].name;
+			//}
+			MakeSprite (ProtoShip, stextures [0], captain.transform, 0, 0, 1, 1, 100);
+			ProtoShip.name = "ProtoShip";
+			ProtoShip.GetComponent<Renderer> ().sortingLayerName = "Default";
+		} else {
+
+
+
+
+			stextures = Resources.LoadAll<Sprite> ("Textures/Ship Sprite Sheet");
+			captain = new GameObject ();
+			captain.AddComponent<CaptainManager> ();
+			captain.transform.parent = transform;
+			captain.name = "Captain";
+			GameObject shipH = new GameObject ();
+			shipH.transform.parent = transform;
+			shipH.transform.localPosition = new Vector3 (0, 0, 0);
+			shipH.name = "ShipHandler";
+			ship = new GameObject ();
+			ship.AddComponent<Ship> ();
+			MakeSprite (ship, stextures [11], shipH.transform, 0, 0, 1, 1, 500);
+			ship.AddComponent<Animator> ();
+			Animator animator = ship.GetComponent<Animator> ();
+			animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController> ("Animation/Ship_Animation_Controller");
+			ship.transform.localScale = new Vector3 (2, 2, 0);
+			jets = new GameObject ();
+			stextures = Resources.LoadAll<Sprite> ("Textures/Ship Effects Sheet");
+			MakeSprite (jets, stextures [14], ship.transform, 0, -.38f, 1, 1, 100);
+			jets.name = "Jets";
+			jets.AddComponent<Animator> ();
+			animator = jets.GetComponent<Animator> ();
+			animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController> ("Animation/Jet_Animation_Controller");
+			//		ship.SetActive(true);
+			//		captain.SetActive(true);
+			eMan = gameObject.AddComponent<EnemyManager> ();
+			eMan.init (this);
+			level = 1;
+			numLevels = 2;
+			//For now let's just worry about loading and executing a single level. Eventually, we will have to be more sophisticated about restarting levels and loading new levels.
+			//May not need separate function longterm.
+			this.GetInstructions ("JERF/level" + level.ToString ());
+			captain.GetComponent<CaptainManager> ().init (this);
+			ship.GetComponent<Ship> ().init (this, restart);
+			GameObject ProtoShip = new GameObject ();
+			stextures = Resources.LoadAll<Sprite> ("Textures/Captain_Effects_Sheet_2");
+
+			//for(int ii=0; ii< snames.Length; ii++) {
+			//	snames[ii] = stextures[ii].name;
+			//}
+			MakeSprite (ProtoShip, stextures [0], captain.transform, 0, 0, 1, 1, 100);
+			ProtoShip.name = "ProtoShip";
+			ProtoShip.GetComponent<Renderer> ().sortingLayerName = "Default";
+		}
 	}
 
 	void Update() {//Needed an update to handle waiting. Checks if waiting once per frame instead of on infinite loop which crashes

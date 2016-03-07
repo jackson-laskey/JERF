@@ -11,6 +11,7 @@ public class Ship : MonoBehaviour {
 	private Animator direction;
 	public GameObject JET;
 	private Animator jets;
+	private Button restart;
 
 
 	// reference to GameController script
@@ -25,13 +26,15 @@ public class Ship : MonoBehaviour {
 
 
 
-	public void init (GameController gContr) {
+	public void init (GameController gContr, Button r) {
 		controller = gContr;
 		gameObject.AddComponent<Rigidbody2D> ().isKinematic = true;
 		gameObject.AddComponent<BoxCollider2D> ().isTrigger = true;
 		transform.localPosition = new Vector3 (-3.2f, -4, 0);
 		gameObject.name = "Ship";
 		tag = "PlayerController";
+
+		restart = r;
 
 		laserLevel = GameObject.Find("Lasers").GetComponentInChildren<ComponentHealth>();
 		shieldLevel = GameObject.Find("Shields").GetComponentInChildren<ComponentHealth>();
@@ -155,6 +158,7 @@ public class Ship : MonoBehaviour {
 		death.transform.localScale = new Vector3 (2, 2, 0);
 		death.name = "Death";
 		controller.GetComponentInChildren<CaptainManager> ().Die ();
+		restart.gameObject.SetActive (true);
 		Destroy (this.gameObject);
 	}
 
