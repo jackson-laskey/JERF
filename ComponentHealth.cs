@@ -126,12 +126,11 @@ public class ComponentHealth : MonoBehaviour {
 				//health = 100;
 				health += Time.deltaTime * repairRate;
 				if (type == 0) {
-					animator.SetInteger ("Power", 2);
+					animator.SetInteger ("Power", 1);
 				} else if (type == 1) {
-					animator.SetInteger ("Power", 2);
+					animator.SetInteger ("Power", 1);
 				} else {
-					animator.SetInteger ("Power", 2);
-					GameObject.Find ("HyperShield").GetComponent<SpriteRenderer> ().enabled = true;
+					animator.SetInteger ("Power", 1);
 					GameObject.Find ("LeftShield").GetComponent<SpriteRenderer> ().enabled = true;
 				}
 

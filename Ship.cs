@@ -113,9 +113,9 @@ public class Ship : MonoBehaviour {
 			Fire ();
 		}
 
-		if (engineLevel.health >= 90) {
+		if (engineLevel.health >= 99) {
 			jets.SetInteger ("Power", 4);
-		} if (engineLevel.health < 90) {
+		} if (engineLevel.health < 99) {
 			jets.SetInteger ("Power", 3);
 			JET.SetActive (true);
 		} if (engineLevel.health <= 50) {
