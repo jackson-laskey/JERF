@@ -80,7 +80,7 @@ public class CannonEnemy : ParentEnemy {
 
 	//I made this take x and y because I was thinking about it and different enemies will need to fire from different parts of their models
 	protected void Fire(float x, float y){ 	
-		AudioSource.PlayClipAtPoint(LaserSound,this.transform.position);
+		AudioSource.PlayClipAtPoint(LaserSound, transform.position);
 			
 		GameObject shot = new GameObject();
 		shot.transform.parent = transform.parent;

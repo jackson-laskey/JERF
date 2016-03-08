@@ -16,6 +16,9 @@ public class Ship : MonoBehaviour {
 	public AudioClip LaserSound;
 	public AudioClip DoubleLaserSound;
 	public AudioClip SuperLaserSound;
+	public AudioClip CollisionSound;
+	public AudioClip DeathSound;
+
 	public AudioSource audio;
 
 
@@ -76,7 +79,9 @@ public class Ship : MonoBehaviour {
 		EngineSound = Resources.Load ("Sounds/EngineSound") as AudioClip;
 		LaserSound = Resources.Load ("Sounds/laser") as AudioClip;
 		DoubleLaserSound = Resources.Load ("Sounds/doubleLaser") as AudioClip;
-		SuperLaserSound = Resources.Load ("Sounds/superLaser") as AudioClip;
+		SuperLaserSound = Resources.Load ("Sounds/superLaser") as AudioClip;		
+		CollisionSound = Resources.Load ("Sounds/collision") as AudioClip;
+		DeathSound = Resources.Load ("Sounds/death") as AudioClip;
 		audio = gameObject.AddComponent<AudioSource> ();
 		audio.loop = true;
 		audio.clip = EngineSound;
@@ -169,6 +174,8 @@ public class Ship : MonoBehaviour {
 		// different cases for different objects; mostly they just damage the ship
 		switch (coll.name) {
 		case "Asteroid":
+			AudioSource.PlayClipAtPoint(CollisionSound,this.transform.position);
+
 			if (shieldLevel.Damage (49)) {
 				Die ();
 			}
@@ -179,6 +186,8 @@ public class Ship : MonoBehaviour {
 			}
 			break;
 		case "SmallEnemy":
+			AudioSource.PlayClipAtPoint(CollisionSound,this.transform.position);
+
 			if (shieldLevel.Damage (30)) {
 				Die ();
 			}
@@ -247,6 +256,7 @@ public class Ship : MonoBehaviour {
 	private void Die() {
 		// send some message to the GameController
 		audio.Pause();
+		AudioSource.PlayClipAtPoint(DeathSound,this.transform.position);
 		GameObject death = new GameObject ();
 		controller.MakeSprite (death,"", GameObject.Find("ShipHandler").transform, 0, 0, 1, 1, 500);
 		death.transform.localPosition = this.transform.position;
