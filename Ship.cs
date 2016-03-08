@@ -13,6 +13,7 @@ public class Ship : MonoBehaviour {
 	private Animator jets;
 	private Button restart;
 	public AudioClip EngineSound;
+	public AudioClip ShieldSound;
 	public AudioClip LaserSound;
 	public AudioClip DoubleLaserSound;
 	public AudioClip SuperLaserSound;
@@ -86,6 +87,12 @@ public class Ship : MonoBehaviour {
 		audio.loop = true;
 		audio.clip = EngineSound;
 		audio.Play();
+
+		ShieldSound = Resources.Load ("Sounds/shields") as AudioClip;
+		shieldLevel.audio.clip = ShieldSound;
+		shieldLevel.audio.loop = true;
+		shieldLevel.audio.Play ();
+
 	}
 	
 //	 Update is called once per frame
@@ -93,6 +100,7 @@ public class Ship : MonoBehaviour {
 
 		//Sound Stuff
 		audio.volume = (engineLevel.health + 1)/200;
+		shieldLevel.audio.volume = (shieldLevel.health + 1) / 200;
 		//
 
 		if (!initd) {
@@ -256,6 +264,7 @@ public class Ship : MonoBehaviour {
 	private void Die() {
 		// send some message to the GameController
 		audio.Pause();
+		shieldLevel.audio.Pause ();
 		AudioSource.PlayClipAtPoint(DeathSound,this.transform.position);
 		GameObject death = new GameObject ();
 		controller.MakeSprite (death,"", GameObject.Find("ShipHandler").transform, 0, 0, 1, 1, 500);

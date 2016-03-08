@@ -19,11 +19,17 @@ public class ComponentHealth : MonoBehaviour {
 	public Vector3 scale;
 	Sprite[] stextures;
 
+	public AudioSource audio;
+
 	private bool initd;
 
 
 	// Use this for initialization
 	public void init (GameController gCont, float x, float y, int type) {
+
+		//Sound stuff
+		audio = gameObject.AddComponent<AudioSource>();
+
 		stextures = Resources.LoadAll<Sprite> ("Textures/Captain_Effects_Sheet_2");
 
 		this.type = type;
