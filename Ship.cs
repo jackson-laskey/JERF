@@ -265,7 +265,6 @@ public class Ship : MonoBehaviour {
 		// send some message to the GameController
 		audio.Pause();
 		shieldLevel.audio.Pause ();
-		AudioSource.PlayClipAtPoint(DeathSound,this.transform.position);
 		GameObject death = new GameObject ();
 		controller.MakeSprite (death,"", GameObject.Find("ShipHandler").transform, 0, 0, 1, 1, 500);
 		death.transform.localPosition = this.transform.position;

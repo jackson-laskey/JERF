@@ -27,9 +27,13 @@ public class GameController : MonoBehaviour {
 	public Button restart;
 	public bool isDead;
 	int levelStartWait = 5;
+	public AudioClip DeathSound;
+
 //	private bool waiting;
 
 	void Start() {
+		DeathSound = Resources.Load ("Sounds/death") as AudioClip;
+
 		levelCount.text = "";
 		init (false);
 		done = false;
@@ -183,6 +187,7 @@ public class GameController : MonoBehaviour {
 
 	void Update() {//Needed an update to handle waiting. Checks if waiting once per frame instead of on infinite loop which crashes
 		if (isDead) {
+			AudioSource.PlayClipAtPoint(DeathSound,transform.position);
 			return;
 		}
 
