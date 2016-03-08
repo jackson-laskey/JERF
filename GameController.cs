@@ -296,6 +296,7 @@ public class GameController : MonoBehaviour {
 		foreach (Spawner i in GameObject.FindObjectsOfType<Spawner> ()) {
 			Destroy (i.gameObject);
 		}
+		eMan.spawningA = false;
 		isDead = true;
 	}
 

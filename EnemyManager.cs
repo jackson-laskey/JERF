@@ -4,7 +4,7 @@ using System.Collections;
 public class EnemyManager : MonoBehaviour {
 
 	public GameController owner;
-	private bool spawningA;
+	public bool spawningA;
 	private float spawnTime;
 	private float time;
 	private float freq;
