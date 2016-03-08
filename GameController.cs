@@ -26,11 +26,11 @@ public class GameController : MonoBehaviour {
 	public Text levelCount;
 	public Button restart;
 	public bool isDead;
-	float bannerCount;
+	int levelStartWait = 5;
+//	private bool waiting;
 
 	void Start() {
 		levelCount.text = "";
-		bannerCount = 5f;
 		init (false);
 		done = false;
 	}
@@ -38,6 +38,7 @@ public class GameController : MonoBehaviour {
 	public void init (bool justDied) {
 		isDead = false;
 		if (!justDied) {
+			StartCoroutine (sleep (levelStartWait));
 			stextures = Resources.LoadAll<Sprite> ("Textures/Ship Sprite Sheet");
 			captain = new GameObject ();
 			captain.AddComponent<CaptainManager> ();
@@ -185,20 +186,16 @@ public class GameController : MonoBehaviour {
 			return;
 		}
 
-		if (bannerCount > 0) {
-			bannerCount = bannerCount - (1.0f * Time.deltaTime);
-		}
-		if (bannerCount <= 0) {
-			levelCount.text = "";
-		}
 		if (!done) {
 			if (instructions [iter] != "X" && !waiting) { // Check if done/not waiting
 				ExecuteInstruction (instructions [iter].Split (':')); // Execute the instruction
+				levelCount.text = "";
 				iter++;//iterate
-			} else if(!waiting){//Means done, not just waiting
+			} else if(!waiting && GameObject.FindObjectsOfType<ParentEnemy>().Length == 0){//Means done, not just waiting
 				if (++level > numLevels) {
 					done = true;
 				} else {
+					setLevelText ();
 					EndLevel (level);
 					this.GetInstructions ("JERF/level" + level.ToString ());
 					done = false;
@@ -276,7 +273,6 @@ public class GameController : MonoBehaviour {
 
 	void setLevelText(){
 		levelCount.text = "Level: " + level;
-		bannerCount = 5;
 	}
 
 	void GetInstructions (string level) {
@@ -285,7 +281,7 @@ public class GameController : MonoBehaviour {
 	}
 
 	void EndLevel (int level) {
-		StartCoroutine (sleep (10));
+		StartCoroutine (sleep (levelStartWait));
 	}
 
 	void Reload() {
@@ -310,7 +306,7 @@ public class GameController : MonoBehaviour {
 		waiting = false;
     }
 		
-	void ParseInstruction () {
-	}
+//	bool Wait() {
+//		if (
 }
 
