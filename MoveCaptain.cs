@@ -16,7 +16,7 @@ public class MoveCaptain : MonoBehaviour {
 	// holds the above objects
 	private GameObject[] buttons;
 	public GameObject button;
-
+	Animator cadet;
 
 	// filled with the directions and distance to move in the x and y per second
 	private float moveX;
@@ -30,19 +30,23 @@ public class MoveCaptain : MonoBehaviour {
 
 
 	// builds the "buttons", initializes other fields to non-moving state
-	public void init (GameController gContr, GameObject[] components) {
+	public void init (GameController gContr, GameObject[] components, Animator animator) {
 		controller = gContr;
 
 		LaserButtonClicker laserButtonClicker;
 		ButtonClicker buttonClickerComponent;
 		ComponentHealth healthComponent;
+		cadet = animator;
+
+		cadet.SetInteger ("Direction", 2);
+		cadet.SetBool ("Manned", false);
 
 		// laser health objects
 		// health bar
 		laserButton = new GameObject();
 		laserButton.name = "Health";
 		laserButton.transform.parent = components [0].transform;
-		laserButton.transform.localPosition = new Vector3 (.6f, 2.3f, 0);
+		laserButton.transform.localPosition = new Vector3 (.6f, 2.4f, 0);
 		laserButton.transform.localScale = new Vector3(1, 1, 1);
 		laserHealth = laserButton.AddComponent<LaserHealth> ();
 		laserHealth.init (controller, 0, 0, 1);
@@ -53,7 +57,7 @@ public class MoveCaptain : MonoBehaviour {
 		button.transform.localPosition = new Vector3 (0, 0, 0);
 		button.transform.localScale = new Vector3 (1, 1, 0);
 		laserButtonClicker = button.AddComponent<LaserButtonClicker> ();
-		laserButtonClicker.init (controller, .004f, 1.8f, 1, 0, 0);
+		laserButtonClicker.init (controller, .004f, 1.85f, 1, 0, 0);
 		laserButton = laserButtonClicker.gameObject;
 		button.GetComponent<SpriteRenderer> ().enabled = false;
 
@@ -73,7 +77,7 @@ public class MoveCaptain : MonoBehaviour {
 		button.transform.localPosition = new Vector3 (-.15f, -.3f, 0);
 		button.transform.localScale = new Vector3 (1, 1, 0);
 		buttonClickerComponent = button.AddComponent<ButtonClicker> ();
-		buttonClickerComponent.init (controller, -1.2f, -1.65f, 1, .5f, 0);
+		buttonClickerComponent.init (controller, -1.2f, -1.7f, 1, .5f, 0);
 		shieldButton = buttonClickerComponent.gameObject;
 		button.GetComponent<SpriteRenderer> ().enabled = false;
 
@@ -93,7 +97,7 @@ public class MoveCaptain : MonoBehaviour {
 		button.transform.localPosition = new Vector3 (.15f, -.3f, 0);
 		button.transform.localScale = new Vector3 (1, 1, 0);
 		buttonClickerComponent = button.AddComponent<ButtonClicker> ();
-		buttonClickerComponent.init (controller, 1.2f, -1.6f, 0, 0, 1);
+		buttonClickerComponent.init (controller, 1.23f, -1.6f, 0, 0, 1);
 		engineButton = buttonClickerComponent.gameObject;
 		button.GetComponent<SpriteRenderer> ().enabled = false;
 
@@ -121,18 +125,40 @@ public class MoveCaptain : MonoBehaviour {
 			if (Mathf.Abs (diffX) < captainSpeed * Time.deltaTime * 4 && Mathf.Abs (diffY) < captainSpeed * Time.deltaTime * 4) {
 				gameObject.transform.Translate (-diffX, -diffY, 0);
 				moving = false;
+				cadet.SetBool ("Manned", true);
 			} else { 
 				gameObject.transform.Translate (moveX * Time.deltaTime, moveY * Time.deltaTime, 0);
 			}
 		} else {
 			if (Input.GetKey ("up")) {
+				cadet.SetBool ("Manned", false);
+				cadet.SetInteger ("Direction", 0);
 				GoToLaserShieldEngine ("Lasers");
+				cadet.SetInteger ("DownMan", 0);
 			} else if (Input.GetKey ("left")) {
+				cadet.SetBool ("Manned", false);
+				if (laserShieldEngineNone == 0) {
+					cadet.SetInteger ("Direction", 3);
+					cadet.SetInteger ("DownMan", 1);
+				} if (laserShieldEngineNone == 1){
+					cadet.SetInteger ("Direction", 1);
+					cadet.SetInteger ("DownMan", 0);
+				}
 				GoToLaserShieldEngine ("Engines");
 			} else if (Input.GetKey ("right")) {
+				cadet.SetBool ("Manned", false);
+				if (laserShieldEngineNone == 0) {
+					cadet.SetInteger ("Direction", 3);
+					cadet.SetInteger ("DownMan", 2);
+				} if (laserShieldEngineNone == 2){
+					cadet.SetInteger ("Direction", 2);
+					cadet.SetInteger ("DownMan", 0);
+				}
 				GoToLaserShieldEngine ("Shields");
 			}
 		}
+
+
 	}
 
 	public bool GoToLaserShieldEngine(string dest) {

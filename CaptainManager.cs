@@ -15,6 +15,7 @@ public class CaptainManager : MonoBehaviour {
 	public GameObject shieldModule;
 	public GameObject hyperShield;
 	public GameObject core;
+	Sprite[] stextures;
 
 
 
@@ -92,9 +93,13 @@ public class CaptainManager : MonoBehaviour {
 		crew = new GameObject ();
 		crew.transform.parent = transform;
 		crew.AddComponent<MoveCaptain> ();
-		controller.MakeSprite (crew, "Button", transform, 0, -1.6f , .5f, .5f, 300);
+		stextures = Resources.LoadAll<Sprite> ("Textures/Cadet_Sprite_Sheet");
+		controller.MakeSprite (crew, stextures[2], this.transform, 0, -1.6f , 2, 2, 300);
 		crew.name = "Crew";
-		crew.GetComponent<MoveCaptain> ().init (controller, components);
+		crew.AddComponent<Animator> ();
+		animator = crew.GetComponent<Animator> ();
+		animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController> ("Animation/Cadet_Controller");
+		crew.GetComponent<MoveCaptain> ().init (controller, components, animator);
 	}
 
 	public void Die(){
