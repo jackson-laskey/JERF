@@ -18,7 +18,7 @@ public class BeamEnemy : ParentEnemy {
 	public void init(EnemyManager owner) {
 		name = "BeamEnemy";
 		hp = 5;
-		speed = 2;
+		speed = 1;
 		entering = true;
 		col = gameObject.AddComponent<BoxCollider2D> ();
 		body = gameObject.AddComponent<Rigidbody2D> ();
@@ -59,7 +59,7 @@ public class BeamEnemy : ParentEnemy {
 		}
 		Move ();
 
-		if (fired == 3 && charging) {
+		if (fired >= 3 && charging) {
 			retreating = true;
 		}
 
@@ -68,7 +68,6 @@ public class BeamEnemy : ParentEnemy {
 		}
 		if (charge >= fullCharge) {
 			charging = false;
-			fired++;
 			charge = 0;
 			Fire ();
 		}
@@ -99,6 +98,7 @@ public class BeamEnemy : ParentEnemy {
 
 	protected void Fire(){ 						//I made this take x and y because I was thinking about it and different enemies will need to fire from different parts of their models
 		col.size = new Vector2(1,20);
+		fired++;
 	}
 
 	protected void StopFire(){
@@ -106,7 +106,7 @@ public class BeamEnemy : ParentEnemy {
 	}
 
 	void OnTriggerEnter2D(Collider2D other){
-		if (other.tag == "PlayerLaser") {
+		if (other.name == "PlayerLaser") {
 			hp--;
 		}
 	}

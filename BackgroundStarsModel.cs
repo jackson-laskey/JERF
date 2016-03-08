@@ -16,14 +16,14 @@ public class BackgroundStarsModel : MonoBehaviour {
 		mat.shader = Shader.Find ("Sprites/Default");	// Tell the renderer that our textures have transparency. // Get the material component of this quad object.
 		mat.mainTexture = Resources.Load<Texture2D>("Textures/box");	// Set the texture.  Must be in Resources folder.
 		mat.color = new Color(1,1,1);
-		transform.localScale = new Vector3 (.1f, .1f, .1f);
+		transform.localScale = new Vector3 (.05f, .05f, .05f);
 		clock = 0f;
 	}
 
 	// Update is called once per frame
 	void Update () {
 		clock = clock + Time.deltaTime;
-		mat.color = new Color (1 + 0.5f * Mathf.Sin (3 * clock), 1 + 0.5f * Mathf.Sin (4 * clock), 1 + 0.5f * Mathf.Sin (5 * clock));
+		mat.color = new Color (1 + 0.5f * Mathf.Sin (8 * clock), 1 + 0.5f * Mathf.Sin (8 * clock), 1 + 0.5f * Mathf.Sin (8 * clock));
 	}
 }
 

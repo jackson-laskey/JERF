@@ -97,7 +97,7 @@ public class GameController : MonoBehaviour {
 			for (int x = -6; x < 0; x++) {
 				GameObject Starspawner = new GameObject ();
 				Spawner spawner = Starspawner.AddComponent<Spawner> ();
-				spawner.init ("BS", 1, x, 1f, eMan, true,false);
+				spawner.init ("BS", 1, x, 3f, eMan, true,false);
 			}
 			for (int x = -6; x < 0; x++) {
 				GameObject Starspawner = new GameObject ();
@@ -220,8 +220,8 @@ public class GameController : MonoBehaviour {
 			} else if (inst.Length == 2) {
 				eMan.getFormation (inst [0], Int32.Parse (inst [1]));
 			}
-		} else if (inst [0] == "H") { // Heavy Enemies
-			eMan.getInstruction("H", Int32.Parse(inst[1]), Int32.Parse(inst[2]));
+		} else if (inst [0] == "H" || inst [0] == "S" || inst [0] == "B") { // Heavy Enemies
+			eMan.getInstruction(inst[0], Int32.Parse(inst[1]), Int32.Parse(inst[2]));
 		} else { //Integer for Waiting
 			StartCoroutine (sleep(Int32.Parse(inst[0])));
 		}

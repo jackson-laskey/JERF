@@ -12,8 +12,6 @@ public class Ship : MonoBehaviour {
 	public GameObject JET;
 	private Animator jets;
 	private Button restart;
-	public AudioClip EngineSound;
-	public AudioSource audio;
 
 
 
@@ -25,8 +23,12 @@ public class Ship : MonoBehaviour {
 	// when clock reaches threshold, fires and restarts clock
 	private float fireInterval;
 
+	private bool movingTwoD;
+	private float fallBackSpeed;
+
 	private bool initd = false;
 
+	private float speed;
 
 
 	public void init (GameController gContr, Button r) {
@@ -58,29 +60,34 @@ public class Ship : MonoBehaviour {
 
 		// clock tracks time passed, ship fires when clock passes threshold. clock then resets.
 		clock = 0;
-		fireInterval = 32f;
+		fireInterval = .4f;
+
+		movingTwoD = false;
+		fallBackSpeed = 2.5f;
 
 		initd = true;
-
-		EngineSound = Resources.Load ("Sounds/EngineSound") as AudioClip;
-		audio = gameObject.AddComponent<AudioSource> ();
-		audio.loop = true;
-		audio.clip = EngineSound;
-		audio.Play ();
 	}
 	
 //	 Update is called once per frame
 	void Update () {
-
-		//Sound stuff
-		audio.volume = (engineLevel.health + 1) / 200;
-		//
-
 		if (!initd) {
 			return;
 		}
+		if (engineLevel.health > 99) {
+			speed = 100;
+			movingTwoD = true;
+		} else if (engineLevel.health > 70) {
+			speed = 85;
+			movingTwoD = false;
+		} else if (engineLevel.health > 30) {
+			speed = 50;
+		} else if (engineLevel.health > 1) {
+			speed = 20;
+		} else {
+			speed = 0;
+		}
 		// clock increment is modified by laser health so fire rate is proportional to laser health
-		clock += Time.deltaTime * laserLevel.health;
+		clock += Time.deltaTime;
 		// fire lasers if thresholds have been reached- extra-fast firing cycle for laser health == 100
 		if (clock > fireInterval && Input.GetKey(KeyCode.Space) && laserLevel.health>0){
 			Fire ();
@@ -101,18 +108,35 @@ public class Ship : MonoBehaviour {
 			JET.SetActive (false);
 		}
 
-//		// move left if "a" is being pressed, right if "d" is being pressed. Confined to LHS.
+		if (transform.position.y > -4 && !movingTwoD) {
+			transform.Translate (0, -fallBackSpeed * Time.deltaTime, 0);
+		}
+
+		// move left if "a" is being pressed, right if "d" is being pressed. Confined to LHS.
+		if (movingTwoD) {
+			if (Input.GetKey ("s") && gameObject.transform.position.y >= -4f) {
+//				jets.SetInteger ("Direction", 1);
+//				direction.SetInteger ("Direction", 1);
+//				JET.transform.localPosition = new Vector3 (.02f, -.37f, 0);
+				transform.Translate (0, -3.5f * Time.deltaTime, 0);
+			} else if (Input.GetKey ("w") && gameObject.transform.position.y <= 2f) {
+//				jets.SetInteger ("Direction", 2);
+//				direction.SetInteger ("Direction", 2);
+//				JET.transform.localPosition = new Vector3 (-.02f, -.37f, 0);
+				transform.Translate (0, 3.5f * Time.deltaTime, 0);
+			}
+		}
 		if (Input.GetKey ("a") && gameObject.transform.position.x > -6) {
 			jets.SetInteger ("Direction", 1);
 			direction.SetInteger ("Direction", 1);
 			JET.transform.localPosition = new Vector3 (.02f, -.37f, 0);
-			transform.Translate (-(Time.deltaTime * 5 * (engineLevel.health / 100)), 0, 0);
+			transform.Translate (-(Time.deltaTime * 5 * (speed / 100)), 0, 0);
 
 		} else if (Input.GetKey ("d") && gameObject.transform.position.x < -.5) {
 			jets.SetInteger ("Direction", 2);
 			direction.SetInteger ("Direction", 2);
 			JET.transform.localPosition = new Vector3 (-.02f, -.37f, 0);
-			transform.Translate (Time.deltaTime * 5 * (engineLevel.health / 100), 0, 0);
+			transform.Translate (Time.deltaTime * 5 * (speed / 100), 0, 0);
 		} else {
 			jets.SetInteger ("Direction", 0);
 			JET.transform.localPosition = new Vector3 (0, -.38f, 0);
@@ -135,6 +159,16 @@ public class Ship : MonoBehaviour {
 			}
 			break;
 		case "SmallEnemy":
+			if (shieldLevel.Damage (30)) {
+				Die ();
+			}
+			break;
+		case "Spark":
+			if (shieldLevel.Damage (50)) {
+				Die ();
+			}
+			break;
+		case "BeamEnemy":
 			if (shieldLevel.Damage (30)) {
 				Die ();
 			}
@@ -189,7 +223,6 @@ public class Ship : MonoBehaviour {
 
 	private void Die() {
 		// send some message to the GameController
-		audio.Pause();
 		GameObject death = new GameObject ();
 		controller.MakeSprite (death,"", GameObject.Find("ShipHandler").transform, 0, 0, 1, 1, 500);
 		death.transform.localPosition = this.transform.position;

@@ -8,12 +8,13 @@ public class Asteroid : ParentEnemy {
 	public void init(EnemyManager owner) {
 		hp = 20;
 		fireRate = 0;
-		speed = 3;
+		speed = 2;
 		this.owner = owner;
 		col = gameObject.AddComponent<BoxCollider2D> ();
 		body = gameObject.AddComponent<Rigidbody2D> ();
 		body.isKinematic = true;
 		transform.eulerAngles = new Vector3(0,0,180);
+		transform.localScale = new Vector3 (.75f, .75f, 1);
 		var modelObject = GameObject.CreatePrimitive (PrimitiveType.Quad);
 		model = modelObject.AddComponent<AsteroidModel>();
 		gameObject.name = "Asteroid";

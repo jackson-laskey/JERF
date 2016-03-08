@@ -7,10 +7,10 @@ public class SparkShot : Projectile {
 
 	// Use this for initialization
 	void Start () {
-		speed = 5;
+		speed = 3;
 		base.init (true, "Spark", 2f, 3f, 200);
+		transform.localScale = new Vector3 (.1f, .1f, 1f);
 		name = "Spark";
-		tag = "Spark";
 	}
 
 	// Update is called once per frame

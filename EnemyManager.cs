@@ -44,6 +44,16 @@ public class EnemyManager : MonoBehaviour {
 			Spawner spawner = heavySpawner.AddComponent<Spawner> ();
 			spawner.init (type, size, x, .5f, this, false,false);
 		}
+		else if (type == "B") {
+			GameObject beamSpawner = new GameObject ();
+			Spawner spawner = beamSpawner.AddComponent<Spawner> ();
+			spawner.init (type, size, x, .5f, this, false,false);
+		}
+		else if (type == "S") {
+			GameObject sparkSpawner = new GameObject ();
+			Spawner spawner = sparkSpawner.AddComponent<Spawner> ();
+			spawner.init (type, size, x, .5f, this, false,false);
+		}
 	}
 
 	public void getFormation(string type, int f){

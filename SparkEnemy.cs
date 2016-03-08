@@ -56,10 +56,10 @@ public class SparkEnemy : ParentEnemy {
 	}
 
 	void OnTriggerEnter2D(Collider2D other){
-		if (other.tag == "PlayerLaser") {
+		if (other.name == "PlayerLaser") {
 			hp--;
 		}
-		if (other.tag == "PlayerController") {
+		if (other.tag == "PlayerControler") {
 			Destroy (this.gameObject);
 		}
 	}

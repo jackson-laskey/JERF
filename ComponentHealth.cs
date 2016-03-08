@@ -57,7 +57,9 @@ public class ComponentHealth : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+
 		if (!initd) {
+			mat.color = new Color (0, .75f, 0);
 			return;
 		}
 
@@ -100,6 +102,7 @@ public class ComponentHealth : MonoBehaviour {
 
 			}
 		} else {
+			
 			if (health >= 99) {
 				model.transform.localScale = new Vector3 (1, .92f);
 				//model.transform.localPosition = new Vector3 (model.transform.localPosition.x, model.transform.localPosition.y - ((health/100f)/50));
@@ -145,21 +148,41 @@ public class ComponentHealth : MonoBehaviour {
 			}
 		}
 
+		if (type == 2) {
+			if (health > 98) {
+				mat.color = new Color (0, 0, 1);
+//				mat.color = new Color (1, .84f, 0);
+			} else if (health < 30) {
+				mat.color = new Color (.8f, 0, 0);
+			} else if (health < 70) {
+				mat.color = new Color (.75f, .75f, 0);
+			} else {
+				mat.color = new Color (0, .75f, 0);
+			}
+		}
 
-		if (health > 50) {
-			mat.color = new Color((100-health)*.015f, .75f, 0);
-		} else {
-			mat.color = new Color(.75f, health*.015f, 0);
+		if (type == 1) {
+			if (health > 98) {
+				mat.color = new Color (1, .52f, 0);
+				//				mat.color = new Color (1, .84f, 0);
+			} else if (health < 30) {
+				mat.color = new Color (.8f, 0, 0);
+			} else if (health < 70) {
+				mat.color = new Color (.75f, .75f, 0);
+			} else {
+				mat.color = new Color (0, .75f, 0);
+			}
 		}
 	}
 
 	// damages the part and returns true if it lowers the part's health to 0
 	public bool Damage(float damage) {
 		float damageModifier = 1;
-		if (health == 100) {
-			damageModifier = .6f;
-		} else if (!decaying) {
-			damageModifier = .75f;
+		if (!decaying) {
+			damageModifier = .8f;
+		}
+		if (health > 97) {
+			damageModifier = .5f;
 		}
 		if (health - (damage * damageModifier) <= 0) {
 			health = 0;

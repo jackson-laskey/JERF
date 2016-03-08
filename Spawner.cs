@@ -11,11 +11,12 @@ public class Spawner : MonoBehaviour {
 	private bool background;
 	public int formationType;
 	private bool formation;
+	private float y;
 
 	private EnemyManager eMan;
 
 	// Use this for initialization
-	public void init (string typeName, int quantity, float xLoc, float frequency, EnemyManager parent, bool backgroun, bool formation) {
+	public void init (string typeName, int quantity, float xLoc, float frequency, EnemyManager parent, bool background, bool formation) {
 		type = typeName;
 		this.background = background;
 		num = quantity;
@@ -25,6 +26,11 @@ public class Spawner : MonoBehaviour {
 		eMan = parent;
 		this.formation = formation;
 		gameObject.name = "Spawner";
+		if (background) {
+			y = 8;
+		} else {
+			y = 6;
+		}
 	}
 	
 	// Update is called once per frame
@@ -37,14 +43,11 @@ public class Spawner : MonoBehaviour {
 			}
 		} else {
 			if ((elapsed += Time.deltaTime) >= freq) {
-				eMan.SpawnEnemy (type, x, 6);
+				eMan.SpawnEnemy (type, x, y);
 				num--;
 				elapsed = 0;
 			}
-			if (background) {
-				num++;
-			}
-			if (num == 0) {
+			if (num == 0 && !background) {
 				Destroy (this.gameObject);
 			}
 		}
@@ -58,12 +61,12 @@ public class Spawner : MonoBehaviour {
 		}
 		for (int x = -6; x < 0; x++) {
 			if (x % 2 != 0) {
-				eMan.SpawnEnemy (type, x, 8);
+				eMan.SpawnEnemy (type, x, 9);
 			}
 		}
 		for (int x = -6; x < 0; x++) {
 			if (x % 2 == 0) {
-				eMan.SpawnEnemy (type, x, 10);
+				eMan.SpawnEnemy (type, x, 12);
 			}
 		}
 		Destroy (this.gameObject);
@@ -74,7 +77,7 @@ public class Spawner : MonoBehaviour {
 			eMan.SpawnEnemy (type, x, 6);
 		}
 		for (int x = -6; x < 0; x++) {
-			eMan.SpawnEnemy (type, x, 8);
+			eMan.SpawnEnemy (type, x, 9);
 		}
 		Destroy (this.gameObject);
 	}

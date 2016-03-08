@@ -23,6 +23,10 @@ public class LaserHealth : MonoBehaviour {
 
 	private float slowDownThreshold;
 	private float slowDownModifier;
+
+	private bool flashing;
+	private float flashClock;
+	private float flashInterval;
 	
 		// Use this for initialization
 	public void init (GameController gCont, float x, float y, int type) {
@@ -49,14 +53,40 @@ public class LaserHealth : MonoBehaviour {
 		decaying = true;
 		initd = true;
 
-		slowDownThreshold = 90f;
+		slowDownThreshold = 85f;
 		slowDownModifier = .4f;
+
+		flashing = true;
+		flashClock = 0;
+		flashInterval = .2f;
 		}
-	
+
+
+
+
 		// Update is called once per frame
 		void Update () {
 		if (!initd) {
 			return;
+		}
+		if (flashing) {
+			flashClock += Time.deltaTime;
+			if (flashClock > flashInterval) {
+				mat.color = new Color (1, .5f, 0);
+				flashClock = 0;
+			} else if (flashClock > (2 * flashInterval) / 3) {
+				mat.color = new Color (1, 0f, 0);
+			} else if (flashClock > flashInterval / 3) {
+				mat.color = new Color (1, .8f, 0);
+			} else {
+				mat.color = new Color (1, .5f, 0);
+			}
+		}
+
+		if (health >= 99) {
+			flashing = true;
+		} else {
+			flashing = false;
 		}
 		if (decaying) {
 		} else {
@@ -70,10 +100,15 @@ public class LaserHealth : MonoBehaviour {
 				model.transform.localScale = new Vector3 (1, .92f*health/100f);
 				health += Time.deltaTime * repairRate;
 			}
+		}
+		if (health >= 99) {
+			flashing = true;
+		} else {
+			flashing = false;
 			if (health > 50) {
-				mat.color = new Color((100-health)*.015f, .75f, 0);
+				mat.color = new Color (0, .75f, 0);
 			} else {
-				mat.color = new Color(.75f, health*.015f, 0);
+				mat.color = new Color (.75f, 0f, 0);
 			}
 		}
 	}

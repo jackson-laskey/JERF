@@ -7,7 +7,7 @@ public class BackgroundStars : MonoBehaviour {
 	private float speed;
 
 	public void Start() {
-		this.speed = Random.Range (1.5f, 3);
+		this.speed = Random.Range (.1f, .5f);
 		transform.eulerAngles = new Vector3(0,0,180);
 		var modelObject = GameObject.CreatePrimitive (PrimitiveType.Quad);
 		model = modelObject.AddComponent<BackgroundStarsModel>();
