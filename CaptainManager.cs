@@ -94,7 +94,7 @@ public class CaptainManager : MonoBehaviour {
 		crew.transform.parent = transform;
 		crew.AddComponent<MoveCaptain> ();
 		stextures = Resources.LoadAll<Sprite> ("Textures/Cadet_Sprite_Sheet");
-		controller.MakeSprite (crew, stextures[2], this.transform, 0, -1.6f , 2.5f, 2.5f, 300);
+		controller.MakeSprite (crew, stextures[2], this.transform, 0, -1.6f , 2f, 2f, 300);
 		crew.name = "Crew";
 		crew.AddComponent<Animator> ();
 		animator = crew.GetComponent<Animator> ();
