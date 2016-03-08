@@ -76,7 +76,7 @@ public class GameController : MonoBehaviour {
 //		captain.SetActive(true);
 			eMan = gameObject.AddComponent<EnemyManager> ();
 			eMan.init (this);
-			level = 2;
+			level = 1;
 			numLevels = 2;
 			//For now let's just worry about loading and executing a single level. Eventually, we will have to be more sophisticated about restarting levels and loading new levels.
 			//May not need separate function longterm.
