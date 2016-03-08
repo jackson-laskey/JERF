@@ -300,6 +300,13 @@ public class GameController : MonoBehaviour {
 		isDead = true;
 	}
 
+	public void Quit(){
+		Application.Quit ();
+	}
+
+	public void Menu(){
+		Application.LoadLevel ("Start Screen");
+	}
 
 	IEnumerator sleep(int time){
 		waiting = true;
