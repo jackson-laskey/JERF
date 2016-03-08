@@ -7,10 +7,13 @@ public class CannonEnemy : ParentEnemy {
 	private float stopPosition;
 	private string direction;
 	private string firingSide;
+	public AudioClip LaserSound;
+
 
 	private float cd;
 
 	public void init(EnemyManager owner) {
+		LaserSound = Resources.Load ("Sounds/laser") as AudioClip;
 		gameObject.name = "CannonEnemy";
 		hp = 5;
 		fireRate = .42f;
@@ -76,7 +79,9 @@ public class CannonEnemy : ParentEnemy {
 	}
 
 	//I made this take x and y because I was thinking about it and different enemies will need to fire from different parts of their models
-	protected void Fire(float x, float y){ 		
+	protected void Fire(float x, float y){ 	
+		AudioSource.PlayClipAtPoint(LaserSound,this.transform.position);
+			
 		GameObject shot = new GameObject();
 		shot.transform.parent = transform.parent;
 		shot.transform.position = new Vector3 (0, 0);
