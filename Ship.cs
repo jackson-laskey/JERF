@@ -74,7 +74,7 @@ public class Ship : MonoBehaviour {
 		audio = gameObject.AddComponent<AudioSource> ();
 		audio.loop = true;
 		audio.clip = EngineSound;
-		audio.Play;
+		audio.Play();
 	}
 	
 //	 Update is called once per frame
