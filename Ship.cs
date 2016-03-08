@@ -12,6 +12,9 @@ public class Ship : MonoBehaviour {
 	public GameObject JET;
 	private Animator jets;
 	private Button restart;
+	public AudioClip EngineSound;
+	public AudioSource audio;
+
 
 
 
@@ -66,10 +69,21 @@ public class Ship : MonoBehaviour {
 		fallBackSpeed = 2.5f;
 
 		initd = true;
+
+		EngineSound = Resources.Load ("Sounds/EngineSound") as AudioClip;
+		audio = gameObject.AddComponent<AudioSource> ();
+		audio.loop = true;
+		audio.clip = EngineSound;
+		audio.Play;
 	}
 	
 //	 Update is called once per frame
 	void Update () {
+
+		//Sound Stuff
+		audio.volume = (engineLevel.health + 1)/200;
+		//
+
 		if (!initd) {
 			return;
 		}
@@ -223,6 +237,7 @@ public class Ship : MonoBehaviour {
 
 	private void Die() {
 		// send some message to the GameController
+		audio.Pause();
 		GameObject death = new GameObject ();
 		controller.MakeSprite (death,"", GameObject.Find("ShipHandler").transform, 0, 0, 1, 1, 500);
 		death.transform.localPosition = this.transform.position;
