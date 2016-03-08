@@ -109,6 +109,9 @@ public class BeamEnemy : ParentEnemy {
 		if (other.name == "PlayerLaser") {
 			hp--;
 		}
+		if (other.name == "SuperPlayerLaser") {
+			hp -= 2;
+		}
 	}
 }
 

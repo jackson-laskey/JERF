@@ -22,7 +22,7 @@ public class SmallEnemy : ParentEnemy {
 		body.isKinematic = true;
 		transform.eulerAngles = new Vector3(0,0,180);
 		this.owner = owner;
-		if (transform.position.x > -4.5f) { 
+		if (transform.position.x > -3f) { 
 			direction = "L";
 		} else {
 			direction = "R";
