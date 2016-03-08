@@ -13,6 +13,9 @@ public class Ship : MonoBehaviour {
 	private Animator jets;
 	private Button restart;
 	public AudioClip EngineSound;
+	public AudioClip LaserSound;
+	public AudioClip DoubleLaserSound;
+	public AudioClip SuperLaserSound;
 	public AudioSource audio;
 
 
@@ -71,6 +74,9 @@ public class Ship : MonoBehaviour {
 		initd = true;
 
 		EngineSound = Resources.Load ("Sounds/EngineSound") as AudioClip;
+		LaserSound = Resources.Load ("Sounds/laser") as AudioClip;
+		DoubleLaserSound = Resources.Load ("Sounds/doubleLaser") as AudioClip;
+		SuperLaserSound = Resources.Load ("Sounds/superLaser") as AudioClip;
 		audio = gameObject.AddComponent<AudioSource> ();
 		audio.loop = true;
 		audio.clip = EngineSound;
@@ -206,13 +212,15 @@ public class Ship : MonoBehaviour {
 //	}
 
 	private void Fire() {
-		
 				if (laserLevel.health < 50) {
+			AudioSource.PlayClipAtPoint(LaserSound,this.transform.position);
+
 						GameObject shot = new GameObject ();
 						shot.transform.parent = transform.parent;
 						shot.AddComponent<PlayerLaser> ();
 						shot.transform.position = new Vector3 (transform.position.x, transform.position.y + .7f);
 				} else if (laserLevel.health < 100) {
+			AudioSource.PlayClipAtPoint(DoubleLaserSound,this.transform.position);
 						GameObject shot = new GameObject ();
 						shot.transform.parent = transform.parent;
 						shot.AddComponent<PlayerLaser> ();
@@ -222,6 +230,7 @@ public class Ship : MonoBehaviour {
 						shot2.AddComponent<PlayerLaser> ();
 						shot2.transform.position = new Vector3 (transform.position.x+.1f, transform.position.y + .7f);
 				} else {
+			AudioSource.PlayClipAtPoint(SuperLaserSound,this.transform.position);
 						GameObject shot = new GameObject ();
 						shot.transform.parent = transform.parent;
 						shot.AddComponent<SuperPlayerLaser> ();
