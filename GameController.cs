@@ -81,7 +81,7 @@ public class GameController : MonoBehaviour {
 			eMan = gameObject.AddComponent<EnemyManager> ();
 			eMan.init (this);
 			level = 1;
-			numLevels = 2;
+			numLevels = 6;
 			//For now let's just worry about loading and executing a single level. Eventually, we will have to be more sophisticated about restarting levels and loading new levels.
 			//May not need separate function longterm.
 			this.GetInstructions ("JERF/level" + level.ToString ());
