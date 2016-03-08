@@ -15,7 +15,7 @@ public class AsteroidModel : MonoBehaviour {
 		mat.shader = Shader.Find ("Sprites/Default");	// Tell the renderer that our textures have transparency. // Get the material component of this quad object.
 		mat.mainTexture = Resources.Load<Texture2D>("Textures/asteroid");	// Set the texture.  Must be in Resources folder.
 		mat.color = new Color(1,1,1);
-		transform.localScale = new Vector3 (.75f, .75f, .75f);// Set the color (easy way to tint things).
+		transform.localScale = new Vector3 (.60f, .60f, .60f);// Set the color (easy way to tint things).
 	}
 
 	// Update is called once per frame

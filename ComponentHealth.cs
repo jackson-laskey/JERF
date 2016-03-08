@@ -37,7 +37,7 @@ public class ComponentHealth : MonoBehaviour {
 
 		controller = gCont;
 		model = new GameObject();
-		controller.MakeSprite (model, stextures[6], transform, x, y, .8f, .92f, 200, .5f, 0);
+		controller.MakeSprite (model, stextures[6], transform, x, y, .9f, .92f, 200, .5f, 0);
 		model.GetComponent<SpriteRenderer> ().sortingLayerName = "BottomRhsUI";
 		model.transform.localPosition = new Vector3 (0, -0.623f, 0);
 		mat = model.GetComponent<Renderer> ().material;
@@ -50,7 +50,11 @@ public class ComponentHealth : MonoBehaviour {
 		decaying = true;
 		health = 100;
 		repairRate = 30f;
-		decayModifier = 4.3f;
+		if (type == 2) {
+			decayModifier = 10.5f;
+		} else {
+			decayModifier = 4.3f;
+		}
 
 		initd = true;
 	}
@@ -81,13 +85,13 @@ public class ComponentHealth : MonoBehaviour {
 					GameObject.Find ("HyperShield").GetComponent<SpriteRenderer> ().enabled = false;
 					GameObject.Find ("LeftShield").GetComponent<SpriteRenderer> ().enabled = false;
 				}
-				model.transform.localScale = new Vector3(.8f, 0);
+				model.transform.localScale = new Vector3(.9f, 0);
 				//model.transform.localPosition = new Vector3 (model.transform.localPosition.x, model.transform.localPosition.y + ((health/100f)/50));
 				health = 0;
 
 				
 			}else {
-				model.transform.localScale = new Vector3 (.8f, .92f * (health/100f));
+				model.transform.localScale = new Vector3 (.9f, .92f * (health/100f));
 				//model.transform.localPosition = new Vector3 (model.transform.localPosition.x, model.transform.localPosition.y - ((health/100f)/50));
 				health -= (Time.deltaTime * repairRate) /decayModifier;
 				if (type == 0) {
@@ -104,7 +108,7 @@ public class ComponentHealth : MonoBehaviour {
 		} else {
 			
 			if (health >= 99) {
-				model.transform.localScale = new Vector3 (.8f, .92f);
+				model.transform.localScale = new Vector3 (.9f, .92f);
 				//model.transform.localPosition = new Vector3 (model.transform.localPosition.x, model.transform.localPosition.y - ((health/100f)/50));
 				health = 100;
 				if (type == 0) {
@@ -117,7 +121,7 @@ public class ComponentHealth : MonoBehaviour {
 					GameObject.Find ("LeftShield").GetComponent<SpriteRenderer> ().enabled = true;
 				}
 			} else if (health >= 90) {
-				model.transform.localScale = new Vector3 (.8f, .92f* (health/100f));
+				model.transform.localScale = new Vector3 (.9f, .92f* (health/100f));
 				//model.transform.localPosition = new Vector3 (model.transform.localPosition.x, model.transform.localPosition.y - ((health/100f)/50));
 				//health = 100;
 				health += Time.deltaTime * repairRate;
@@ -133,7 +137,7 @@ public class ComponentHealth : MonoBehaviour {
 
 			}
 			else if (health < 90){
-				model.transform.localScale = new Vector3 (.8f, .92f * (health/100f));
+				model.transform.localScale = new Vector3 (.9f, .92f * (health/100f));
 				//model.transform.localPosition = new Vector3 (model.transform.localPosition.x, model.transform.localPosition.y + ((health/100f)/50));
 				health += Time.deltaTime * repairRate;
 				if (type == 0) {

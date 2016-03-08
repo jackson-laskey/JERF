@@ -7,8 +7,6 @@ public class LaserHealth : MonoBehaviour {
 
 	public float repairRate;
 	public float health;
-
-	public Animator animator;
 	
 	public GameObject model;
 	public Material mat;
@@ -20,7 +18,7 @@ public class LaserHealth : MonoBehaviour {
 	private bool initd;
 
 	private int type;
-
+	private Animator animator;
 	private float slowDownThreshold;
 	private float slowDownModifier;
 
@@ -35,7 +33,7 @@ public class LaserHealth : MonoBehaviour {
 		animator = GameObject.Find ("Cockpit").GetComponent<Animator> ();
 		controller = gCont;
 		model = new GameObject();
-		controller.MakeSprite (model, stextures[6], transform, x, y, 1, .92f, 200, .5f, 0);
+		controller.MakeSprite (model, stextures[6], transform, x, y, .9f, .92f, 200, .5f, 0);
 //		controller.MakeSprite (model, "Bar", transform, x, y, 1, 1, 200, .5f, 0);
 		model.GetComponent<SpriteRenderer> ().sortingLayerName = "BottomRhsUI";
 		model.transform.localPosition = new Vector3 (0, -0.623f, 0);
@@ -46,7 +44,9 @@ public class LaserHealth : MonoBehaviour {
 		controller.MakeSprite (outlineModel, stextures[7], transform, 0, 0, 1, 1, 200, .5f, 0);
 //		controller.MakeSprite (outlineModel, "BarOutline", transform, 0, -.03f, 1, 1, 200, .5f, 0);
 		outlineModel.GetComponent<SpriteRenderer> ().sortingLayerName = "TopRhsUI";
-		
+
+		animator = GameObject.Find ("Cockpit").GetComponent<Animator> ();
+
 		health = 100;
 		
 		repairRate = 30f;
@@ -85,30 +85,38 @@ public class LaserHealth : MonoBehaviour {
 
 		if (health >= 99) {
 			flashing = true;
+			animator.SetInteger ("Power", 2);
 		} else {
 			flashing = false;
+			animator.SetInteger ("Power", 1);
 		}
 		if (decaying) {
 		} else {
 			if (health >= 99) {
-				model.transform.localScale = new Vector3 (1, 1 * .92f);
+				model.transform.localScale = new Vector3 (.9f, 1 * .92f);
+				animator.SetInteger ("Power", 2);
 				health = 100;
 			} else if (health >= slowDownThreshold) {
-				model.transform.localScale = new Vector3 (1, .92f * health / 100f);
+				model.transform.localScale = new Vector3 (.9f, .92f * health / 100f);
 				health += Time.deltaTime * repairRate * slowDownModifier;
+				animator.SetInteger ("Power", 1);
 			} else {
-				model.transform.localScale = new Vector3 (1, .92f*health/100f);
+				model.transform.localScale = new Vector3 (.9f, .92f*health/100f);
 				health += Time.deltaTime * repairRate;
+				animator.SetInteger ("Power", 1);
 			}
 		}
 		if (health >= 99) {
 			flashing = true;
+			animator.SetInteger ("Power", 2);
 		} else {
 			flashing = false;
 			if (health > 50) {
 				mat.color = new Color (0, .75f, 0);
+				animator.SetInteger ("Power", 1);
 			} else {
 				mat.color = new Color (.75f, 0f, 0);
+				animator.SetInteger ("Power", 1);
 			}
 		}
 	}
@@ -117,10 +125,12 @@ public class LaserHealth : MonoBehaviour {
 		public void fire() {
 				if (health > 7) {
 						health = health - 7;
-						model.transform.localScale = new Vector3 (1, .92f*health/100f);
+						model.transform.localScale = new Vector3 (.9f, .92f*health/100f);
+						animator.SetInteger ("Power", 1);
 				} else {
 						health = 0;
-						model.transform.localScale = new Vector3 (1, 0);
+						model.transform.localScale = new Vector3 (.9f, 0);
+						animator.SetInteger ("Power", 0);
 					}
 			}
 	}
