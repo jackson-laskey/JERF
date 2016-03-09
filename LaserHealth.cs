@@ -24,11 +24,18 @@ public class LaserHealth : MonoBehaviour {
 	private float slowDownModifier = .4f;
 
 	private bool flashing;
-	private float flashClock = 0;
-	private float flashInterval = .2f;
+	private float flashIncrement = .00041f;
+	// max speed at which the alpha will change per frame
+	private float maxFlashSpeed = 0.0125f;
+	// the rate at which the alpha is currently changing
+	private float flashRvalue = 1f;
+	private float flashGvalue = .82f;
+	private float currFlashSpeed;
+	private float initialAlpha;
 	
 		// Use this for initialization
 	public void init (GameController gCont, float x, float y, int type) {
+		currFlashSpeed = 0;
 		stextures = Resources.LoadAll<Sprite> ("Textures/Captain_Effects_Sheet_2");
 		this.type = type;
 		animator = GameObject.Find ("Cockpit").GetComponent<Animator> ();
@@ -40,6 +47,8 @@ public class LaserHealth : MonoBehaviour {
 		model.transform.localPosition = new Vector3 (0, -0.623f, 0);
 		mat = model.GetComponent<Renderer> ().material;
 		mat.color = new Color (0, .75f, 0);
+
+		initialAlpha = mat.color.a;
 		
 		GameObject outlineModel = new GameObject ();
 		controller.MakeSprite (outlineModel, stextures[7], transform, 0, 0, 1, 1, 200, .5f, 0);
@@ -64,17 +73,11 @@ public class LaserHealth : MonoBehaviour {
 			return;
 		}
 		if (flashing) {
-			flashClock += Time.deltaTime;
-			if (flashClock > flashInterval) {
-				mat.color = new Color (1, .5f, 0);
-				flashClock = 0;
-			} else if (flashClock > (2 * flashInterval) / 3) {
-				mat.color = new Color (1, 0f, 0);
-			} else if (flashClock > flashInterval / 3) {
-				mat.color = new Color (1, .8f, 0);
-			} else {
-				mat.color = new Color (1, .5f, 0);
+			if (currFlashSpeed >= maxFlashSpeed || currFlashSpeed <= -maxFlashSpeed) {
+				flashIncrement = -flashIncrement;
 			}
+			currFlashSpeed += flashIncrement;
+			mat.color = new Color (flashRvalue, flashGvalue, mat.color.b, mat.color.a+currFlashSpeed);
 		}
 
 		if (health >= 99) {
@@ -106,10 +109,10 @@ public class LaserHealth : MonoBehaviour {
 		} else {
 			flashing = false;
 			if (health > 50) {
-				mat.color = new Color (0, .75f, 0);
+				mat.color = new Color (0, .75f, 0, initialAlpha);
 				animator.SetInteger ("Power", 1);
 			} else {
-				mat.color = new Color (.75f, 0f, 0);
+				mat.color = new Color (.75f, 0f, 0, initialAlpha);
 				animator.SetInteger ("Power", 1);
 			}
 		}
