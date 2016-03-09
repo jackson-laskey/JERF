@@ -11,7 +11,8 @@ public class SmallEnemy : ParentEnemy {
 
 	private float diveSpeed = 5;
 	private float divePosition = .5f;
-	private float size = .85f;
+	private float sizex = .65f;
+	private float sizey = .65f;
 	private float bottomEdge = -7f;
 
 
@@ -19,7 +20,7 @@ public class SmallEnemy : ParentEnemy {
 		name = "SmallEnemy";
 		hp = 2;
 		speed = .8f;
-		transform.localScale = new Vector3 (size, 1f, 1f);
+		transform.localScale = new Vector3 (sizex, sizey, 1);
 		col = gameObject.AddComponent<BoxCollider2D> ();
 		body = gameObject.AddComponent<Rigidbody2D> ();
 		body.isKinematic = true;

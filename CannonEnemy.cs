@@ -8,14 +8,17 @@ public class CannonEnemy : ParentEnemy {
 	private string direction;
 	private string firingSide;
 	public AudioClip LaserSound;
-
-
 	private float cd;
+
+
+	private float sizex = .65f;
+	private float sizey = .65f;
 
 	public void init(EnemyManager owner) {
 		hp = 5;
 		fireRate = .42f;
 		speed = 2;
+		transform.localScale = new Vector3 (sizex, sizey, 1);
 		col = gameObject.AddComponent<BoxCollider2D> ();
 		body = gameObject.AddComponent<Rigidbody2D> ();
 		body.isKinematic = true;

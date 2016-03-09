@@ -5,7 +5,10 @@ public class Asteroid : ParentEnemy {
 	
 	private AsteroidModel model;
 	CircleCollider2D collid;
-	private float size = .65f;
+
+
+	private float sizex = .65f;
+	private float sizey = .65f;
 	private float bottomEdge = -7f;
 
 
@@ -13,7 +16,7 @@ public class Asteroid : ParentEnemy {
 		hp = 20;
 		speed = 2;
 		this.owner = owner;
-		transform.localScale = new Vector3 (size, size, 1);
+		transform.localScale = new Vector3 (sizex, sizey, 1);
 		collid = gameObject.AddComponent<CircleCollider2D> ();
 		body = gameObject.AddComponent<Rigidbody2D> ();
 		body.isKinematic = true;

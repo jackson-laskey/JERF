@@ -16,10 +16,13 @@ public class BeamEnemy : ParentEnemy {
 
 	public float fullCharge = 3;
 	public float fireTimeReset = 2;
+	private float sizex = .65f;
+	private float sizey = .65f;
 
 	public void init(EnemyManager owner) {
 		hp = 5;
 		speed = 1;
+		transform.localScale = new Vector3 (sizex, sizey, 1);
 		entering = true;
 		col = gameObject.AddComponent<BoxCollider2D> ();
 		body = gameObject.AddComponent<Rigidbody2D> ();
