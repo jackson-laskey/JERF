@@ -6,21 +6,20 @@ public class Projectile : MonoBehaviour {
 	// how many units the projectile moves per second; negative if the player is firing
 	protected float speed;
 	// dictate the top and bottom of the view
-	private float maxY;
-	private float minY;
+	private float maxY = 5;
+	private float minY = -5;
+	private float colliderSize = .1f;
 
 	protected GameObject model;
 
 	protected void init(bool isEnemy, string textureName, float xScale, float yScale, int textPixels) {
-		minY = -5;
-		maxY = 5;
 		if (!isEnemy) {
 			speed = -speed;
 		}
 		GameObject.Find ("GameController").GetComponent<GameController> ().MakeSprite (gameObject, textureName, transform.parent,
 			transform.position.x, transform.position.y, xScale, yScale, textPixels);
 		gameObject.AddComponent<BoxCollider2D> ().isTrigger = true;
-		gameObject.GetComponent<BoxCollider2D> ().size = new Vector2 (.1f, .1f);
+		gameObject.GetComponent<BoxCollider2D> ().size = new Vector2 (colliderSize, colliderSize);
 	}
 	
 	// if out of view, 

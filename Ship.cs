@@ -42,6 +42,32 @@ public class Ship : MonoBehaviour {
 
 	private float speed;
 
+	//Engine Health threshholds
+	public int EHT1 = 99;
+	public int EHT2 = 70;
+	public int EHT3 = 30;
+	public int EHT4 = 1;
+
+	//Engine Speed threshholds
+	public int EST1 = 100;
+	public int EST2 = 85;
+	public int EST3 = 50;
+	public int EST4 = 20;
+	public int EST5 = 0;
+
+	//Laser Threshholds
+	public int LT1 = 100;
+	public int LT2 = 50;
+
+	//Damages
+	public int ADamage = 49;
+	public int LDamage = 15;
+	public int SEDamage = 30;
+	public int BDamage = 30;
+	public int SPDamage = 50;
+
+
+
 
 	// DAMAGE TAKEN HANDLED IN ONTRIGGER2DENTER()
 	// ENGINE THRESHOLDS AND SHIELD COLOR THRESHOLDS HANDLED IN INIT
@@ -114,18 +140,18 @@ public class Ship : MonoBehaviour {
 		//
 		// THRESHOLDS HANDLED BELOW
 		//
-		if (engineLevel.health > 99) {
-			speed = 100;
+		if (engineLevel.health > EHT1) {
+			speed = EST1;
 			movingTwoD = true;
-		} else if (engineLevel.health > 70) {
-			speed = 85;
+		} else if (engineLevel.health > EHT2) {
+			speed = EST2;
 			movingTwoD = false;
-		} else if (engineLevel.health > 30) {
-			speed = 50;
-		} else if (engineLevel.health > 1) {
-			speed = 20;
+		} else if (engineLevel.health > EHT3) {
+			speed = EST3;
+		} else if (engineLevel.health > EHT4) {
+			speed = EST4;
 		} else {
-			speed = 0;
+			speed = EST5;
 		}
 		// clock increment is modified by laser health so fire rate is proportional to laser health
 		clock += Time.deltaTime;
@@ -134,15 +160,15 @@ public class Ship : MonoBehaviour {
 			Fire ();
 		}
 
-		if (engineLevel.health >= 99) {
+		if (engineLevel.health >= EHT1) {
 			jets.SetInteger ("Power", 4);
-		} if (engineLevel.health < 99) {
+		} if (engineLevel.health < EHT1) {
 			jets.SetInteger ("Power", 3);
 			JET.SetActive (true);
-		} if (engineLevel.health <= 50) {
+		} if (engineLevel.health <= EHT2) {
 			jets.SetInteger ("Power", 2);
 			JET.SetActive (true);
-		} if (engineLevel.health <= 20) {
+		} if (engineLevel.health <= EHT3) {
 			jets.SetInteger ("Power", 1);
 			JET.SetActive (true);
 		} if (engineLevel.health == 0) {
@@ -186,29 +212,29 @@ public class Ship : MonoBehaviour {
 		case "Asteroid":
 			AudioSource.PlayClipAtPoint(CollisionSound,this.transform.position);
 
-			if (shieldLevel.Damage (49)) {
+			if (shieldLevel.Damage (ADamage)) {
 				Die ();
 			}
 			break;
 		case "Laser":
-			if (shieldLevel.Damage (15)) {
+			if (shieldLevel.Damage (LDamage)) {
 				Die ();
 			}
 			break;
 		case "SmallEnemy":
 			AudioSource.PlayClipAtPoint(CollisionSound,this.transform.position);
 
-			if (shieldLevel.Damage (30)) {
+			if (shieldLevel.Damage (SEDamage)) {
 				Die ();
 			}
 			break;
 		case "Spark":
-			if (shieldLevel.Damage (50)) {
+			if (shieldLevel.Damage (SPDamage)) {
 				Die ();
 			}
 			break;
 		case "BeamEnemy":
-			if (shieldLevel.Damage (30)) {
+			if (shieldLevel.Damage (BDamage)) {
 				Die ();
 			}
 			break;
@@ -218,14 +244,14 @@ public class Ship : MonoBehaviour {
 	}
 
 	private void Fire() {
-				if (laserLevel.health < 50) {
+				if (laserLevel.health < LT2) {
 			AudioSource.PlayClipAtPoint(LaserSound,this.transform.position);
 
 						GameObject shot = new GameObject ();
 						shot.transform.parent = transform.parent;
 						shot.AddComponent<PlayerLaser> ();
 						shot.transform.position = new Vector3 (transform.position.x, transform.position.y + .7f);
-				} else if (laserLevel.health < 100) {
+				} else if (laserLevel.health < LT1) {
 			AudioSource.PlayClipAtPoint(DoubleLaserSound,this.transform.position);
 						GameObject shot = new GameObject ();
 						shot.transform.parent = transform.parent;

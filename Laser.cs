@@ -4,10 +4,21 @@ using System.Collections.Generic;
 
 public class Laser : Projectile {
 
+	public float xScale;
+	public float yScale;
+	public int pixels;
+
 	// Use this for initialization
 	void Start () {
+		//Parameters
 		speed = 7;
-		base.init (true, "Laser", 2f, 1f, 200);
+		xScale = 2f;
+		yScale = 1;
+		pixels = 200;
+		//
+
+
+		base.init (true, "Laser", xScale, yScale, pixels);
 		name = "Laser";
 		tag = "Laser";
 	}

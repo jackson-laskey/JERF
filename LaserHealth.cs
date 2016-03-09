@@ -5,8 +5,9 @@ public class LaserHealth : MonoBehaviour {
 	
 	public GameController controller;
 
-	public float repairRate;
-	public float health;
+	public float repairRate = 30f;
+	public float health = 100;
+	public float fireCost = 7;
 	
 	public GameObject model;
 	public Material mat;
@@ -19,12 +20,12 @@ public class LaserHealth : MonoBehaviour {
 
 	private int type;
 	private Animator animator;
-	private float slowDownThreshold;
-	private float slowDownModifier;
+	private float slowDownThreshold = 85f;
+	private float slowDownModifier = .4f;
 
 	private bool flashing;
-	private float flashClock;
-	private float flashInterval;
+	private float flashClock = 0;
+	private float flashInterval = .2f;
 	
 		// Use this for initialization
 	public void init (GameController gCont, float x, float y, int type) {
@@ -47,18 +48,11 @@ public class LaserHealth : MonoBehaviour {
 
 		animator = GameObject.Find ("Cockpit").GetComponent<Animator> ();
 
-		health = 100;
-		
-		repairRate = 30f;
 		decaying = true;
 		initd = true;
 
-		slowDownThreshold = 85f;
-		slowDownModifier = .4f;
 
 		flashing = true;
-		flashClock = 0;
-		flashInterval = .2f;
 		}
 
 
@@ -123,8 +117,8 @@ public class LaserHealth : MonoBehaviour {
 	
 		// damages the part and returns true if it lowers the part's health to 0
 		public void fire() {
-				if (health > 7) {
-						health = health - 7;
+				if (health > fireCost) {
+						health = health - fireCost;
 						model.transform.localScale = new Vector3 (.9f, .92f*health/100f);
 						animator.SetInteger ("Power", 1);
 				} else {
