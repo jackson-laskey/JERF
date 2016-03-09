@@ -8,15 +8,16 @@ public class BeamEnemy : ParentEnemy {
 	private string direction;
 	public bool charging;
 	public float charge;
-	public float fullCharge;
-	public float fireTime;
-	private int fired;
-	private bool retreating;
+	public int fired;
+	public bool retreating;
 	public bool entering;
+	public float fireTime;
 
+
+	public float fullCharge = 3;
+	public float fireTimeReset = 2;
 
 	public void init(EnemyManager owner) {
-		name = "BeamEnemy";
 		hp = 5;
 		speed = 1;
 		entering = true;
@@ -29,9 +30,8 @@ public class BeamEnemy : ParentEnemy {
 		charging = false;
 		fired = 0;
 		charge = 0;
-		fullCharge = 4;
 		stopPosition = 4.5f;
-		fireTime = 2;
+		name = "BeamEnemy";
 		var modelObject = GameObject.CreatePrimitive (PrimitiveType.Quad);
 		model = modelObject.AddComponent<BeamEnemyModel>();	
 		model.init(this);
@@ -59,23 +59,19 @@ public class BeamEnemy : ParentEnemy {
 		}
 		Move ();
 
-		if (fired >= 3 && charging) {
-			retreating = true;
-		}
-
 		if (charging) {
 			charge = charge + Time.deltaTime;
 		}
 		if (charge >= fullCharge) {
 			charging = false;
 			charge = 0;
+			fireTime = fireTimeReset;
 			Fire ();
 		}
 		if (!charging) {
 			fireTime = fireTime - Time.deltaTime;
 			if (fireTime <= 0) {
 				charging = true;
-				fireTime = 2;
 				StopFire ();
 			}
 		}
@@ -83,15 +79,15 @@ public class BeamEnemy : ParentEnemy {
 	}
 
 	void Move(){
-		if (direction == "D") {
+		if (retreating) {
+			transform.Translate (Vector3.down * Time.deltaTime * speed);
+		}else if (direction == "D") {
 			transform.Translate (Vector3.up * Time.deltaTime * speed);
 		} else if (direction == "L") {
 			transform.Translate (Vector3.right * Time.deltaTime * speed);
 		} else if (direction == "R") {
 			transform.Translate (Vector3.left * Time.deltaTime * speed);
-		} else if (retreating) {
-			transform.Translate (Vector3.down * Time.deltaTime * speed);
-		}
+		} 
 	
 	}
 
@@ -103,6 +99,9 @@ public class BeamEnemy : ParentEnemy {
 
 	protected void StopFire(){
 		col.size = new Vector2(1,1);
+		if (fired >= 3) {
+			retreating = true;
+		}
 	}
 
 	void OnTriggerEnter2D(Collider2D other){

@@ -5,13 +5,15 @@ public class Asteroid : ParentEnemy {
 	
 	private AsteroidModel model;
 	CircleCollider2D collid;
+	private float size = .65f;
+	private float bottomEdge = -7f;
+
 
 	public void init(EnemyManager owner) {
 		hp = 20;
-		fireRate = 0;
 		speed = 2;
 		this.owner = owner;
-		transform.localScale = new Vector3 (.75f, .75f, 1);
+		transform.localScale = new Vector3 (size, size, 1);
 		collid = gameObject.AddComponent<CircleCollider2D> ();
 		body = gameObject.AddComponent<Rigidbody2D> ();
 		body.isKinematic = true;
@@ -25,10 +27,10 @@ public class Asteroid : ParentEnemy {
 
 
 	void Update () {
-		if (transform.position.y < -7) {
+		if (transform.position.y < bottomEdge) {
 			Destroy (this.gameObject);
 		}
-		if (hp == 0) {
+		if (hp <= 0) {
 			Destroy (this.gameObject);
 		}
 		Move ();

@@ -6,6 +6,9 @@ public class SparkEnemy : ParentEnemy {
 	private SparkEnemyModel model;
 	private bool fired;
 
+
+	private float bottomEdge = -7f;
+
 	public void init(EnemyManager owner) {
 		hp = 5;
 		speed = 2;
@@ -36,7 +39,7 @@ public class SparkEnemy : ParentEnemy {
 			}
 		}
 
-		if (transform.position.y < -7) {
+		if (transform.position.y < bottomEdge) {
 			Destroy (this.gameObject);
 		} 
 	}
@@ -46,7 +49,6 @@ public class SparkEnemy : ParentEnemy {
 	}
 
 	protected void Fire(string direction){  //I made this take x and y because I was thinking about it and different enemies will need to fire from different parts of their models
-		print("hello");
 		GameObject shot1 = new GameObject();
 		shot1.transform.parent = transform.parent;
 		shot1.transform.position = new Vector3 (0, 0);

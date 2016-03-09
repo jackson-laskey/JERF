@@ -5,18 +5,21 @@ public class SmallEnemy : ParentEnemy {
 
 	private SmallEnemyModel model;
 	private string direction;
-	private float diveSpeed;
-	private float divePosition;
 	private bool diving;
+
+
+
+	private float diveSpeed = 5;
+	private float divePosition = .5f;
+	private float size = .85f;
+	private float bottomEdge = -7f;
+
 
 	public void init(EnemyManager owner) {
 		name = "SmallEnemy";
 		hp = 2;
-		fireRate = 0;
 		speed = .8f;
-		diveSpeed = 5;
-		divePosition = .5f;
-		transform.localScale = new Vector3 (.85f, 1f, 1f);
+		transform.localScale = new Vector3 (size, 1f, 1f);
 		col = gameObject.AddComponent<BoxCollider2D> ();
 		body = gameObject.AddComponent<Rigidbody2D> ();
 		body.isKinematic = true;
@@ -34,7 +37,7 @@ public class SmallEnemy : ParentEnemy {
 	}
 		
 	void Update () {
-		if (hp <= 0 || transform.position.y < -7) {
+		if (hp <= 0 || transform.position.y < bottomEdge) {
 			Destroy (this.gameObject);
 		}
 		if (!diving) {
@@ -60,15 +63,12 @@ public class SmallEnemy : ParentEnemy {
 	}
 
 	void Move(){
-		if (transform.position.y < -7) {
-			Destroy (this.gameObject);
-		} 
 		if (direction == "L") {
 			transform.Translate (Vector3.up * Time.deltaTime * speed);
 			transform.Translate (Vector3.right * Time.deltaTime * speed*3);
 		} else {
 			transform.Translate (Vector3.up * Time.deltaTime * speed);
-			transform.Translate (Vector3.left * Time.deltaTime * speed*2);
+			transform.Translate (Vector3.left * Time.deltaTime * speed*3);
 		}
 	}
 

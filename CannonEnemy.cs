@@ -13,8 +13,6 @@ public class CannonEnemy : ParentEnemy {
 	private float cd;
 
 	public void init(EnemyManager owner) {
-		LaserSound = Resources.Load ("Sounds/laser") as AudioClip;
-		gameObject.name = "CannonEnemy";
 		hp = 5;
 		fireRate = .42f;
 		speed = 2;
@@ -23,6 +21,8 @@ public class CannonEnemy : ParentEnemy {
 		body.isKinematic = true;
 		transform.eulerAngles = new Vector3(0,0,180);
 		this.owner = owner;
+		LaserSound = Resources.Load ("Sounds/laser") as AudioClip;
+		gameObject.name = "CannonEnemy";
 		direction = "D";
 		firingSide = "L";
 		stopPosition = Random.Range (4.5f, -1f);
