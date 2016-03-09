@@ -7,9 +7,9 @@ public class SparkShot : Projectile {
 
 	// Use this for initialization
 	void Start () {
-		speed = 3;
+		speed = 4;
 		base.init (true, "Spark", 2f, 3f, 200);
-		transform.localScale = new Vector3 (.1f, .1f, 1f);
+		transform.localScale = new Vector3 (.2f, .2f, .2f);
 		name = "Spark";
 	}
 

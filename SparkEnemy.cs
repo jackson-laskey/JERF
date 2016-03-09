@@ -46,6 +46,7 @@ public class SparkEnemy : ParentEnemy {
 	}
 
 	protected void Fire(string direction){  //I made this take x and y because I was thinking about it and different enemies will need to fire from different parts of their models
+		print("hello");
 		GameObject shot1 = new GameObject();
 		shot1.transform.parent = transform.parent;
 		shot1.transform.position = new Vector3 (0, 0);
