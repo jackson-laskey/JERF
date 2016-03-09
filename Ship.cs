@@ -158,7 +158,7 @@ public class Ship : MonoBehaviour {
 			if (Input.GetKey ("s") && gameObject.transform.position.y >= -4f) {
 				transform.Translate (0, -speedRatioTwoD * 5 * Time.deltaTime, 0);
 			} else if (Input.GetKey ("w") && gameObject.transform.position.y <= 2f) {
-				transform.Translate (0, speedRatioTwoD * Time.deltaTime, 0);
+				transform.Translate (0, speedRatioTwoD * 5 * Time.deltaTime, 0);
 			}
 		}
 		if (Input.GetKey ("a") && gameObject.transform.position.x > -6) {
