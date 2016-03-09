@@ -196,7 +196,10 @@ public class GameController : MonoBehaviour {
 				ExecuteInstruction (instructions [iter].Split (':')); // Execute the instruction
 				levelCount.text = "";
 				iter++;//iterate
-			} else if(!waiting && GameObject.FindObjectsOfType<ParentEnemy>().Length == 0){//Means done, not just waiting
+				if (instructions [iter] == "X") {
+					StartCoroutine (sleep (1));
+				}
+			} else if(!waiting && GameObject.FindObjectsOfType<ParentEnemy>().Length == 0 && eMan.spawningA == false){//Means done, not just waiting
 				if (++level > numLevels) {
 					done = true;
 				} else {
