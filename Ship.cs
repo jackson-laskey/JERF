@@ -31,14 +31,20 @@ public class Ship : MonoBehaviour {
 	// tracks frames to determine frequency of laser launch
 	private float clock;
 	// when clock reaches threshold, fires and restarts clock
-	private float fireInterval;
+	private float fireInterval = .4f;
 
 	private bool movingTwoD;
-	private float fallBackSpeed;
+	private float fallBackSpeed = 2.5f;
+	float speedRatioTwoD = .7f;
+
 
 	private bool initd = false;
 
 	private float speed;
+
+
+	// DAMAGE TAKEN HANDLED IN ONTRIGGER2DENTER()
+	// ENGINE THRESHOLDS AND SHIELD COLOR THRESHOLDS HANDLED IN INIT
 
 
 	public void init (GameController gContr, Button r) {
@@ -70,10 +76,8 @@ public class Ship : MonoBehaviour {
 
 		// clock tracks time passed, ship fires when clock passes threshold. clock then resets.
 		clock = 0;
-		fireInterval = .4f;
 
 		movingTwoD = false;
-		fallBackSpeed = 2.5f;
 
 		initd = true;
 
@@ -106,6 +110,10 @@ public class Ship : MonoBehaviour {
 		if (!initd) {
 			return;
 		}
+
+		//
+		// THRESHOLDS HANDLED BELOW
+		//
 		if (engineLevel.health > 99) {
 			speed = 100;
 			movingTwoD = true;
@@ -148,15 +156,9 @@ public class Ship : MonoBehaviour {
 		// move left if "a" is being pressed, right if "d" is being pressed. Confined to LHS.
 		if (movingTwoD) {
 			if (Input.GetKey ("s") && gameObject.transform.position.y >= -4f) {
-//				jets.SetInteger ("Direction", 1);
-//				direction.SetInteger ("Direction", 1);
-//				JET.transform.localPosition = new Vector3 (.02f, -.37f, 0);
-				transform.Translate (0, -3.5f * Time.deltaTime, 0);
+				transform.Translate (0, -speedRatioTwoD * 5 * Time.deltaTime, 0);
 			} else if (Input.GetKey ("w") && gameObject.transform.position.y <= 2f) {
-//				jets.SetInteger ("Direction", 2);
-//				direction.SetInteger ("Direction", 2);
-//				JET.transform.localPosition = new Vector3 (-.02f, -.37f, 0);
-				transform.Translate (0, 3.5f * Time.deltaTime, 0);
+				transform.Translate (0, speedRatioTwoD * Time.deltaTime, 0);
 			}
 		}
 		if (Input.GetKey ("a") && gameObject.transform.position.x > -6) {
@@ -214,19 +216,6 @@ public class Ship : MonoBehaviour {
 			break; 
 		}
 	}
-
-//	protected void MakeModel() {
-//		model = GameObject.CreatePrimitive (PrimitiveType.Quad);
-//		model.transform.parent = gameObject.transform;
-//		model.transform.localPosition = new Vector3 (0, 0, 0);
-//		model.transform.localScale = transform.localScale;
-//		model.name = "ShipModel";
-//		Texture2D[] ShipTextures = Resources.LoadAll<Texture2D> ("Textures/ShipSprites");
-//		print (ShipTextures);
-//		Material mat = model.GetComponent<Renderer> ().material;
-//		mat.shader = Shader.Find ("Sprites/Default");
-//		mat.mainTexture = ShipTextures[0];
-//	}
 
 	private void Fire() {
 				if (laserLevel.health < 50) {

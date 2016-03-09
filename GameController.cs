@@ -16,8 +16,8 @@ public class GameController : MonoBehaviour {
 	public GameObject captain;
 	public GameObject jets;
 	public GameObject leftShield;
-	public int level;
-	public int numLevels;
+	public int level = 1;
+	public int numLevels = 5;
 	private string[] instructions;
 	private int iter = 0;
 	private bool waiting = false;
@@ -26,7 +26,7 @@ public class GameController : MonoBehaviour {
 	public Text levelCount;
 	public Button restart;
 	public bool isDead;
-	int levelStartWait = 5;
+	int levelStartWait = 3;
 	public AudioClip DeathSound;
 
 //	private bool waiting;

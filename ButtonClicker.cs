@@ -5,15 +5,11 @@ public class ButtonClicker : MonoBehaviour {
 
 	public GameController controller;
 
-	private float darkenSprite;
-
 	private ComponentHealth healthBar; 
 
 	private MoveCaptain captain;
 
 	private SpriteRenderer sprite;
-	private Color upColor;
-	private Color downColor;
 
 	// Use this for initialization
 	public void init (GameController gContr, float x, float y, float quadR, float quadG, float quadB) {
@@ -28,18 +24,9 @@ public class ButtonClicker : MonoBehaviour {
 		gameObject.AddComponent<BoxCollider2D> ();
 		
 		sprite = GetComponent<SpriteRenderer> ();
-		darkenSprite = (.7f);
-		upColor = new Color (quadR, quadG, quadB);
-		downColor = new Color (quadR*darkenSprite, quadG*darkenSprite, quadB*darkenSprite);
-		sprite.color = upColor;
 	}
 
 	void PressButton(bool buttonDown) {
-		if (buttonDown) {
-			sprite.color = downColor;
-		} else {
-			sprite.color = upColor;
-		}
 		healthBar.decaying = !buttonDown;
 	}
 		

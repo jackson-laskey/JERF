@@ -23,6 +23,15 @@ public class ComponentHealth : MonoBehaviour {
 
 	private bool initd;
 
+	// point at which health bars are colored and modified as if they are full
+	float fullThreshold = 97;
+
+	// fraction of damage taken when shields are manned/ above fullThreshold
+	float shieldMannedModifier = .8f;
+	float shieldFullModifier = .5f;
+
+	// COLORS ARE HANDLED AT THE END OF UPDATE()
+
 
 	// Use this for initialization
 	public void init (GameController gCont, float x, float y, int type) {
@@ -128,8 +137,6 @@ public class ComponentHealth : MonoBehaviour {
 				}
 			} else if (health >= 90) {
 				model.transform.localScale = new Vector3 (.9f, .92f* (health/100f));
-				//model.transform.localPosition = new Vector3 (model.transform.localPosition.x, model.transform.localPosition.y - ((health/100f)/50));
-				//health = 100;
 				health += Time.deltaTime * repairRate;
 				if (type == 0) {
 					animator.SetInteger ("Power", 1);
@@ -143,7 +150,6 @@ public class ComponentHealth : MonoBehaviour {
 			}
 			else if (health < 90){
 				model.transform.localScale = new Vector3 (.9f, .92f * (health/100f));
-				//model.transform.localPosition = new Vector3 (model.transform.localPosition.x, model.transform.localPosition.y + ((health/100f)/50));
 				health += Time.deltaTime * repairRate;
 				if (type == 0) {
 					animator.SetInteger ("Power", 1);
@@ -156,11 +162,13 @@ public class ComponentHealth : MonoBehaviour {
 				}
 			}
 		}
-
+			
+		//
+		// HANDLES COLOR/COLOR THRESHOLDS
+		//
 		if (type == 2) {
-			if (health > 98) {
+			if (health > fullThreshold) {
 				mat.color = new Color (0, 0, 1);
-//				mat.color = new Color (1, .84f, 0);
 			} else if (health < 30) {
 				mat.color = new Color (.8f, 0, 0);
 			} else if (health < 70) {
@@ -171,9 +179,8 @@ public class ComponentHealth : MonoBehaviour {
 		}
 
 		if (type == 1) {
-			if (health > 98) {
+			if (health > fullThreshold) {
 				mat.color = new Color (1, .52f, 0);
-				//				mat.color = new Color (1, .84f, 0);
 			} else if (health < 30) {
 				mat.color = new Color (.8f, 0, 0);
 			} else if (health < 70) {
@@ -184,14 +191,17 @@ public class ComponentHealth : MonoBehaviour {
 		}
 	}
 
+
+
+
 	// damages the part and returns true if it lowers the part's health to 0
 	public bool Damage(float damage) {
 		float damageModifier = 1;
 		if (!decaying) {
-			damageModifier = .8f;
+			damageModifier = shieldMannedModifier;
 		}
-		if (health > 97) {
-			damageModifier = .5f;
+		if (health > fullThreshold) {
+			damageModifier = shieldFullModifier;
 		}
 		if (health - (damage * damageModifier) <= 0) {
 			health = 0;
