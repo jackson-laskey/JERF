@@ -116,7 +116,7 @@ public class ComponentHealth : MonoBehaviour {
 				} else {
 					animator.SetInteger ("Power", 1);
 					GameObject.Find ("HyperShield").GetComponent<SpriteRenderer> ().enabled = false;
-					GameObject.Find ("LeftShield").GetComponent<SpriteRenderer> ().enabled = true;
+					GameObject.Find ("LeftShield").GetComponent<SpriteRenderer> ().enabled = false;
 				}
 
 			}
@@ -144,7 +144,7 @@ public class ComponentHealth : MonoBehaviour {
 					animator.SetInteger ("Power", 1);
 				} else {
 					animator.SetInteger ("Power", 1);
-					GameObject.Find ("LeftShield").GetComponent<SpriteRenderer> ().enabled = true;
+					GameObject.Find ("LeftShield").GetComponent<SpriteRenderer> ().enabled = false;
 				}
 
 			}
@@ -158,7 +158,7 @@ public class ComponentHealth : MonoBehaviour {
 				} else {
 					animator.SetInteger ("Power", 1);
 					GameObject.Find ("HyperShield").GetComponent<SpriteRenderer> ().enabled = false;
-					GameObject.Find ("LeftShield").GetComponent<SpriteRenderer> ().enabled = true;
+					GameObject.Find ("LeftShield").GetComponent<SpriteRenderer> ().enabled = false;
 				}
 			}
 		}

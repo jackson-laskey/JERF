@@ -9,6 +9,8 @@ public class ParentEnemy : MonoBehaviour {
 
     protected EnemyManager owner;
 
+	protected Animator animator;
+
 	protected BoxCollider2D col;
 	protected Rigidbody2D body;
 
