@@ -295,6 +295,8 @@ public class GameController : MonoBehaviour {
 	void Reload() {
 		Destroy(GameObject.Find("CaptainDeath"));
 		Destroy(GameObject.Find("Death"));
+		setLevelText ();
+		StartCoroutine (sleep (3));
 	}
 
 	public void DestroyEnemies() {
