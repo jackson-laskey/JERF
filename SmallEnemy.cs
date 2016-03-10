@@ -19,7 +19,7 @@ public class SmallEnemy : ParentEnemy {
 
 	public void init(EnemyManager owner) {
 		name = "SmallEnemy";
-		hp = 3;
+		hp = 2;
 		speed = -.8f;
 		transform.localScale = new Vector3 (sizex, sizey, 1);
 		SpriteRenderer rend = this.gameObject.AddComponent<SpriteRenderer> ();
