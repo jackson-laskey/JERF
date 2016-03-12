@@ -3,7 +3,9 @@ using System.Collections;
 
 public class Asteroid : ParentEnemy {
 	
+
 	CircleCollider2D collid;
+
 
 
 	private float sizex = .65f;
@@ -15,8 +17,8 @@ public class Asteroid : ParentEnemy {
 		hp = 20;
 		speed = -2;
 		this.owner = owner;
-		transform.localScale = new Vector3 (sizex, sizey, 1);
-		collid = gameObject.AddComponent<CircleCollider2D> ();
+		transform.localScale = new Vector3 (Random.Range(sizex,sizex+.25f), Random.Range(sizey,sizey+.25f), 1);
+		col = gameObject.AddComponent<PolygonCollider2D> ();
 		body = gameObject.AddComponent<Rigidbody2D> ();
 		body.isKinematic = true;
 		transform.eulerAngles = new Vector3(0,0,0);

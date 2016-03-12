@@ -17,7 +17,7 @@ public class SparkEnemy : ParentEnemy {
 		hp = 5;
 		speed = -1;
 		transform.localScale = new Vector3 (sizex, sizey, 1);
-		col = gameObject.AddComponent<BoxCollider2D> ();
+		col = gameObject.AddComponent<PolygonCollider2D> ();
 		body = gameObject.AddComponent<Rigidbody2D> ();
 		SpriteRenderer rend = gameObject.AddComponent<SpriteRenderer> ();
 		animator = gameObject.AddComponent<Animator> ();
