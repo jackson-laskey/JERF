@@ -12,7 +12,6 @@ public class SparkShot : Projectile {
 		speed = 4;
 		base.init (true, "Spark", 2f, 3f, 200);
 		spark = this.gameObject;
-		spark.AddComponent<SpriteRenderer> ();
 		animator = spark.AddComponent<Animator> ();
 		animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController> ("Animation/Spark_Animation_Controller");
 		transform.localScale = new Vector3 (1.75f, 1.75f, 1.75f);
@@ -44,7 +43,9 @@ public class SparkShot : Projectile {
 
 	void OnTriggerEnter2D(Collider2D coll) {
 		if (coll.tag == "PlayerController") {
-			Hit ();
+			animator.SetTrigger ("Die");
+			speed = 0;
+			Destroy (this.gameObject, .2f);
 		}
 	}
 }

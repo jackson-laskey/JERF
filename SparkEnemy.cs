@@ -15,7 +15,7 @@ public class SparkEnemy : ParentEnemy {
 
 	public void init(EnemyManager owner) {
 		hp = 5;
-		speed = -2;
+		speed = -1;
 		transform.localScale = new Vector3 (sizex, sizey, 1);
 		col = gameObject.AddComponent<BoxCollider2D> ();
 		body = gameObject.AddComponent<Rigidbody2D> ();
@@ -105,6 +105,9 @@ public class SparkEnemy : ParentEnemy {
 
 	void Die(){
 		animator.SetTrigger ("Die");
-		Destroy (this.gameObject, .8f);
+		spark.transform.localScale = new Vector2 (1.25f, 1.25f);
+		sAnimator.SetTrigger ("Die");
+		Destroy (spark.gameObject, .2f);
+		Destroy (this.gameObject, 1f);
 	}
 }

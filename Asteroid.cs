@@ -14,13 +14,13 @@ public class Asteroid : ParentEnemy {
 
 	public void init(EnemyManager owner) {
 		hp = 20;
-		speed = 2;
+		speed = -2;
 		this.owner = owner;
 		transform.localScale = new Vector3 (sizex, sizey, 1);
 		collid = gameObject.AddComponent<CircleCollider2D> ();
 		body = gameObject.AddComponent<Rigidbody2D> ();
 		body.isKinematic = true;
-		transform.eulerAngles = new Vector3(0,0,180);
+		transform.eulerAngles = new Vector3(0,0,0);
 		var modelObject = GameObject.CreatePrimitive (PrimitiveType.Quad);
 		model = modelObject.AddComponent<AsteroidModel>();
 		gameObject.name = "Asteroid";
