@@ -98,7 +98,6 @@ public class ComponentHealth : MonoBehaviour {
 			if (decaying) {
 				gracePeriod = gracePeriod - Time.deltaTime;
 				if (gracePeriod <= 0) {
-					print (type);
 					maintain = false;
 					health = 98;
 				}
