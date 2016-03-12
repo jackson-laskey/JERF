@@ -17,7 +17,7 @@ public class EnemyManager : MonoBehaviour {
 	void Update(){
 		if (spawningA && time >= .1) {
 			if (Random.value >= (freq / 100f)) {
-				SpawnEnemy ("A", Random.Range (-6, -.5f), 6);
+				SpawnEnemy ("A", Random.Range (-6, -.5f), 6, 0);
 			}
 			time = 0;
 		}
@@ -30,7 +30,7 @@ public class EnemyManager : MonoBehaviour {
 		}
 	}
 
-	public void getInstruction(string type, int size, int x){
+	public void getInstruction(string type, int size, int x, float position){
 		if (type == "A") {
 			spawningA = true;
 			freq = size;
@@ -38,21 +38,21 @@ public class EnemyManager : MonoBehaviour {
 		} else if (type == "L") {
 			GameObject lightSpawner = new GameObject ();
 			Spawner spawner = lightSpawner.AddComponent<Spawner> ();
-			spawner.init (type, size, x, .5f, this, false,false);
+			spawner.init (type, size, x, .5f, this, false,false,position);
 		} else if (type == "H") {
 			GameObject heavySpawner = new GameObject ();
 			Spawner spawner = heavySpawner.AddComponent<Spawner> ();
-			spawner.init (type, size, x, .5f, this, false,false);
+			spawner.init (type, size, x, .5f, this, false,false, position);
 		}
 		else if (type == "B") {
 			GameObject beamSpawner = new GameObject ();
 			Spawner spawner = beamSpawner.AddComponent<Spawner> ();
-			spawner.init (type, size, x, .5f, this, false,false);
+			spawner.init (type, size, x, .5f, this, false,false,position);
 		}
 		else if (type == "S") {
 			GameObject sparkSpawner = new GameObject ();
 			Spawner spawner = sparkSpawner.AddComponent<Spawner> ();
-			spawner.init (type, size, x, .5f, this, false,false);
+			spawner.init (type, size, x, .5f, this, false,false,position);
 		}
 	}
 
@@ -60,17 +60,17 @@ public class EnemyManager : MonoBehaviour {
 		if (type == "L") {
 			GameObject lightSpawner = new GameObject ();
 			Spawner spawner = lightSpawner.AddComponent<Spawner> ();
-			spawner.init (type, 1, 0, 0, this, false,true);
+			spawner.init (type, 1, 0, 0, this, false,true,0);
 			spawner.giveFormation (f);
 		} else if (type == "A") {
 			GameObject asteroidSpawner = new GameObject ();
 			Spawner spawner = asteroidSpawner.AddComponent<Spawner> ();
-			spawner.init (type, 1, 0, 0, this, false,true);
+			spawner.init (type, 1, 0, 0, this, false,true,0);
 			spawner.giveFormation (f);
 		}
 	}
 
-	public void SpawnEnemy(string type,float x, float y){
+	public void SpawnEnemy(string type,float x, float y, float position){
 		GameObject enemyObject = new GameObject();
 		if (type == "A") {
 			Asteroid enemy = enemyObject.AddComponent<Asteroid> ();
@@ -80,7 +80,7 @@ public class EnemyManager : MonoBehaviour {
 		if (type == "H") {
 			CannonEnemy enemy = enemyObject.AddComponent<CannonEnemy> ();
 			enemy.transform.position = new Vector3 (x, y, 0);
-			enemy.init (this);
+			enemy.init (this, position);
 		}
 		if (type == "L") {
 			SmallEnemy enemy = enemyObject.AddComponent<SmallEnemy> ();

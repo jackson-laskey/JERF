@@ -14,7 +14,7 @@ public class StarSpawner : MonoBehaviour {
 		if (Random.value > .95) {
 			float x = Random.Range(-6,0) + Random.value;
 			float y = 5;
-			e.SpawnEnemy("BS", x, y);
+			e.SpawnEnemy("BS", x, y,0);
 		}
 	}
 

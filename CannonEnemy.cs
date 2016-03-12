@@ -20,12 +20,13 @@ public class CannonEnemy : ParentEnemy {
 	private float sizex = .65f;
 	private float sizey = .65f;
 
-	public void init(EnemyManager owner) {
+	public void init(EnemyManager owner, float position) {
 		hp = 6;
 		fireRate = .42f;
 		speed = -1.5f;
+		stopPosition = position;
 		transform.localScale = new Vector3 (sizex, sizey, 1);
-		col = gameObject.AddComponent<BoxCollider2D> ();
+		col = gameObject.AddComponent<PolygonCollider2D> ();
 		body = gameObject.AddComponent<Rigidbody2D> ();
 		SpriteRenderer rend = gameObject.AddComponent<SpriteRenderer> ();
 		this.GetComponent<Renderer> ().sortingOrder = 1;
@@ -41,7 +42,6 @@ public class CannonEnemy : ParentEnemy {
 		gameObject.name = "CannonEnemy";
 		direction = "D";
 		firingSide = "L";
-		stopPosition = Random.Range (4.5f, -1f);
 		cannon = new GameObject ();
 		cannon.transform.parent = this.transform;
 		cannon.transform.localPosition = new Vector3 (0, -.36f, 0);

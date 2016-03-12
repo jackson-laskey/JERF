@@ -10,7 +10,7 @@ public class SmallEnemy : ParentEnemy {
 
 
 	private float diveSpeed = -5;
-	private float divePosition = 1f;
+	private float diveDistance = 4f;
 	private float sizex = .65f;
 	private float sizey = .65f;
 	private float bottomEdge = -7f;
@@ -23,7 +23,7 @@ public class SmallEnemy : ParentEnemy {
 		speed = -1f;
 		transform.localScale = new Vector3 (sizex, sizey, 1);
 		SpriteRenderer rend = this.gameObject.AddComponent<SpriteRenderer> ();
-		col = gameObject.AddComponent<BoxCollider2D> ();
+		col = gameObject.AddComponent<PolygonCollider2D> ();
 		body = gameObject.AddComponent<Rigidbody2D> ();
 		animator = gameObject.AddComponent<Animator> ();
 		animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController> ("Animation/SE_Animation_Controller");
@@ -68,7 +68,7 @@ public class SmallEnemy : ParentEnemy {
 				direction = "L";
 			}
 			Move ();
-			if (transform.position.y <= divePosition) {
+			if (transform.position.y <= (owner.owner.ship.transform.position.y + diveDistance)) {
  				float playerx = owner.owner.ship.transform.position.x;
 				float playery = owner.owner.ship.transform.position.y;
 				float angle = Mathf.Rad2Deg*Mathf.Acos (Mathf.Abs (playery - this.transform.position.y) / Mathf.Sqrt (Mathf.Pow((playerx - this.transform.position.x),2) + 

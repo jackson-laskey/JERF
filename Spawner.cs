@@ -11,13 +11,15 @@ public class Spawner : MonoBehaviour {
 	private bool background;
 	public int formationType;
 	private bool formation;
+	private float position;
 	private float y;
 
 	private EnemyManager eMan;
 
 	// Use this for initialization
-	public void init (string typeName, int quantity, float xLoc, float frequency, EnemyManager parent, bool background, bool formation) {
+	public void init (string typeName, int quantity, float xLoc, float frequency, EnemyManager parent, bool background, bool formation, float position) {
 		type = typeName;
+		this.position = position;
 		this.background = background;
 		num = quantity;
 		x = xLoc;
@@ -43,7 +45,7 @@ public class Spawner : MonoBehaviour {
 			}
 		} else {
 			if ((elapsed += Time.deltaTime) >= freq) {
-				eMan.SpawnEnemy (type, x, y);
+				eMan.SpawnEnemy (type, x, y,position);
 				num--;
 				elapsed = 0;
 			}
@@ -56,17 +58,12 @@ public class Spawner : MonoBehaviour {
 	void SFormation(){
 		for (int x = -6; x < 0; x++) {
 			if (x % 2 == 0) {
-				eMan.SpawnEnemy (type, x, 6);
+				eMan.SpawnEnemy (type, Random.Range(x,x+.25f), 6,0);
 			}
 		}
 		for (int x = -6; x < 0; x++) {
 			if (x % 2 != 0) {
-				eMan.SpawnEnemy (type, x, 9);
-			}
-		}
-		for (int x = -6; x < 0; x++) {
-			if (x % 2 == 0) {
-				eMan.SpawnEnemy (type, x, 12);
+				eMan.SpawnEnemy (type, Random.Range(x,x+.25f), 9,0);
 			}
 		}
 		Destroy (this.gameObject);
@@ -74,10 +71,10 @@ public class Spawner : MonoBehaviour {
 
 	void LFormation(){
 		for (int x = -6; x < 0; x++) {
-			eMan.SpawnEnemy (type, x, 6);
+			eMan.SpawnEnemy (type, x, 6,0);
 		}
 		for (int x = -6; x < 0; x++) {
-			eMan.SpawnEnemy (type, x, 9);
+			eMan.SpawnEnemy (type, x, 9,0);
 		}
 		Destroy (this.gameObject);
 	}

@@ -167,12 +167,12 @@ public class GameController : MonoBehaviour {
 		for (int x = -6; x < 0; x++) {
 			GameObject Starspawner = new GameObject ();
 			Spawner spawner = Starspawner.AddComponent<Spawner> ();
-			spawner.init ("BS", 1, x, 1f, eMan, true,false);
+			spawner.init ("BS", 1, x, 1f, eMan, true,false,0);
 		}
 		for (int x = -6; x < 0; x++) {
 			GameObject Starspawner = new GameObject ();
 			Spawner spawner = Starspawner.AddComponent<Spawner> ();
-			spawner.init ("BS", 1, (x -.5f), 2f, eMan, true,false);
+			spawner.init ("BS", 1, (x -.5f), 2f, eMan, true,false,0);
 		}
 
 
@@ -216,13 +216,16 @@ public class GameController : MonoBehaviour {
 			//Need to cast strings as integers. Args for this eMan instruction are (string type, int size, int x). Type is enemy type
 			//Size is squad size (squad implementation is up to you for now, coming in one after another maybe). X is x value of screen descent.
 			if (inst.Length == 3) {
-				eMan.getInstruction (inst [0], Int32.Parse (inst [1]), Int32.Parse (inst [2]));
+				eMan.getInstruction (inst [0], Int32.Parse (inst [1]), Int32.Parse (inst [2]),0);
 			} else if (inst.Length == 2) {
 				eMan.getFormation (inst [0], Int32.Parse (inst [1]));
 			}
-		} else if (inst [0] == "H" || inst [0] == "S" || inst [0] == "B") { // Heavy Enemies
-			eMan.getInstruction(inst[0], Int32.Parse(inst[1]), Int32.Parse(inst[2]));
-		} else { //Integer for Waiting
+		} else if (inst [0] == "S" || inst [0] == "B") { // Heavy Enemies
+			eMan.getInstruction (inst [0], Int32.Parse (inst [1]), Int32.Parse (inst [2]),0);
+		} else if (inst [0] == "H") {
+			eMan.getInstruction (inst [0], Int32.Parse (inst [1]), Int32.Parse (inst [2]),Int32.Parse (inst [3]));
+		}
+		else { //Integer for Waiting
 			StartCoroutine (sleep(Int32.Parse(inst[0])));
 		}
 	}

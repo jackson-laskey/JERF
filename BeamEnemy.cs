@@ -24,7 +24,7 @@ public class BeamEnemy : ParentEnemy {
 		speed = 1;
 		transform.localScale = new Vector3 (sizex, sizey, 1);
 		entering = true;
-		col = gameObject.AddComponent<BoxCollider2D> ();
+		col = gameObject.AddComponent<PolygonCollider2D> ();
 		body = gameObject.AddComponent<Rigidbody2D> ();
 		body.isKinematic = true;
 		transform.eulerAngles = new Vector3(0,0,180);
@@ -75,7 +75,6 @@ public class BeamEnemy : ParentEnemy {
 			fireTime = fireTime - Time.deltaTime;
 			if (fireTime <= 0) {
 				charging = true;
-				StopFire ();
 			}
 		}
 
@@ -95,16 +94,9 @@ public class BeamEnemy : ParentEnemy {
 	}
 
 
-	protected void Fire(){ 						//I made this take x and y because I was thinking about it and different enemies will need to fire from different parts of their models
-		col.size = new Vector2(1,20);
-		fired++;
-	}
-
-	protected void StopFire(){
-		col.size = new Vector2(1,1);
-		if (fired >= 3) {
-			retreating = true;
-		}
+	protected void Fire(){ 		
+		// Ryan fill this in to fire the same beam as the
+		// Make the Beam last as long as FireTimeReset at the top of this code
 	}
 
 	void OnTriggerEnter2D(Collider2D other){
