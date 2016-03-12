@@ -3,7 +3,6 @@ using System.Collections;
 
 public class Asteroid : ParentEnemy {
 	
-	private AsteroidModel model;
 	CircleCollider2D collid;
 
 
@@ -21,11 +20,8 @@ public class Asteroid : ParentEnemy {
 		body = gameObject.AddComponent<Rigidbody2D> ();
 		body.isKinematic = true;
 		transform.eulerAngles = new Vector3(0,0,0);
-		var modelObject = GameObject.CreatePrimitive (PrimitiveType.Quad);
-		model = modelObject.AddComponent<AsteroidModel>();
 		gameObject.name = "Asteroid";
 		this.tag = "asteroid";
-		model.init(this);
 	}
 
 
