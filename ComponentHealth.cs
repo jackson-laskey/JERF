@@ -9,6 +9,9 @@ public class ComponentHealth : MonoBehaviour {
 	public float decayModifier;
 	public float health;
 
+	public bool maintain;
+	public float gracePeriod;
+
 	Animator animator;
 
 	private int type;
@@ -27,8 +30,8 @@ public class ComponentHealth : MonoBehaviour {
 	float fullThreshold = 97;
 
 	// fraction of damage taken when shields are manned/ above fullThreshold
-	float shieldMannedModifier = .8f;
-	float shieldFullModifier = .5f;
+	float shieldMannedModifier = .9f;
+	float shieldFullModifier = .75f;
 
 	// COLORS ARE HANDLED AT THE END OF UPDATE()
 
@@ -63,12 +66,14 @@ public class ComponentHealth : MonoBehaviour {
 		outlineModel.GetComponent<SpriteRenderer> ().sortingLayerName = "TopRhsUI";
 
 		decaying = true;
+		maintain = false;
 		health = 100;
-		repairRate = 30f;
 		if (type == 2) {
-			decayModifier = 10.5f;
+			repairRate = 8f;
+			decayModifier = 3f;
 		} else {
-			decayModifier = 4.3f;
+			repairRate = 18f;
+			decayModifier = 4f;
 		}
 
 		initd = true;
@@ -89,76 +94,88 @@ public class ComponentHealth : MonoBehaviour {
 		 * */
 
 
-		if (decaying) {
-			if (health <= 1) {
-				if (type == 0) {
-					animator.SetInteger ("Power", 0);
-				} else if (type == 1) {
-					animator.SetInteger ("Power", 0);
-				} else {
-					animator.SetInteger ("Power", 0);
-					GameObject.Find ("HyperShield").GetComponent<SpriteRenderer> ().enabled = false;
-					GameObject.Find ("LeftShield").GetComponent<SpriteRenderer> ().enabled = false;
+		if (maintain) {
+			if (decaying) {
+				gracePeriod = gracePeriod - Time.deltaTime;
+				if (gracePeriod <= 0) {
+					print (type);
+					maintain = false;
+					health = 98;
 				}
-				model.transform.localScale = new Vector3(.9f, 0);
-				//model.transform.localPosition = new Vector3 (model.transform.localPosition.x, model.transform.localPosition.y + ((health/100f)/50));
-				health = 0;
-
-				
-			}else {
-				model.transform.localScale = new Vector3 (.9f, .92f * (health/100f));
-				//model.transform.localPosition = new Vector3 (model.transform.localPosition.x, model.transform.localPosition.y - ((health/100f)/50));
-				health -= (Time.deltaTime * repairRate) /decayModifier;
-				if (type == 0) {
-					animator.SetInteger ("Power", 1);
-				} else if (type == 1) {
-					animator.SetInteger ("Power", 1);
-				} else {
-					animator.SetInteger ("Power", 1);
-					GameObject.Find ("HyperShield").GetComponent<SpriteRenderer> ().enabled = false;
-					GameObject.Find ("LeftShield").GetComponent<SpriteRenderer> ().enabled = false;
-				}
-
 			}
 		} else {
-			
-			if (health >= 99) {
-				model.transform.localScale = new Vector3 (.9f, .92f);
-				//model.transform.localPosition = new Vector3 (model.transform.localPosition.x, model.transform.localPosition.y - ((health/100f)/50));
-				health = 100;
-				if (type == 0) {
-					animator.SetInteger ("Power", 2);
-				} else if (type == 1) {
-					animator.SetInteger ("Power", 2);
-				} else {
-					animator.SetInteger ("Power", 2);
-					GameObject.Find ("HyperShield").GetComponent<SpriteRenderer> ().enabled = true;
-					GameObject.Find ("LeftShield").GetComponent<SpriteRenderer> ().enabled = true;
-				}
-			} else if (health >= 90) {
-				model.transform.localScale = new Vector3 (.9f, .92f* (health/100f));
-				health += Time.deltaTime * repairRate;
-				if (type == 0) {
-					animator.SetInteger ("Power", 1);
-				} else if (type == 1) {
-					animator.SetInteger ("Power", 1);
-				} else {
-					animator.SetInteger ("Power", 1);
-					GameObject.Find ("LeftShield").GetComponent<SpriteRenderer> ().enabled = false;
-				}
+			if (decaying) {
+				if (health <= 1) {
+					if (type == 0) {
+						animator.SetInteger ("Power", 0);
+					} else if (type == 1) {
+						animator.SetInteger ("Power", 0);
+					} else {
+						animator.SetInteger ("Power", 0);
+						GameObject.Find ("HyperShield").GetComponent<SpriteRenderer> ().enabled = false;
+						GameObject.Find ("LeftShield").GetComponent<SpriteRenderer> ().enabled = false;
+					}
+					model.transform.localScale = new Vector3 (.9f, 0);
+					//model.transform.localPosition = new Vector3 (model.transform.localPosition.x, model.transform.localPosition.y + ((health/100f)/50));
+					health = 0;
 
-			}
-			else if (health < 90){
-				model.transform.localScale = new Vector3 (.9f, .92f * (health/100f));
-				health += Time.deltaTime * repairRate;
-				if (type == 0) {
-					animator.SetInteger ("Power", 1);
-				} else if (type == 1) {
-					animator.SetInteger ("Power", 1);
+				
 				} else {
-					animator.SetInteger ("Power", 1);
-					GameObject.Find ("HyperShield").GetComponent<SpriteRenderer> ().enabled = false;
-					GameObject.Find ("LeftShield").GetComponent<SpriteRenderer> ().enabled = false;
+					model.transform.localScale = new Vector3 (.9f, .92f * (health / 100f));
+					//model.transform.localPosition = new Vector3 (model.transform.localPosition.x, model.transform.localPosition.y - ((health/100f)/50));
+					health -= (Time.deltaTime * repairRate) / decayModifier;
+					if (type == 0) {
+						animator.SetInteger ("Power", 1);
+					} else if (type == 1) {
+						animator.SetInteger ("Power", 1);
+					} else {
+						animator.SetInteger ("Power", 1);
+						GameObject.Find ("HyperShield").GetComponent<SpriteRenderer> ().enabled = false;
+						GameObject.Find ("LeftShield").GetComponent<SpriteRenderer> ().enabled = false;
+					}
+
+				}
+			} else {
+			
+				if (health >= 99) {
+					model.transform.localScale = new Vector3 (.9f, .92f);
+					//model.transform.localPosition = new Vector3 (model.transform.localPosition.x, model.transform.localPosition.y - ((health/100f)/50));
+					health = 100;
+					maintain = true;
+					gracePeriod = 1f;
+					if (type == 0) {
+						animator.SetInteger ("Power", 2);
+					} else if (type == 1) {
+						animator.SetInteger ("Power", 2);
+					} else {
+						animator.SetInteger ("Power", 2);
+						GameObject.Find ("HyperShield").GetComponent<SpriteRenderer> ().enabled = true;
+						GameObject.Find ("LeftShield").GetComponent<SpriteRenderer> ().enabled = true;
+					}
+				} else if (health >= 90) {
+					model.transform.localScale = new Vector3 (.9f, .92f * (health / 100f));
+					health += Time.deltaTime * repairRate;
+					if (type == 0) {
+						animator.SetInteger ("Power", 1);
+					} else if (type == 1) {
+						animator.SetInteger ("Power", 1);
+					} else {
+						animator.SetInteger ("Power", 1);
+						GameObject.Find ("LeftShield").GetComponent<SpriteRenderer> ().enabled = false;
+					}
+
+				} else if (health < 90) {
+					model.transform.localScale = new Vector3 (.9f, .92f * (health / 100f));
+					health += Time.deltaTime * repairRate;
+					if (type == 0) {
+						animator.SetInteger ("Power", 1);
+					} else if (type == 1) {
+						animator.SetInteger ("Power", 1);
+					} else {
+						animator.SetInteger ("Power", 1);
+						GameObject.Find ("HyperShield").GetComponent<SpriteRenderer> ().enabled = false;
+						GameObject.Find ("LeftShield").GetComponent<SpriteRenderer> ().enabled = false;
+					}
 				}
 			}
 		}
@@ -196,6 +213,9 @@ public class ComponentHealth : MonoBehaviour {
 
 	// damages the part and returns true if it lowers the part's health to 0
 	public bool Damage(float damage) {
+		if (maintain) {
+			maintain = false;
+		}
 		float damageModifier = 1;
 		if (!decaying) {
 			damageModifier = shieldMannedModifier;
