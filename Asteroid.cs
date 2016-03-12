@@ -11,18 +11,23 @@ public class Asteroid : ParentEnemy {
 	private float sizex = .65f;
 	private float sizey = .65f;
 	private float bottomEdge = -7f;
-
+	private Sprite[] astroids;
 
 	public void init(EnemyManager owner) {
 		hp = 20;
 		speed = -2;
 		this.owner = owner;
+		astroids = Resources.LoadAll<Sprite> ("Textures/Asteroid_Sprite_Sheet");
 		transform.localScale = new Vector3 (Random.Range(sizex,sizex+.25f), Random.Range(sizey,sizey+.25f), 1);
-		col = gameObject.AddComponent<PolygonCollider2D> ();
-		body = gameObject.AddComponent<Rigidbody2D> ();
+		SpriteRenderer rend = gameObject.AddComponent<SpriteRenderer> ();
+		rend.sprite = astroids [0];
+		animator = gameObject.AddComponent<Animator> ();
+		animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController> ("Animation/Asteroid_Animation_Controller");
+		col = this.gameObject.AddComponent<PolygonCollider2D> ();
+		body = this.gameObject.AddComponent<Rigidbody2D> ();
 		body.isKinematic = true;
 		transform.eulerAngles = new Vector3(0,0,0);
-		gameObject.name = "Asteroid";
+		this.name = "Asteroid";
 		this.tag = "asteroid";
 	}
 
@@ -32,7 +37,9 @@ public class Asteroid : ParentEnemy {
 			Destroy (this.gameObject);
 		}
 		if (hp <= 0) {
-			Destroy (this.gameObject);
+			speed = 0;
+			animator.SetTrigger ("Die");
+			Destroy (this.gameObject, .4f);
 		}
 		Move ();
 	}
@@ -46,7 +53,11 @@ public class Asteroid : ParentEnemy {
 			hp--;
 		}
 		if (other.tag == "PlayerController") {
-			Destroy (this.gameObject);
+			speed = 0;
+			animator.SetTrigger ("Die");
+			Destroy (this.gameObject, .4f);
+
+
 		}
 	}
 }
