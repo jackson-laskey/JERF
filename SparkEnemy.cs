@@ -3,32 +3,59 @@ using System.Collections;
 
 public class SparkEnemy : ParentEnemy {
 
-	private SparkEnemyModel model;
 	private bool fired;
 
 
 	private float bottomEdge = -7f;
 	private float sizex = .65f;
 	private float sizey = .65f;
+	private GameObject spark;
+	private Animator sAnimator;
+	private float dmgCount = .3f;
 
 	public void init(EnemyManager owner) {
 		hp = 5;
-		speed = 2;
+		speed = -2;
 		transform.localScale = new Vector3 (sizex, sizey, 1);
 		col = gameObject.AddComponent<BoxCollider2D> ();
 		body = gameObject.AddComponent<Rigidbody2D> ();
+		SpriteRenderer rend = gameObject.AddComponent<SpriteRenderer> ();
+		animator = gameObject.AddComponent<Animator> ();
+		this.name = "Spark Enemy";
+		animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController> ("Animation/Spark_Enemy_Animation_Controller");
 		body.isKinematic = true;
-		transform.eulerAngles = new Vector3(0,0,180);
+		transform.eulerAngles = new Vector3(0,0,0);
+		this.transform.localScale = new Vector2 (1.5f, 1.5f);
 		this.owner = owner;
-		var modelObject = GameObject.CreatePrimitive (PrimitiveType.Quad);
-		model = modelObject.AddComponent<SparkEnemyModel>();	
-		model.init(this);
+		spark = new GameObject ();
+		spark.name = "Spark Core";
+		spark.AddComponent<SpriteRenderer> ();
+		sAnimator = spark.gameObject.AddComponent<Animator> ();
+		sAnimator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController> ("Animation/Spark_Animation_Controller");
+		spark.transform.parent = this.transform;
+		animator.SetFloat ("MoveRate", .7f);
+		animator.SetBool ("Damaged", false);
+		spark.GetComponent<SpriteRenderer> ().sortingOrder = 1;
+		spark.transform.localScale = new Vector3 (1, 1);
+		spark.transform.localPosition = new Vector3 (0, 0, 0);
+
+
 		fired = false;
 	}
 
 	void Update () {
 		if (hp <= 0) {
-			Destroy (this.gameObject);
+			speed = 0;
+			animator.SetBool ("Damaged", false);
+			Die ();
+		}
+
+		if (animator.GetBool ("Damaged")) {
+			dmgCount = dmgCount - Time.deltaTime;
+		}
+		if (dmgCount <= 0) {
+			animator.SetBool ("Damaged", false);
+			dmgCount = .3f;
 		}
 
 		Move ();
@@ -39,6 +66,7 @@ public class SparkEnemy : ParentEnemy {
 				fired = true;
 				Fire ("L");
 				Fire ("R");
+				spark.gameObject.SetActive (false);
 			}
 		}
 
@@ -63,10 +91,20 @@ public class SparkEnemy : ParentEnemy {
 
 	void OnTriggerEnter2D(Collider2D other){
 		if (other.name == "PlayerLaser") {
+			animator.SetBool ("Damaged", true);
+			hp--;
+		}
+		if (other.name == "SuperPlayerLaser") {
+			animator.SetBool ("Damaged", true);
 			hp--;
 		}
 		if (other.tag == "PlayerControler") {
-			Destroy (this.gameObject);
+			Die ();
 		}
+	}
+
+	void Die(){
+		animator.SetTrigger ("Die");
+		Destroy (this.gameObject, .8f);
 	}
 }

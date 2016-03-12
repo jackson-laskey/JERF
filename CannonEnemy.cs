@@ -23,7 +23,7 @@ public class CannonEnemy : ParentEnemy {
 	public void init(EnemyManager owner) {
 		hp = 5;
 		fireRate = .42f;
-		speed = -2;
+		speed = -1;
 		transform.localScale = new Vector3 (sizex, sizey, 1);
 		col = gameObject.AddComponent<BoxCollider2D> ();
 		body = gameObject.AddComponent<Rigidbody2D> ();

@@ -4,12 +4,18 @@ using System.Collections;
 public class SparkShot : Projectile {
 
 	public string direction;
+	private GameObject spark;
+	private Animator animator;
 
 	// Use this for initialization
 	void Start () {
 		speed = 4;
 		base.init (true, "Spark", 2f, 3f, 200);
-		transform.localScale = new Vector3 (.2f, .2f, .2f);
+		spark = this.gameObject;
+		spark.AddComponent<SpriteRenderer> ();
+		animator = spark.AddComponent<Animator> ();
+		animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController> ("Animation/Spark_Animation_Controller");
+		transform.localScale = new Vector3 (1.75f, 1.75f, 1.75f);
 		name = "Spark";
 	}
 
