@@ -10,7 +10,7 @@ public class SmallEnemy : ParentEnemy {
 
 
 	private float diveSpeed = -5;
-	private float divePosition = .5f;
+	private float divePosition = 1f;
 	private float sizex = .65f;
 	private float sizey = .65f;
 	private float bottomEdge = -7f;
@@ -20,7 +20,7 @@ public class SmallEnemy : ParentEnemy {
 	public void init(EnemyManager owner) {
 		name = "SmallEnemy";
 		hp = 2;
-		speed = -.8f;
+		speed = -1f;
 		transform.localScale = new Vector3 (sizex, sizey, 1);
 		SpriteRenderer rend = this.gameObject.AddComponent<SpriteRenderer> ();
 		col = gameObject.AddComponent<BoxCollider2D> ();

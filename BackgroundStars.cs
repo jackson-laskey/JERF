@@ -4,15 +4,15 @@ using System.Collections;
 public class BackgroundStars : MonoBehaviour {
 
 	private BackgroundStarsModel model;
-	private float speed;
+	public float speed;
 
 	public void Start() {
-		this.speed = Random.Range (.1f, .5f);
+		this.speed = Random.Range (.15f, .35f);
 		transform.eulerAngles = new Vector3(0,0,180);
 		var modelObject = GameObject.CreatePrimitive (PrimitiveType.Quad);
 		model = modelObject.AddComponent<BackgroundStarsModel>();
 		gameObject.name = "BackgroundStar";
-		model.init(this);
+		model.init(this, speed/10);
 	}
 
 	public void ChangeSpeed(float speed){

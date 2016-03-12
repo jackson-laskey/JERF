@@ -7,7 +7,7 @@ public class BackgroundStarsModel : MonoBehaviour {
 	private BackgroundStars owner;
 	private float clock;
 
-	public void init(BackgroundStars owner) {
+	public void init(BackgroundStars owner, float scale) {
 		this.owner = owner;
 		transform.parent = owner.transform;	
 		transform.localPosition = new Vector3(0,0,0);
@@ -16,7 +16,7 @@ public class BackgroundStarsModel : MonoBehaviour {
 		mat.shader = Shader.Find ("Sprites/Default");	// Tell the renderer that our textures have transparency. // Get the material component of this quad object.
 		mat.mainTexture = Resources.Load<Texture2D>("Textures/box");	// Set the texture.  Must be in Resources folder.
 		mat.color = new Color(1,1,1);
-		transform.localScale = new Vector3 (.05f, .05f, .05f);
+		transform.localScale = new Vector3 (scale, scale, scale);
 		clock = 0f;
 	}
 

@@ -99,16 +99,11 @@ public class GameController : MonoBehaviour {
 
 			setLevelText ();
 
-			for (int x = -6; x < 0; x++) {
-				GameObject Starspawner = new GameObject ();
-				Spawner spawner = Starspawner.AddComponent<Spawner> ();
-				spawner.init ("BS", 1, x, 3f, eMan, true,false);
-			}
-			for (int x = -6; x < 0; x++) {
-				GameObject Starspawner = new GameObject ();
-				Spawner spawner = Starspawner.AddComponent<Spawner> ();
-				spawner.init ("BS", 1, (x -.5f), 2f, eMan, true,false);
-			}
+
+			GameObject Starspawner = new GameObject ();
+			StarSpawner spawner = Starspawner.AddComponent<StarSpawner> ();
+			spawner.init (eMan);
+
 
 		
 
