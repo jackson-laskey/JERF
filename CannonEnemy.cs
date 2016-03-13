@@ -65,7 +65,7 @@ public class CannonEnemy : ParentEnemy {
 
 		if (hp <= 0) {
 			animator.SetBool ("Damaged", false);
-			speed = 0;
+			speed = -.2f;
 			Die ();
 		}
 		if (animator.GetBool ("Damaged")) {
