@@ -8,7 +8,7 @@ public class Projectile : MonoBehaviour {
 	// dictate the top and bottom of the view
 	private float maxY = 5;
 	private float minY = -5;
-	private float colliderSize = .1f;
+	protected float colliderSize = .1f;
 
 	protected GameObject model;
 

@@ -37,6 +37,9 @@ public class Ship : MonoBehaviour {
 	private float fallBackSpeed = 2.5f;
 	float speedRatioTwoD = .7f;
 
+	// the interval at which damage is taken from the beam
+	float beamHitThreshold = .25f;
+	float beamHitClock;
 
 	private bool initd = false;
 
@@ -63,7 +66,7 @@ public class Ship : MonoBehaviour {
 	public int ADamage = 49;
 	public int LDamage = 15;
 	public int SEDamage = 30;
-	public int BDamage = 30;
+	public int BDamage = 20;
 	public int SPDamage = 50;
 
 
@@ -100,6 +103,7 @@ public class Ship : MonoBehaviour {
 
 		// clock tracks time passed, ship fires when clock passes threshold. clock then resets.
 		clock = 0;
+		beamHitClock = 0;
 
 		movingTwoD = false;
 
@@ -125,6 +129,8 @@ public class Ship : MonoBehaviour {
 	
 //	 Update is called once per frame
 	void Update () {
+
+		beamHitClock += Time.deltaTime;
 
 		//Sound Stuff
 		audio.volume = (engineLevel.health + 1)/200;
@@ -231,11 +237,6 @@ public class Ship : MonoBehaviour {
 				Die ();
 			}
 			break;
-		case "BeamEnemy":
-			if (shieldLevel.Damage (BDamage)) {
-				Die ();
-			}
-			break;
 		case "P1":
 			shieldLevel.PowerUp ();
 			break;
@@ -247,6 +248,17 @@ public class Ship : MonoBehaviour {
 			break;
 		default:
 			break; 
+		}
+	}
+
+	void OnTriggerStay2D(Collider2D coll) {
+		if (coll.gameObject.name == "Beam") {
+			if (beamHitClock >= beamHitThreshold) {
+				beamHitClock = 0;
+				if (shieldLevel.Damage (BDamage)) {
+					Die ();
+				}
+			}
 		}
 	}
 

@@ -14,6 +14,7 @@ public class BeamEnemy : ParentEnemy {
 	private float dmgCount;
 
 	private GameObject beam;
+	private GameObject beamShot;
 	private Animator bAnimator;
 
 
@@ -148,7 +149,10 @@ public class BeamEnemy : ParentEnemy {
 	protected void Fire(){ 		
 		// Ryan fill this in to fire the same beam as the
 		// Make the Beam last as long as FireTimeReset at the top of this code
-
+		beamShot = new GameObject();
+		beamShot.transform.parent = transform;
+		beamShot.name = "BeamShot";
+		beamShot.AddComponent<Beam> ().init (fireTimeReset);
 	}
 
 	void OnTriggerEnter2D(Collider2D other){
