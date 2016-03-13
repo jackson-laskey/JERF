@@ -13,11 +13,12 @@ public class Projectile : MonoBehaviour {
 	protected GameObject model;
 
 	protected void init(bool isEnemy, string textureName, float xScale, float yScale, int textPixels) {
+
 		if (!isEnemy) {
 			speed = -speed;
 		}
 		GameObject.Find ("GameController").GetComponent<GameController> ().MakeSprite (gameObject, textureName, transform.parent,
-			transform.position.x, transform.position.y, xScale, yScale, textPixels);
+				transform.position.x, transform.position.y, xScale, yScale, textPixels);
 		gameObject.AddComponent<BoxCollider2D> ().isTrigger = true;
 		gameObject.GetComponent<BoxCollider2D> ().size = new Vector2 (colliderSize, colliderSize);
 	}
@@ -35,6 +36,7 @@ public class Projectile : MonoBehaviour {
 	}
 
 	public void Hit() {
-		Destroy(gameObject);
+		Destroy (gameObject);
 	}
+
 }
