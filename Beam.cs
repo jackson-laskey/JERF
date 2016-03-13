@@ -11,6 +11,9 @@ public class Beam : Projectile {
 
 	float shotThreshold;
 
+	float shotClock;
+	GameObject[] beams = new GameObject[14];
+
 	// Use this for initialization
 	public void init (float shotLength) {
 		//Parameters
@@ -22,7 +25,6 @@ public class Beam : Projectile {
 
 
 		base.init (true, "Laser", xScale, yScale, pixels);
-		GameObject[] beams = new GameObject[14];
 		beams [0] = gameObject;
 		for (float i = 1; i < 14; i++) {
 			beams[(int)i] = new GameObject ();
@@ -36,11 +38,19 @@ public class Beam : Projectile {
 		animator = laser.AddComponent<Animator> ();
 		animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController> ("Animation/Cannon_Projectile_Animation_Controller");
 		name = "Beam";
+
 	}
 
 	// Update is called once per frame
 	void Update () {
 		base.Update ();
+
+		if ((shotClock += Time.deltaTime) >= shotThreshold) {
+			for (float i = 1; i < 14; i++) {
+				Destroy(beams[(int)i]);
+			}
+			Destroy (gameObject);
+		}
 	}
 
 	void OnTriggerEnter2D(Collider2D coll) {
