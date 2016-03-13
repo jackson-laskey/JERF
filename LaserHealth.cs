@@ -15,6 +15,8 @@ public class LaserHealth : MonoBehaviour {
 	Sprite[] stextures;
 	
 	public bool decaying;
+	public bool powerUp;
+	public int powerUpInt;
 	
 	private bool initd;
 
@@ -69,51 +71,63 @@ public class LaserHealth : MonoBehaviour {
 
 		// Update is called once per frame
 		void Update () {
-		if (!initd) {
-			return;
-		}
-		if (flashing) {
-			if (currFlashSpeed >= maxFlashSpeed || currFlashSpeed <= -maxFlashSpeed) {
-				flashIncrement = -flashIncrement;
-			}
-			currFlashSpeed += flashIncrement;
-			mat.color = new Color (flashRvalue, flashGvalue, mat.color.b, mat.color.a+currFlashSpeed);
-		}
-
-		if (health >= 99) {
-			flashing = true;
-			animator.SetInteger ("Power", 2);
-		} else {
-			flashing = false;
-			animator.SetInteger ("Power", 1);
-		}
-		if (decaying) {
-		} else {
-			if (health >= 99) {
-				model.transform.localScale = new Vector3 (.9f, 1 * .92f);
-				animator.SetInteger ("Power", 2);
+		if (powerUp) {
+			if (powerUpInt == 0) {
+				powerUp = false;
+			} else {
 				health = 100;
-			} else if (health >= slowDownThreshold) {
-				model.transform.localScale = new Vector3 (.9f, .92f * health / 100f);
-				health += Time.deltaTime * repairRate * slowDownModifier;
-				animator.SetInteger ("Power", 1);
+				powerUpInt--;
+				flashing = true;
+				animator.SetInteger ("Power", 2);
+				model.transform.localScale = new Vector3 (.9f, 1 * .92f);
+			}
+		} else {
+			if (!initd) {
+				return;
+			}
+			if (flashing) {
+				if (currFlashSpeed >= maxFlashSpeed || currFlashSpeed <= -maxFlashSpeed) {
+					flashIncrement = -flashIncrement;
+				}
+				currFlashSpeed += flashIncrement;
+				mat.color = new Color (flashRvalue, flashGvalue, mat.color.b, mat.color.a + currFlashSpeed);
+			}
+
+			if (health >= 99) {
+				flashing = true;
+				animator.SetInteger ("Power", 2);
 			} else {
-				model.transform.localScale = new Vector3 (.9f, .92f*health/100f);
-				health += Time.deltaTime * repairRate;
+				flashing = false;
 				animator.SetInteger ("Power", 1);
 			}
-		}
-		if (health >= 99) {
-			flashing = true;
-			animator.SetInteger ("Power", 2);
-		} else {
-			flashing = false;
-			if (health > 50) {
-				mat.color = new Color (0, .75f, 0, initialAlpha);
-				animator.SetInteger ("Power", 1);
+			if (decaying) {
 			} else {
-				mat.color = new Color (.75f, 0f, 0, initialAlpha);
-				animator.SetInteger ("Power", 1);
+				if (health >= 99) {
+					model.transform.localScale = new Vector3 (.9f, 1 * .92f);
+					animator.SetInteger ("Power", 2);
+					health = 100;
+				} else if (health >= slowDownThreshold) {
+					model.transform.localScale = new Vector3 (.9f, .92f * health / 100f);
+					health += Time.deltaTime * repairRate * slowDownModifier;
+					animator.SetInteger ("Power", 1);
+				} else {
+					model.transform.localScale = new Vector3 (.9f, .92f * health / 100f);
+					health += Time.deltaTime * repairRate;
+					animator.SetInteger ("Power", 1);
+				}
+			}
+			if (health >= 99) {
+				flashing = true;
+				animator.SetInteger ("Power", 2);
+			} else {
+				flashing = false;
+				if (health > 50) {
+					mat.color = new Color (0, .75f, 0, initialAlpha);
+					animator.SetInteger ("Power", 1);
+				} else {
+					mat.color = new Color (.75f, 0f, 0, initialAlpha);
+					animator.SetInteger ("Power", 1);
+				}
 			}
 		}
 	}
@@ -130,4 +144,9 @@ public class LaserHealth : MonoBehaviour {
 						animator.SetInteger ("Power", 0);
 					}
 			}
+
+	public void PowerUp(){
+		powerUp = true;
+		powerUpInt = 5;
 	}
+}
