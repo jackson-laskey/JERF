@@ -15,7 +15,7 @@ public class SmallEnemy : ParentEnemy {
 	private float sizey = .65f;
 	private float bottomEdge = -7f;
 	private float dmgCount = .3f;
-
+	private Sprite[] SE;
 
 	public void init(EnemyManager owner) {
 		name = "SmallEnemy";
@@ -23,6 +23,8 @@ public class SmallEnemy : ParentEnemy {
 		speed = -1f;
 		transform.localScale = new Vector3 (sizex, sizey, 1);
 		SpriteRenderer rend = this.gameObject.AddComponent<SpriteRenderer> ();
+		SE = Resources.LoadAll<Sprite> ("Textures/Small_Enemy_Sprite_Sheet");
+		rend.sprite = SE [14];
 		col = gameObject.AddComponent<PolygonCollider2D> ();
 		body = gameObject.AddComponent<Rigidbody2D> ();
 		animator = gameObject.AddComponent<Animator> ();

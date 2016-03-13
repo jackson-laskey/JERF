@@ -16,7 +16,6 @@ public class CannonEnemy : ParentEnemy {
 	int iSprite = 0;
 	private float dmgCount = .3f;
 
-
 	private float sizex = .65f;
 	private float sizey = .65f;
 
@@ -26,9 +25,12 @@ public class CannonEnemy : ParentEnemy {
 		speed = -1.5f;
 		stopPosition = position;
 		transform.localScale = new Vector3 (sizex, sizey, 1);
+
+		SpriteRenderer rend = gameObject.AddComponent<SpriteRenderer> ();
+		cSprites = Resources.LoadAll<Sprite> ("Textures/Cannon_Enemy_Sprite_Sheet");
+		rend.sprite = cSprites[12];
 		col = gameObject.AddComponent<PolygonCollider2D> ();
 		body = gameObject.AddComponent<Rigidbody2D> ();
-		SpriteRenderer rend = gameObject.AddComponent<SpriteRenderer> ();
 		this.GetComponent<Renderer> ().sortingOrder = 1;
 		animator = gameObject.AddComponent<Animator> ();
 		animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController> ("Animation/CE_Animation_Controller");
@@ -47,7 +49,6 @@ public class CannonEnemy : ParentEnemy {
 		cannon.transform.localPosition = new Vector3 (0, -.36f, 0);
 		cannon.transform.localScale = new Vector2 (1, 1);
 		cannon.AddComponent<SpriteRenderer> ();
-		cSprites = Resources.LoadAll<Sprite> ("Textures/Cannon_Enemy_Sprite_Sheet");
 		cannon.GetComponent<SpriteRenderer> ().sprite = cSprites [oSprite];
 		cannon.name = "CannonOutline";
 		iCannon = new GameObject ();

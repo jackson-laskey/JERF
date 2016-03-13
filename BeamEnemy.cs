@@ -22,13 +22,17 @@ public class BeamEnemy : ParentEnemy {
 	private float sizex = .65f;
 	private float sizey = .65f;
 
+	private Sprite[] BE;
+
 	public void init(EnemyManager owner) {
 		hp = 5;
 		speed = -1;
 		charging = false;
 		transform.localScale = new Vector3 (sizex, sizey, 1);
 		entering = true;
+		BE = Resources.LoadAll<Sprite> ("Textures/Beam_Enemy_Sprite_Sheet");
 		SpriteRenderer rend = gameObject.AddComponent<SpriteRenderer> ();
+		rend.sprite = BE [7];
 		animator = gameObject.AddComponent<Animator> ();
 		animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController> ("Animation/BE_Animation_Controller");
 		col = this.gameObject.AddComponent<PolygonCollider2D> ();

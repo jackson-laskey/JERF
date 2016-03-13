@@ -12,14 +12,18 @@ public class SparkEnemy : ParentEnemy {
 	private GameObject spark;
 	private Animator sAnimator;
 	private float dmgCount = .3f;
+	private Sprite[] SE;
+
 
 	public void init(EnemyManager owner) {
 		hp = 5;
 		speed = -1;
 		transform.localScale = new Vector3 (sizex, sizey, 1);
+		SpriteRenderer rend = gameObject.AddComponent<SpriteRenderer> ();
+		SE = Resources.LoadAll<Sprite> ("Textures/Spark Enemy Sprite Sheet");
+		rend.sprite = SE[13];
 		col = gameObject.AddComponent<PolygonCollider2D> ();
 		body = gameObject.AddComponent<Rigidbody2D> ();
-		SpriteRenderer rend = gameObject.AddComponent<SpriteRenderer> ();
 		animator = gameObject.AddComponent<Animator> ();
 		this.name = "Spark Enemy";
 		animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController> ("Animation/Spark_Enemy_Animation_Controller");
