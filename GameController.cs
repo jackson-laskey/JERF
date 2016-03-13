@@ -212,7 +212,7 @@ public class GameController : MonoBehaviour {
 	void ExecuteInstruction(string[] inst){ 
 		// Asteroids. IMPORTANT, asteroid int values correspond to a percentage frequency for random generation.
 		//Therefore if size is 84, then for each frame, if Random.value>.84, generate a random asteroid. Random.value creates a float between 0-1
-		if (inst [0] == "A" || inst [0] == "L") {
+		if (inst [0] == "A" || inst [0] == "L" || inst[0] == "P1" || inst[0] == "P2" || inst[0] == "P3") {
 			//Need to cast strings as integers. Args for this eMan instruction are (string type, int size, int x). Type is enemy type
 			//Size is squad size (squad implementation is up to you for now, coming in one after another maybe). X is x value of screen descent.
 			if (inst.Length == 3) {

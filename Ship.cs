@@ -236,6 +236,15 @@ public class Ship : MonoBehaviour {
 				Die ();
 			}
 			break;
+		case "P1":
+			shieldLevel.PowerUp ();
+			break;
+		case "P2":
+			engineLevel.PowerUp ();
+			break;
+		case "P3":
+			laserLevel.PowerUp ();
+			break;
 		default:
 			break; 
 		}

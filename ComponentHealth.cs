@@ -12,6 +12,9 @@ public class ComponentHealth : MonoBehaviour {
 	public bool maintain;
 	public float gracePeriod;
 
+	public bool powerUp;
+	public int powerUpInt;
+
 	Animator animator;
 
 	private int type;
@@ -81,6 +84,17 @@ public class ComponentHealth : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+
+		if (powerUp) {
+			if (powerUpInt == 1) {
+				powerUpInt = 0;
+				health = 100;
+			} else {
+				maintain = true;
+				gracePeriod = 3;
+				powerUp = false;
+			}
+		}
 
 		if (!initd) {
 			mat.color = new Color (0, .75f, 0);
@@ -229,5 +243,10 @@ public class ComponentHealth : MonoBehaviour {
 			health -= damage * damageModifier;
 			return false;
 		}
+	}
+
+	public void PowerUp(){
+		powerUp = true;
+		powerUpInt = 1;
 	}
 }

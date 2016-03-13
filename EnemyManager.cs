@@ -38,21 +38,23 @@ public class EnemyManager : MonoBehaviour {
 		} else if (type == "L") {
 			GameObject lightSpawner = new GameObject ();
 			Spawner spawner = lightSpawner.AddComponent<Spawner> ();
-			spawner.init (type, size, x, .5f, this, false,false,position);
+			spawner.init (type, size, x, .5f, this, false, false, position);
 		} else if (type == "H") {
 			GameObject heavySpawner = new GameObject ();
 			Spawner spawner = heavySpawner.AddComponent<Spawner> ();
-			spawner.init (type, size, x, .5f, this, false,false, position);
-		}
-		else if (type == "B") {
+			spawner.init (type, size, x, .5f, this, false, false, position);
+		} else if (type == "B") {
 			GameObject beamSpawner = new GameObject ();
 			Spawner spawner = beamSpawner.AddComponent<Spawner> ();
-			spawner.init (type, size, x, .5f, this, false,false,position);
-		}
-		else if (type == "S") {
+			spawner.init (type, size, x, .5f, this, false, false, position);
+		} else if (type == "S") {
 			GameObject sparkSpawner = new GameObject ();
 			Spawner spawner = sparkSpawner.AddComponent<Spawner> ();
-			spawner.init (type, size, x, .5f, this, false,false,position);
+			spawner.init (type, size, x, .5f, this, false, false, position);
+		} else if (type == "P1" || type == "P2" || type == "P3") {
+			GameObject powerSpawner = new GameObject ();
+			Spawner spawner = powerSpawner.AddComponent<Spawner> ();
+			spawner.init (type, size, x, .5f, this, false, false, position);
 		}
 	}
 
@@ -100,6 +102,11 @@ public class EnemyManager : MonoBehaviour {
 		if (type == "BS") {
 			BackgroundStars enemy = enemyObject.AddComponent<BackgroundStars> ();
 			enemy.transform.position = new Vector3 (x, y, 0);
+		}
+		if (type == "P1" || type == "P2" || type == "P3") {
+			PowerUp enemy = enemyObject.AddComponent<PowerUp> ();
+			enemy.transform.position = new Vector3 (x, y, 0);
+			enemy.init (this, type);
 		}
 	}
 }
