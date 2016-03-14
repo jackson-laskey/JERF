@@ -19,11 +19,13 @@ public class Ship : MonoBehaviour {
 	public AudioClip SuperLaserSound;
 	public AudioClip CollisionSound;
 	public AudioClip DeathSound;
+	public AudioClip laserHit;
+	public AudioClip sparkHit;
+
 
 	public AudioSource audio;
 
-
-
+	public bool imdead = false;
 
 	// reference to GameController script
 	public GameController controller;
@@ -115,6 +117,9 @@ public class Ship : MonoBehaviour {
 		SuperLaserSound = Resources.Load ("Sounds/superLaser") as AudioClip;		
 		CollisionSound = Resources.Load ("Sounds/collision") as AudioClip;
 		DeathSound = Resources.Load ("Sounds/death") as AudioClip;
+		laserHit = Resources.Load ("Sounds/laserHit") as AudioClip;
+		sparkHit = Resources.Load ("Sounds/electricImpact") as AudioClip;
+
 		audio = gameObject.AddComponent<AudioSource> ();
 		audio.loop = true;
 		audio.clip = EngineSound;
@@ -188,6 +193,7 @@ public class Ship : MonoBehaviour {
 			if (Input.GetKey ("s") && gameObject.transform.position.y >= -4f) {
 				transform.Translate (0, -speedRatioTwoD * 5 * Time.deltaTime, 0);
 			} else if (Input.GetKey ("w") && gameObject.transform.position.y <= 2f) {
+				audio.volume = .85f;
 				transform.Translate (0, speedRatioTwoD * 5 * Time.deltaTime, 0);
 			}
 		}
@@ -221,6 +227,8 @@ public class Ship : MonoBehaviour {
 			}
 			break;
 		case "Laser":
+			AudioSource.PlayClipAtPoint (laserHit, transform.position);
+
 			if (shieldLevel.Damage (LDamage)) {
 				Die ();
 			}
@@ -233,6 +241,7 @@ public class Ship : MonoBehaviour {
 			}
 			break;
 		case "Spark":
+			AudioSource.PlayClipAtPoint(sparkHit,this.transform.position);
 			if (shieldLevel.Damage (SPDamage)) {
 				Die ();
 			}
@@ -297,8 +306,12 @@ public class Ship : MonoBehaviour {
 
 	private void Die() {
 		// send some message to the GameController
-		audio.Pause();
-		shieldLevel.audio.Pause ();
+		if (!imdead) {
+			audio.Pause();
+			shieldLevel.audio.Pause ();
+			AudioSource.PlayClipAtPoint (DeathSound, transform.position);
+			imdead = true;
+		}
 		GameObject death = new GameObject ();
 		controller.MakeSprite (death,"", GameObject.Find("ShipHandler").transform, 0, 0, 1, 1, 500);
 		death.transform.localPosition = this.transform.position;

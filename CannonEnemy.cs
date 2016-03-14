@@ -11,10 +11,16 @@ public class CannonEnemy : ParentEnemy {
 	protected float cd;
 	protected GameObject cannon;
 	protected GameObject iCannon; //The cannon color. Ryan, this is were you can change the color for the boss
-	protected Sprite[] cSprites; //Outline: 15, 16  Color: 0, 1
 	protected int oSprite = 15;
 	protected int iSprite = 0;
+	public AudioClip burst;
+	protected GameObject Lcannon;
+	protected GameObject LiCannon; 
+	protected GameObject Rcannon;
+	protected GameObject RiCannon;
+	protected Sprite[] cSprites;
 	protected float dmgCount = .3f;
+	public bool dead = false;
 
 	protected float sizex = .65f;
 	protected float sizey = .65f;
@@ -41,23 +47,46 @@ public class CannonEnemy : ParentEnemy {
 		transform.localScale = new Vector3 (1.5f, 1.5f, 0);
 		this.owner = owner;
 		LaserSound = Resources.Load ("Sounds/laser") as AudioClip;
+		burst = Resources.Load ("Sounds/burst") as AudioClip;
+
 		gameObject.name = "CannonEnemy";
 		direction = "D";
 		firingSide = "L";
-		cannon = new GameObject ();
-		cannon.transform.parent = this.transform;
-		cannon.transform.localPosition = new Vector3 (0, -.36f, 0);
-		cannon.transform.localScale = new Vector2 (1, 1);
-		cannon.AddComponent<SpriteRenderer> ();
-		cannon.GetComponent<SpriteRenderer> ().sprite = cSprites [oSprite];
-		cannon.name = "CannonOutline";
-		iCannon = new GameObject ();
-		iCannon.transform.parent = this.transform;
-		iCannon.transform.localPosition = new Vector3 (0, -.36f, 0);
-		iCannon.transform.localScale = new Vector2 (1, 1);
-		iCannon.AddComponent<SpriteRenderer> ();
-		iCannon.GetComponent<SpriteRenderer> ().sprite = cSprites[iSprite];
-		iCannon.name = "CannonColor";
+		rend.sortingOrder = 2;
+		cSprites = Resources.LoadAll<Sprite> ("Textures/Cannons_Sprite_Sheet");
+		Lcannon = new GameObject ();
+		Lcannon.transform.parent = this.transform;
+		Lcannon.transform.localPosition = new Vector3 (.305f, -.364f, 0);
+		Lcannon.transform.localScale = new Vector2 (1, 1);
+		Lcannon.AddComponent<SpriteRenderer> ();
+		Lcannon.GetComponent<SpriteRenderer> ().sprite = cSprites [0];
+		Lcannon.name = "LeftCannonOutline";
+		LiCannon = new GameObject ();
+		LiCannon.transform.parent = Lcannon.transform;
+		LiCannon.transform.localPosition = new Vector3 (0, 0, 0);
+		LiCannon.transform.localScale = new Vector2 (1, 1);
+		LiCannon.AddComponent<SpriteRenderer> ();
+		LiCannon.GetComponent<SpriteRenderer> ().sprite = cSprites[1];
+		LiCannon.name = "LeftCannonColor";
+		Rcannon = new GameObject ();
+		Rcannon.transform.parent = this.transform;
+		Rcannon.transform.localPosition = new Vector3 (-.305f, -.364f, 0);
+		Rcannon.transform.localScale = new Vector2 (1, 1);
+		Rcannon.AddComponent<SpriteRenderer> ();
+		Rcannon.GetComponent<SpriteRenderer> ().sprite = cSprites [0];
+		Rcannon.name = "RightCannonOutline";
+		RiCannon = new GameObject ();
+		RiCannon.transform.parent = Rcannon.transform;
+		RiCannon.transform.localPosition = new Vector3 (0, 0, 0);
+		RiCannon.transform.localScale = new Vector2 (1, 1);
+		RiCannon.AddComponent<SpriteRenderer> ();
+		RiCannon.GetComponent<SpriteRenderer> ().sprite = cSprites[1];
+		RiCannon.name = "RightCannonColor";
+
+		Lcannon.GetComponent<SpriteRenderer> ().sortingOrder = 1;
+		LiCannon.GetComponent<SpriteRenderer> ().sortingOrder = 1;
+		Rcannon.GetComponent<SpriteRenderer> ().sortingOrder = 1;
+		RiCannon.GetComponent<SpriteRenderer> ().sortingOrder = 1;
 
 	}
 	
@@ -92,18 +121,19 @@ public class CannonEnemy : ParentEnemy {
 
 
 		if (transform.position.y == stopPosition) {
-			
-			cannon.GetComponent<SpriteRenderer> ().sprite = cSprites [oSprite];
-			iCannon.GetComponent<SpriteRenderer> ().sprite = cSprites[iSprite];
 			animator.SetBool ("Moving", false);
 			if (cd <= 0) {
 				if (firingSide == "L") {
-					Fire ((transform.position.x - .45f), (transform.position.y -.36f));
+					Fire ((transform.position.x - .45f), (transform.position.y -.55f));
+					Lcannon.transform.localPosition = new Vector3 (.305f, -.33f, 0);
+					Rcannon.transform.localPosition = new Vector3 (-.305f, -.364f, 0);
 					firingSide = "R";
 					cd = fireRate;
 				}
 				else if (firingSide == "R") {
-					Fire ((transform.position.x + .45f), (transform.position.y-.36f));
+					Fire ((transform.position.x + .45f), (transform.position.y-.55f));
+					Rcannon.transform.localPosition = new Vector3 (-.305f, -.33f, 0);
+					Lcannon.transform.localPosition = new Vector3 (.305f, -.364f, 0);
 					firingSide = "L";
 					cd = fireRate;
 				}
@@ -127,13 +157,6 @@ public class CannonEnemy : ParentEnemy {
 	//I made this take x and y because I was thinking about it and different enemies will need to fire from different parts of their models
 	protected void Fire(float x, float y){ 	
 		AudioSource.PlayClipAtPoint(LaserSound, transform.position);
-		if (oSprite == 15 && iSprite == 0) {
-			oSprite = 16;
-			iSprite = 1;
-		} else {
-			oSprite = 15;
-			iSprite = 0;
-		}
 		GameObject shot = new GameObject();
 		shot.transform.parent = transform.parent;
 		shot.transform.position = new Vector3 (0, 0);
@@ -154,8 +177,14 @@ public class CannonEnemy : ParentEnemy {
 	}
 
 	protected void Die(){
-		Destroy (cannon.gameObject);
-		Destroy (iCannon.gameObject);
+		if (!dead) {
+			AudioSource.PlayClipAtPoint (burst, transform.position);
+			dead = true;
+		}
+		Destroy (Rcannon.gameObject);
+		Destroy (RiCannon.gameObject);
+		Destroy (Lcannon.gameObject);
+		Destroy (LiCannon.gameObject);
 		animator.SetTrigger ("Die");
 		Destroy (this.gameObject, 1.1f);
 	}

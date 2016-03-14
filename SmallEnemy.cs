@@ -16,6 +16,7 @@ public class SmallEnemy : ParentEnemy {
 	private float bottomEdge = -7f;
 	private float dmgCount = .3f;
 	private Sprite[] SE;
+	public bool dead = false;
 
 	public void init(EnemyManager owner) {
 		name = "SmallEnemy";
@@ -43,6 +44,9 @@ public class SmallEnemy : ParentEnemy {
 		}
 
 		diving = false;
+
+		burst = Resources.Load ("Sounds/burst") as AudioClip;
+
 	}
 		
 	void Update () {
@@ -112,6 +116,10 @@ public class SmallEnemy : ParentEnemy {
 	}
 
 	void Die(){
+		if (!dead) {
+			AudioSource.PlayClipAtPoint (burst, transform.position);
+			dead = true;
+		}
 		speed = 0;
 		diveSpeed = 0;
 		animator.SetTrigger ("Die");
