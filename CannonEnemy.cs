@@ -16,6 +16,7 @@ public class CannonEnemy : ParentEnemy {
 	private GameObject RiCannon;
 	private Sprite[] cSprites;
 	private float dmgCount = .3f;
+	public bool dead = false;
 
 	private float sizex = .65f;
 	private float sizey = .65f;
@@ -91,7 +92,6 @@ public class CannonEnemy : ParentEnemy {
 		if (hp <= 0) {
 			animator.SetBool ("Damaged", false);
 			speed = -.2f;
-			AudioSource.PlayClipAtPoint(burst, transform.position);
 			Die ();
 		}
 		if (animator.GetBool ("Damaged")) {
@@ -173,6 +173,10 @@ public class CannonEnemy : ParentEnemy {
 	}
 
 	void Die(){
+		if (!dead) {
+			AudioSource.PlayClipAtPoint (burst, transform.position);
+			dead = true;
+		}
 		Destroy (Rcannon.gameObject);
 		Destroy (RiCannon.gameObject);
 		Destroy (Lcannon.gameObject);

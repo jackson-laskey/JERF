@@ -24,7 +24,7 @@ public class Ship : MonoBehaviour {
 
 	public AudioSource audio;
 
-
+	public bool imdead = false;
 
 	// reference to GameController script
 	public GameController controller;
@@ -302,8 +302,12 @@ public class Ship : MonoBehaviour {
 
 	private void Die() {
 		// send some message to the GameController
-		audio.Pause();
-		shieldLevel.audio.Pause ();
+		if (!imdead) {
+			audio.Pause();
+			shieldLevel.audio.Pause ();
+			AudioSource.PlayClipAtPoint (DeathSound, transform.position);
+			imdead = true;
+		}
 		GameObject death = new GameObject ();
 		controller.MakeSprite (death,"", GameObject.Find("ShipHandler").transform, 0, 0, 1, 1, 500);
 		death.transform.localPosition = this.transform.position;
