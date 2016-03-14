@@ -18,6 +18,7 @@ public class SparkEnemy : ParentEnemy {
 	public AudioClip sparkLoop;
 	public AudioClip explosion;
 	public AudioSource audio;
+	public bool dead = false;
 
 	public void init(EnemyManager owner) {
 		hp = 5;
@@ -51,7 +52,7 @@ public class SparkEnemy : ParentEnemy {
 		fired = false;
 
 		Spark = Resources.Load ("Sounds/spark") as AudioClip;
-		explosion = Resources.Load ("Sounds/explosion") as AudioClip;
+		explosion = Resources.Load ("Sounds/burst") as AudioClip;
 		sparkLoop = Resources.Load ("Sounds/sparkLoop") as AudioClip;
 
 		audio = gameObject.AddComponent<AudioSource> ();
@@ -123,6 +124,11 @@ public class SparkEnemy : ParentEnemy {
 	}
 
 	void Die(){
+		if (!dead) {
+			audio.Pause ();
+			AudioSource.PlayClipAtPoint (explosion, transform.position);
+			dead = true;
+		}
 		animator.SetTrigger ("Die");
 		spark.transform.localScale = new Vector2 (1.25f, 1.25f);
 		sAnimator.SetTrigger ("Die");

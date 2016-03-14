@@ -4,10 +4,17 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 
 public class ScreenController : MonoBehaviour {
+	public AudioClip startSounds;
+	public AudioSource audio;
 
 	// Use this for initialization
 	void Start () {
-	
+		startSounds = Resources.Load ("Sounds/startSounds") as AudioClip;
+
+		audio = gameObject.AddComponent<AudioSource> ();
+		audio.loop = true;
+		audio.clip = startSounds;
+		audio.Play();
 	}
 	
 	// Update is called once per frame

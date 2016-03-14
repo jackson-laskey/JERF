@@ -193,6 +193,7 @@ public class Ship : MonoBehaviour {
 			if (Input.GetKey ("s") && gameObject.transform.position.y >= -4f) {
 				transform.Translate (0, -speedRatioTwoD * 5 * Time.deltaTime, 0);
 			} else if (Input.GetKey ("w") && gameObject.transform.position.y <= 2f) {
+				audio.volume = .85f;
 				transform.Translate (0, speedRatioTwoD * 5 * Time.deltaTime, 0);
 			}
 		}
