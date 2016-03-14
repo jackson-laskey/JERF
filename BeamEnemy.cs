@@ -164,8 +164,8 @@ public class BeamEnemy : ParentEnemy {
 		// Ryan fill this in to fire the same beam as the
 		// Make the Beam last as long as FireTimeReset at the top of this code
 		beamShot = new GameObject();
-		beamShot.transform.parent = beam.transform;
 		beamShot.name = "BeamShot";
+		beamShot.transform.parent = beam.transform;
 		beamShot.AddComponent<Beam> ().init (fireTimeReset);
 	}
 
@@ -178,9 +178,9 @@ public class BeamEnemy : ParentEnemy {
 			hp -= 2;
 			animator.SetBool ("Damaged", true);
 		}
-		if (other.tag == "PlayerController") {
-			hp = 0;
-		}
+		//if (other.tag == "PlayerController") {
+		//	hp = 0;
+		//}
 	}
 
 	void Die(){

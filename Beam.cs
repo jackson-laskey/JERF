@@ -24,12 +24,12 @@ public class Beam : Projectile {
 		pixels = 200;
 
 
-		base.init (true, "Laser", xScale, yScale, pixels);
+		//base.init (true, "Laser", xScale, yScale, pixels);
 
 		beams [0] = gameObject;
 		for (float i = 1; i < 16; i++) {
 			beams[(int)i] = new GameObject ();
-			FindObjectOfType<GameController> ().MakeSprite (beams [(int)i], "Laser", transform.parent, 0, 0 - (i * .45f), xScale, yScale, 200);
+			FindObjectOfType<GameController> ().MakeSprite (beams [(int)i], "Laser", this.transform.parent, 0, 0 - (i * .45f), xScale, yScale, 200);
 			beams[(int)i].name = "Beam";
 			animator = beams[(int)i].AddComponent<Animator> ();
 			animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController> ("Animation/Beam_Projectile_Animation_Controller");
@@ -49,12 +49,13 @@ public class Beam : Projectile {
 			for (float i = 1; i < 16; i++) {
 				Destroy(beams[(int)i]);
 			}
-			Destroy (gameObject);
+			Destroy (this.gameObject);
 		}
 	}
 
-	void OnTriggerEnter2D(Collider2D coll) {
-		if (coll.tag == "PlayerController") {
-		}
-	}
+	//void OnTriggerEnter2D(Collider2D coll) {
+	//	if (coll.tag == "PlayerController") {
+			
+	//	}
+	//}
 }
