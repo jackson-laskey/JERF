@@ -17,6 +17,10 @@ public class BeamEnemy : ParentEnemy {
 	private GameObject beamShot;
 	private Animator bAnimator;
 
+	public AudioClip BeamSound;
+	public AudioClip explosion;
+	public AudioSource audio;
+	public bool dead = false;
 
 	public float fullCharge = 3;
 	public float fireTimeReset = 2;
@@ -64,7 +68,14 @@ public class BeamEnemy : ParentEnemy {
 		bAnimator.SetBool ("Fire", false);
 		beam.name = "Beam";
 
+		BeamSound = Resources.Load ("Sounds/beamSound") as AudioClip;
+		explosion = Resources.Load ("Sounds/explosion") as AudioClip;
 
+		audio = gameObject.AddComponent<AudioSource> ();
+		audio.loop = true;
+		audio.clip = BeamSound;
+		audio.volume = .2f;
+		audio.Play();
 	}
 
 	// Update is called once per frame
@@ -103,6 +114,7 @@ public class BeamEnemy : ParentEnemy {
 
 			if (charging) {
 				charge = charge + Time.deltaTime;
+				audio.volume = (charge+1)/9;
 				animator.SetFloat ("ChargeRate", charge);
 				bAnimator.SetFloat ("ChargeRate", charge);
 			}
@@ -117,9 +129,11 @@ public class BeamEnemy : ParentEnemy {
 				animator.SetBool ("Fire", true);
 				bAnimator.SetBool ("Fire", true);
 				Fire ();
+				audio.volume = 1;
 			}
 			if (!charging) {
 				fireTime = fireTime - Time.deltaTime;
+				audio.volume = (fireTime + 1) / 3;
 				if (fireTime <= 0) {
 					charging = true;
 					animator.SetBool ("Fire", false);
@@ -167,7 +181,10 @@ public class BeamEnemy : ParentEnemy {
 	}
 
 	void Die(){
-		speed = 0;
+		if (!dead) {
+			AudioSource.PlayClipAtPoint (explosion, transform.position);
+			dead = true;
+		}		speed = 0;
 		Destroy (beam.gameObject);
 		animator.SetTrigger ("Die");
 		Destroy (this.gameObject, .6f);

@@ -8,6 +8,7 @@ public class CannonEnemy : ParentEnemy {
 	private string direction;
 	private string firingSide;
 	public AudioClip LaserSound;
+	public AudioClip burst;
 	private float cd;
 	private GameObject Lcannon;
 	private GameObject LiCannon; 
@@ -41,6 +42,8 @@ public class CannonEnemy : ParentEnemy {
 		transform.localScale = new Vector3 (1.5f, 1.5f, 0);
 		this.owner = owner;
 		LaserSound = Resources.Load ("Sounds/laser") as AudioClip;
+		burst = Resources.Load ("Sounds/burst") as AudioClip;
+
 		gameObject.name = "CannonEnemy";
 		direction = "D";
 		firingSide = "L";
@@ -88,6 +91,7 @@ public class CannonEnemy : ParentEnemy {
 		if (hp <= 0) {
 			animator.SetBool ("Damaged", false);
 			speed = -.2f;
+			AudioSource.PlayClipAtPoint(burst, transform.position);
 			Die ();
 		}
 		if (animator.GetBool ("Damaged")) {
