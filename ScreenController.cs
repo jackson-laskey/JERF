@@ -29,15 +29,13 @@ public class ScreenController : MonoBehaviour {
 		rend = name.GetComponent<SpriteRenderer> ();
 		rend.sprite = title [spt];
 		count = .75f;
-<<<<<<< HEAD
-=======
+
 		startSounds = Resources.Load ("Sounds/startSounds") as AudioClip;
 
 		audio = gameObject.AddComponent<AudioSource> ();
 		audio.loop = true;
 		audio.clip = startSounds;
 		audio.Play();
->>>>>>> origin/PrefabsToCode
 	}
 	
 	// Update is called once per frame

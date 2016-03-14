@@ -177,19 +177,13 @@ public class CannonEnemy : ParentEnemy {
 		}
 	}
 
-<<<<<<< HEAD
-	void Die(){
-		//if (!dead) {
-		//	AudioSource.PlayClipAtPoint (burst, transform.position);
-		//	dead = true;
-		//}
-=======
+
 	protected void Die(){
 		if (!dead) {
 			AudioSource.PlayClipAtPoint (burst, transform.position);
 			dead = true;
 		}
->>>>>>> origin/PrefabsToCode
+
 		Destroy (Rcannon.gameObject);
 		Destroy (RiCannon.gameObject);
 		Destroy (Lcannon.gameObject);
