@@ -14,6 +14,10 @@ public class SparkEnemy : ParentEnemy {
 	private float dmgCount = .3f;
 	private Sprite[] SE;
 
+	public AudioClip Spark;
+	public AudioClip sparkLoop;
+	public AudioClip explosion;
+	public AudioSource audio;
 
 	public void init(EnemyManager owner) {
 		hp = 5;
@@ -45,6 +49,16 @@ public class SparkEnemy : ParentEnemy {
 
 
 		fired = false;
+
+		Spark = Resources.Load ("Sounds/spark") as AudioClip;
+		explosion = Resources.Load ("Sounds/explosion") as AudioClip;
+		sparkLoop = Resources.Load ("Sounds/sparkLoop") as AudioClip;
+
+		audio = gameObject.AddComponent<AudioSource> ();
+		audio.loop = true;
+		audio.clip = sparkLoop;
+		audio.volume = .5f;
+		audio.Play();
 	}
 
 	void Update () {
@@ -91,6 +105,7 @@ public class SparkEnemy : ParentEnemy {
 		leftshot.GiveDirection (direction);
 		shot1.transform.parent = transform.parent;
 		shot1.transform.position = new Vector3 (transform.position.x, transform.position.y);
+		AudioSource.PlayClipAtPoint (Spark, transform.position);
 	}
 
 	void OnTriggerEnter2D(Collider2D other){

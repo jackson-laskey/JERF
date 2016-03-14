@@ -20,6 +20,7 @@ public class Ship : MonoBehaviour {
 	public AudioClip CollisionSound;
 	public AudioClip DeathSound;
 	public AudioClip laserHit;
+	public AudioClip sparkHit;
 
 
 	public AudioSource audio;
@@ -117,6 +118,7 @@ public class Ship : MonoBehaviour {
 		CollisionSound = Resources.Load ("Sounds/collision") as AudioClip;
 		DeathSound = Resources.Load ("Sounds/death") as AudioClip;
 		laserHit = Resources.Load ("Sounds/laserHit") as AudioClip;
+		sparkHit = Resources.Load ("Sounds/electricImpact") as AudioClip;
 
 		audio = gameObject.AddComponent<AudioSource> ();
 		audio.loop = true;
@@ -238,6 +240,7 @@ public class Ship : MonoBehaviour {
 			}
 			break;
 		case "Spark":
+			AudioSource.PlayClipAtPoint(sparkHit,this.transform.position);
 			if (shieldLevel.Damage (SPDamage)) {
 				Die ();
 			}
