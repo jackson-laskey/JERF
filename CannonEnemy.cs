@@ -9,8 +9,6 @@ public class CannonEnemy : ParentEnemy {
 	protected string firingSide;
 	public AudioClip LaserSound;
 	protected float cd;
-	protected GameObject cannon;
-	protected GameObject iCannon; //The cannon color. Ryan, this is were you can change the color for the boss
 	protected int oSprite = 15;
 	protected int iSprite = 0;
 	public AudioClip burst;
