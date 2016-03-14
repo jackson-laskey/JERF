@@ -4,22 +4,24 @@ using System.Collections;
 public class CannonEnemy : ParentEnemy {
 
 	//private CannonModel model;
-	private float stopPosition;
-	private string direction;
-	private string firingSide;
+	protected float stopPosition;
+	protected string direction;
+	protected string firingSide;
 	public AudioClip LaserSound;
+	protected float cd;
+	protected int oSprite = 15;
+	protected int iSprite = 0;
 	public AudioClip burst;
-	private float cd;
-	private GameObject Lcannon;
-	private GameObject LiCannon; 
-	private GameObject Rcannon;
-	private GameObject RiCannon;
-	private Sprite[] cSprites;
-	private float dmgCount = .3f;
+	protected GameObject Lcannon;
+	protected GameObject LiCannon; 
+	protected GameObject Rcannon;
+	protected GameObject RiCannon;
+	protected Sprite[] cSprites;
+	protected float dmgCount = .3f;
 	public bool dead = false;
 
-	private float sizex = .65f;
-	private float sizey = .65f;
+	protected float sizex = .65f;
+	protected float sizey = .65f;
 
 	public void init(EnemyManager owner, float position) {
 		hp = 6;
@@ -140,7 +142,7 @@ public class CannonEnemy : ParentEnemy {
 
 	}
 
-	void Move(){
+	protected void Move(){
 		if (direction == "D") {
 			transform.Translate (Vector3.up * Time.deltaTime * speed);
 		} else if (direction == "L") {
@@ -170,13 +172,24 @@ public class CannonEnemy : ParentEnemy {
 			hp--;
 			animator.SetBool ("Damaged", true);
 		}
+		if (other.tag == "PlayerController") {
+			hp = 0;
+		}
 	}
 
+<<<<<<< HEAD
 	void Die(){
 		//if (!dead) {
 		//	AudioSource.PlayClipAtPoint (burst, transform.position);
 		//	dead = true;
 		//}
+=======
+	protected void Die(){
+		if (!dead) {
+			AudioSource.PlayClipAtPoint (burst, transform.position);
+			dead = true;
+		}
+>>>>>>> origin/PrefabsToCode
 		Destroy (Rcannon.gameObject);
 		Destroy (RiCannon.gameObject);
 		Destroy (Lcannon.gameObject);

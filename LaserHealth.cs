@@ -34,6 +34,9 @@ public class LaserHealth : MonoBehaviour {
 	private float flashGvalue = .82f;
 	private float currFlashSpeed;
 	private float initialAlpha;
+
+	public AudioClip fullReload;
+	public bool justReloaded = false;
 	
 		// Use this for initialization
 	public void init (GameController gCont, float x, float y, int type) {
@@ -64,6 +67,8 @@ public class LaserHealth : MonoBehaviour {
 
 
 		flashing = true;
+
+		fullReload = Resources.Load ("Sounds/fullReload") as AudioClip;
 		}
 
 
@@ -94,9 +99,14 @@ public class LaserHealth : MonoBehaviour {
 			}
 
 			if (health >= 99) {
+				if (!justReloaded) {
+					justReloaded = true;
+					AudioSource.PlayClipAtPoint (fullReload, transform.position);
+				}
 				flashing = true;
 				animator.SetInteger ("Power", 2);
 			} else {
+				justReloaded = false;
 				flashing = false;
 				animator.SetInteger ("Power", 1);
 			}
