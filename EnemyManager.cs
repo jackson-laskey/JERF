@@ -109,4 +109,11 @@ public class EnemyManager : MonoBehaviour {
 			enemy.init (this, type);
 		}
 	}
+
+	public void SpawnBoss() {
+		GameObject boss = new GameObject ();
+		boss.AddComponent<Boss> ();
+		boss.transform.position = new Vector3 (-3.1f, 6.56f);
+		boss.GetComponent<Boss>().init (this);
+	}
 }

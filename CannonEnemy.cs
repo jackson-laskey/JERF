@@ -4,20 +4,20 @@ using System.Collections;
 public class CannonEnemy : ParentEnemy {
 
 	//private CannonModel model;
-	private float stopPosition;
-	private string direction;
-	private string firingSide;
+	protected float stopPosition;
+	protected string direction;
+	protected string firingSide;
 	public AudioClip LaserSound;
-	private float cd;
-	private GameObject cannon;
-	private GameObject iCannon; //The cannon color. Ryan, this is were you can change the color for the boss
-	private Sprite[] cSprites; //Outline: 15, 16  Color: 0, 1
-	int oSprite = 15;
-	int iSprite = 0;
-	private float dmgCount = .3f;
+	protected float cd;
+	protected GameObject cannon;
+	protected GameObject iCannon; //The cannon color. Ryan, this is were you can change the color for the boss
+	protected Sprite[] cSprites; //Outline: 15, 16  Color: 0, 1
+	protected int oSprite = 15;
+	protected int iSprite = 0;
+	protected float dmgCount = .3f;
 
-	private float sizex = .65f;
-	private float sizey = .65f;
+	protected float sizex = .65f;
+	protected float sizey = .65f;
 
 	public void init(EnemyManager owner, float position) {
 		hp = 6;
@@ -114,7 +114,7 @@ public class CannonEnemy : ParentEnemy {
 
 	}
 
-	void Move(){
+	protected void Move(){
 		if (direction == "D") {
 			transform.Translate (Vector3.up * Time.deltaTime * speed);
 		} else if (direction == "L") {
@@ -153,7 +153,7 @@ public class CannonEnemy : ParentEnemy {
 		}
 	}
 
-	void Die(){
+	protected void Die(){
 		Destroy (cannon.gameObject);
 		Destroy (iCannon.gameObject);
 		animator.SetTrigger ("Die");
