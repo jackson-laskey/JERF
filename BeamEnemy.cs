@@ -164,7 +164,7 @@ public class BeamEnemy : ParentEnemy {
 		// Ryan fill this in to fire the same beam as the
 		// Make the Beam last as long as FireTimeReset at the top of this code
 		beamShot = new GameObject();
-		beamShot.transform.parent = transform;
+		beamShot.transform.parent = beam.transform;
 		beamShot.name = "BeamShot";
 		beamShot.AddComponent<Beam> ().init (fireTimeReset);
 	}
