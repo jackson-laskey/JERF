@@ -17,6 +17,7 @@ public class SparkEnemy : ParentEnemy {
 	public AudioClip Spark;
 	public AudioClip sparkLoop;
 	public AudioClip explosion;
+	public AudioSource audio;
 	public bool dead = false;
 
 	public void init(EnemyManager owner) {

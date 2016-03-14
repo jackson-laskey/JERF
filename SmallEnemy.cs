@@ -7,7 +7,7 @@ public class SmallEnemy : ParentEnemy {
 	private string direction;
 	private bool diving;
 
-
+	public AudioClip burst;
 
 	private float diveSpeed = -5;
 	private float diveDistance = 4f;
