@@ -210,7 +210,7 @@ public class GameController : MonoBehaviour {
 				eMan.getFormation (inst [0], Int32.Parse (inst [1]));
 			}
 		} else if (inst [0] == "BOSS") {
-			eMan.SpawnBoss();
+			eMan.getInstruction (inst [0], 0, 0, 0);
 		} else if (inst [0] == "S" || inst [0] == "B") { // Heavy Enemies
 			eMan.getInstruction (inst [0], Int32.Parse (inst [1]), Int32.Parse (inst [2]),0);
 		} else if (inst [0] == "H") {

@@ -9,13 +9,13 @@ public class Beam : Projectile {
 	private GameObject laser;
 	private Animator animator;
 
-	float shotThreshold;
+	public float shotThreshold;
 
-	float shotClock;
+	public float shotClock;
 	GameObject[] beams = new GameObject[14];
 
 	// Use this for initialization
-	public void init (float shotLength) {
+	public void init (float shotLength, params float[] position) {
 		//Parameters
 		shotThreshold = shotLength;
 
@@ -26,18 +26,25 @@ public class Beam : Projectile {
 
 		base.init (true, "Laser", xScale, yScale, pixels);
 		beams [0] = gameObject;
+		float x = 0;
+		float y = 0;
+		if (position.Length == 2) {
+			x = position [0];
+			y = position [1];
+		}
+		transform.localPosition = new Vector3 (x, y-(1/2), 0);
 		for (float i = 1; i < 14; i++) {
 			beams[(int)i] = new GameObject ();
-			FindObjectOfType<GameController> ().MakeSprite (beams [(int)i], "Laser", transform.parent, 0, 0 - (i/2), xScale, yScale, 200);
+			FindObjectOfType<GameController> ().MakeSprite (beams [(int)i], "Laser", transform.parent, x, y - (i/2), xScale, yScale, 200);
 			beams[(int)i].name = "Beam";
 			beams[(int)i].AddComponent<BoxCollider2D> ().isTrigger = true;
 			beams[(int)i].GetComponent<BoxCollider2D> ().size = new Vector2 (colliderSize, colliderSize);
 		}
 		transform.eulerAngles  = new Vector3(0, 0, 180);
 		laser = this.gameObject;
-		animator = laser.AddComponent<Animator> ();
-		animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController> ("Animation/Cannon_Projectile_Animation_Controller");
-		name = "Beam";
+//		animator = laser.AddComponent<Animator> ();
+//		animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController> ("Animation/Cannon_Projectile_Animation_Controller");
+		name = "Beam1";
 
 	}
 
@@ -57,6 +64,9 @@ public class Beam : Projectile {
 		if (coll.tag == "PlayerController") {
 			speed = 0;
 			animator.SetTrigger ("Hit");
+			for (float i = 1; i < 14; i++) {
+				Destroy(beams[(int)i]);
+			}
 			Destroy (this.gameObject, .2f);
 		}
 	}
