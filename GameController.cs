@@ -16,8 +16,8 @@ public class GameController : MonoBehaviour {
 	public GameObject captain;
 	public GameObject jets;
 	public GameObject leftShield;
-	public int level = 4;
-	public int numLevels = 5;
+	public int level = 1;
+	public int numLevels = 12;
 	private string[] instructions;
 	private int iter = 0;
 	private bool waiting = false;

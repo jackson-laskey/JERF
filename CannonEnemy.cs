@@ -173,10 +173,10 @@ public class CannonEnemy : ParentEnemy {
 	}
 
 	void Die(){
-		if (!dead) {
-			AudioSource.PlayClipAtPoint (burst, transform.position);
-			dead = true;
-		}
+		//if (!dead) {
+		//	AudioSource.PlayClipAtPoint (burst, transform.position);
+		//	dead = true;
+		//}
 		Destroy (Rcannon.gameObject);
 		Destroy (RiCannon.gameObject);
 		Destroy (Lcannon.gameObject);
