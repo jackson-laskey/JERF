@@ -29,6 +29,7 @@ public class ScreenController : MonoBehaviour {
 		rend = name.GetComponent<SpriteRenderer> ();
 		rend.sprite = title [spt];
 		count = .75f;
+
 		startSounds = Resources.Load ("Sounds/startSounds") as AudioClip;
 
 		audio = gameObject.AddComponent<AudioSource> ();

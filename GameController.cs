@@ -16,8 +16,8 @@ public class GameController : MonoBehaviour {
 	public GameObject captain;
 	public GameObject jets;
 	public GameObject leftShield;
-	public int level = 4;
-	public int numLevels = 5;
+	public int level = 1;
+	public int numLevels = 12;
 	private string[] instructions;
 	private int iter = 0;
 	private bool waiting = false;
@@ -42,6 +42,8 @@ public class GameController : MonoBehaviour {
 	public void init (bool justDied) {
 		isDead = false;
 		if (!justDied) {
+			level = 1;
+			numLevels = 12;
 			StartCoroutine (sleep (levelStartWait));
 			stextures = Resources.LoadAll<Sprite> ("Textures/Ship Sprite Sheet");
 			captain = new GameObject ();
@@ -80,8 +82,6 @@ public class GameController : MonoBehaviour {
 //		captain.SetActive(true);
 			eMan = gameObject.AddComponent<EnemyManager> ();
 			eMan.init (this);
-			level = 1;
-			numLevels = 5;
 			//For now let's just worry about loading and executing a single level. Eventually, we will have to be more sophisticated about restarting levels and loading new levels.
 			//May not need separate function longterm.
 			this.GetInstructions ("JERF/level" + level.ToString ());

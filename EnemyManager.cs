@@ -34,7 +34,7 @@ public class EnemyManager : MonoBehaviour {
 		if (type == "BOSS") {
 			GameObject boss = new GameObject ();
 			boss.AddComponent<Boss> ();
-			boss.transform.position = new Vector3 (-3.1f, 6.56f);
+			boss.transform.position = new Vector3 (-3.1f, 7.1f);
 			boss.GetComponent<Boss> ().init (this);
 		} else if (type == "A") {
 			spawningA = true;

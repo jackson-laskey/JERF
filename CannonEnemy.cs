@@ -173,13 +173,18 @@ public class CannonEnemy : ParentEnemy {
 			hp--;
 			animator.SetBool ("Damaged", true);
 		}
+		if (other.tag == "PlayerController") {
+			hp = 0;
+		}
 	}
+
 
 	protected void Die(){
 		if (!dead) {
 			AudioSource.PlayClipAtPoint (burst, transform.position);
 			dead = true;
 		}
+
 		Destroy (Rcannon.gameObject);
 		Destroy (RiCannon.gameObject);
 		Destroy (Lcannon.gameObject);

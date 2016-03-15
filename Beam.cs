@@ -12,7 +12,7 @@ public class Beam : Projectile {
 	public float shotThreshold;
 
 	public float shotClock;
-	GameObject[] beams = new GameObject[14];
+	GameObject[] beams = new GameObject[16];
 
 	// Use this for initialization
 	public void init (float shotLength, params float[] position) {
@@ -20,31 +20,37 @@ public class Beam : Projectile {
 		shotThreshold = shotLength;
 
 		xScale = 1f;
-		yScale = 1;
+		yScale = 1.5f;
 		pixels = 200;
 
 
-		base.init (true, "Laser", xScale, yScale, pixels);
+		//base.init (true, "Laser", xScale, yScale, pixels);
+
 		beams [0] = gameObject;
 		float x = 0;
 		float y = 0;
 		if (position.Length == 2) {
 			x = position [0];
 			y = position [1];
+			xScale = xScale / 2;
 		}
 		transform.localPosition = new Vector3 (x, y-(1/2), 0);
-		for (float i = 1; i < 14; i++) {
+		for (float i = 1; i < 16; i++) {
 			beams[(int)i] = new GameObject ();
-			FindObjectOfType<GameController> ().MakeSprite (beams [(int)i], "Laser", transform.parent, x, y - (i/2), xScale, yScale, 200);
+			FindObjectOfType<GameController> ().MakeSprite (beams [(int)i], "Laser", this.transform.parent, x, y - (i * .45f), xScale, yScale, 200);
 			beams[(int)i].name = "Beam";
+			animator = beams[(int)i].AddComponent<Animator> ();
+			animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController> ("Animation/Beam_Projectile_Animation_Controller");
 			beams[(int)i].AddComponent<BoxCollider2D> ().isTrigger = true;
 			beams[(int)i].GetComponent<BoxCollider2D> ().size = new Vector2 (colliderSize, colliderSize);
+			if (i < 5) {
+				beams[(int)i].GetComponent<SpriteRenderer> ().sortingLayerName = "ShipButton";
+			}
 		}
-		transform.eulerAngles  = new Vector3(0, 0, 180);
-		laser = this.gameObject;
 //		animator = laser.AddComponent<Animator> ();
 //		animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController> ("Animation/Cannon_Projectile_Animation_Controller");
 		name = "Beam1";
+		transform.eulerAngles  = new Vector3(0, 0, 0);
 
 	}
 
@@ -53,10 +59,10 @@ public class Beam : Projectile {
 		base.Update ();
 
 		if ((shotClock += Time.deltaTime) >= shotThreshold) {
-			for (float i = 1; i < 14; i++) {
+			for (float i = 1; i < 16; i++) {
 				Destroy(beams[(int)i]);
 			}
-			Destroy (gameObject);
+			Destroy (this.gameObject);
 		}
 	}
 

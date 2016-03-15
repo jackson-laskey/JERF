@@ -10,7 +10,6 @@ public class Boss : CannonEnemy {
 
 	private Material lMat;
 	private Material rMat;
-
 	private float shotTimer;
 	private char beingFired;
 	private bool inTransition;
@@ -32,6 +31,7 @@ public class Boss : CannonEnemy {
 
 	public void init(EnemyManager owner) {
 		base.init (owner, 4f);
+		gameObject.GetComponent<SpriteRenderer> ().sortingLayerName = "SectorStatus";
 		gameObject.transform.localScale = new Vector3 (4, 4, 1);
 		hp = 100;
 		shotTimer = 0;
@@ -50,6 +50,44 @@ public class Boss : CannonEnemy {
 		audio.clip = BeamSound;
 		audio.volume = .2f;
 		audio.Play();
+
+//		cSprites = Resources.LoadAll<Sprite> ("Textures/Cannons_Sprite_Sheet");
+//		Lcannon = new GameObject ();
+//		Lcannon.transform.parent = this.transform;
+//		Lcannon.transform.localPosition = new Vector3 (.305f, -.364f, 0);
+//		Lcannon.transform.localScale = new Vector2 (1, 1);
+//		Lcannon.AddComponent<SpriteRenderer> ();
+//		Lcannon.GetComponent<SpriteRenderer> ().sprite = cSprites [0];
+//		Lcannon.name = "LeftCannonOutline";
+//		LiCannon = new GameObject ();
+//		LiCannon.transform.parent = Lcannon.transform;
+//		LiCannon.transform.localPosition = new Vector3 (0, 0, 0);
+//		LiCannon.transform.localScale = new Vector2 (1, 1);
+//		LiCannon.AddComponent<SpriteRenderer> ();
+//		LiCannon.GetComponent<SpriteRenderer> ().sprite = cSprites[1];
+//		LiCannon.name = "LeftCannonColor";
+//
+//
+//		Rcannon = new GameObject ();
+//		Rcannon.transform.parent = this.transform;
+//		Rcannon.transform.localPosition = new Vector3 (-.305f, -.364f, 0);
+//		Rcannon.transform.localScale = new Vector2 (1, 1);
+//		Rcannon.AddComponent<SpriteRenderer> ();
+//		Rcannon.GetComponent<SpriteRenderer> ().sprite = cSprites [0];
+//		Rcannon.name = "RightCannonOutline";
+//		RiCannon = new GameObject ();
+//		RiCannon.transform.parent = Rcannon.transform;
+//		RiCannon.transform.localPosition = new Vector3 (0, 0, 0);
+//		RiCannon.transform.localScale = new Vector2 (1, 1);
+//		RiCannon.AddComponent<SpriteRenderer> ();
+//		RiCannon.GetComponent<SpriteRenderer> ().sprite = cSprites[1];
+//		RiCannon.name = "RightCannonColor";
+//
+//
+//		Lcannon.GetComponent<SpriteRenderer> ().sortingOrder = 1;
+//		LiCannon.GetComponent<SpriteRenderer> ().sortingOrder = 1;
+//		Rcannon.GetComponent<SpriteRenderer> ().sortingOrder = 1;
+//		RiCannon.GetComponent<SpriteRenderer> ().sortingOrder = 1;
 	}
 
 	void Update() {
@@ -173,9 +211,9 @@ public class Boss : CannonEnemy {
 			beamShot.transform.parent = transform;
 			beamShot.name = "BeamShot";
 			if (firingSide == "R") {
-				beamShot.AddComponent<Beam> ().init (beamResetTime, transform.localScale.x*.076f, transform.localScale.y*-.1f);
+				beamShot.AddComponent<Beam> ().init (beamResetTime, transform.localScale.x*.076f, 0-transform.localScale.y*.028f);
 			} else {
-				beamShot.AddComponent<Beam> ().init (beamResetTime, transform.localScale.x*-.076f, transform.localScale.y*-.1f);
+				beamShot.AddComponent<Beam> ().init (beamResetTime, transform.localScale.x*-.076f, 0-transform.localScale.y*.028f);
 			}
 		}
 	}
@@ -239,6 +277,19 @@ public class Boss : CannonEnemy {
 		} else if (hp < 80) {
 			speed = -1.5f;
 		}
+	}
+
+	void Die(){
+		if (!dead) {
+			AudioSource.PlayClipAtPoint (burst, transform.position);
+			dead = true;
+		}
+		Destroy (Rcannon.gameObject);
+		Destroy (RiCannon.gameObject);
+		Destroy (Lcannon.gameObject);
+		Destroy (LiCannon.gameObject);
+		animator.SetTrigger ("Die");
+		Destroy (this.gameObject, 1.1f);
 	}
 
 }
