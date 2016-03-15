@@ -42,7 +42,7 @@ public class SparkShot : Projectile {
 	}
 
 	void OnTriggerEnter2D(Collider2D coll) {
-		if (coll.tag == "PlayerController") {
+		if (coll.name == "PlayerController") {
 			animator.SetTrigger ("Die");
 			speed = 0;
 			Destroy (this.gameObject, .2f);

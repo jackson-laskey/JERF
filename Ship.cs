@@ -82,6 +82,7 @@ public class Ship : MonoBehaviour {
 		controller = gContr;
 		gameObject.AddComponent<Rigidbody2D> ().isKinematic = true;
 		gameObject.AddComponent<PolygonCollider2D> ().isTrigger = true;
+		gameObject.GetComponent<PolygonCollider2D> ().offset = new Vector2 (0, -.055f); 
 		transform.localPosition = new Vector3 (-3.2f, -4, 0);
 		gameObject.name = "Ship";
 		tag = "PlayerController";
