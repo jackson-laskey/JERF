@@ -45,7 +45,7 @@ public class GameController : MonoBehaviour {
 		isDead = false;
 		wInstruction = false;
 		if (!justDied) {
-			level = 1;
+			level = 12;
 			numLevels = 12;
 			StartCoroutine (sleep (levelStartWait));
 			stextures = Resources.LoadAll<Sprite> ("Textures/Ship Sprite Sheet");
@@ -173,6 +173,7 @@ public class GameController : MonoBehaviour {
 	}
 
 	void Update() {//Needed an update to handle waiting. Checks if waiting once per frame instead of on infinite loop which crashes
+
 		if (isDead) {
 			AudioSource.PlayClipAtPoint(DeathSound,transform.position);
 			return;
@@ -194,6 +195,7 @@ public class GameController : MonoBehaviour {
 				}
 			} else if(!waiting && GameObject.FindObjectsOfType<ParentEnemy>().Length == 0 && eMan.spawningA == false){//Means done, not just waiting
 				if (++level > numLevels) {
+						endText ();
 					done = true;
 				} else {
 					setLevelText ();
@@ -286,6 +288,10 @@ public class GameController : MonoBehaviour {
 
 	void setLevelText(){
 		levelCount.text = "Level: " + level;
+	}
+
+	void endText(){
+		levelCount.text = "Sector Cleared, You Win!";
 	}
 
 	void GetInstructions (string level) {

@@ -30,6 +30,6 @@ public class SuperPlayerLaser : Projectile {
 				base.Update ();
 			}
 	
-		void OnTriggerEnter2D(Collider2D coll) {
+		void OnTriggerStay2D(Collider2D coll) {
 			}
 	}

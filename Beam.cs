@@ -41,8 +41,9 @@ public class Beam : Projectile {
 			beams[(int)i].name = "Beam";
 			animator = beams[(int)i].AddComponent<Animator> ();
 			animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController> ("Animation/Beam_Projectile_Animation_Controller");
-			beams[(int)i].AddComponent<BoxCollider2D> ().isTrigger = true;
+			beams [(int)i].AddComponent<BoxCollider2D> ();
 			beams[(int)i].GetComponent<BoxCollider2D> ().size = new Vector2 (colliderSize, colliderSize);
+			beams [(int)i].AddComponent<Rigidbody2D> ().isKinematic = true;
 			if (i < 5) {
 				beams[(int)i].GetComponent<SpriteRenderer> ().sortingLayerName = "ShipButton";
 			}
@@ -66,14 +67,13 @@ public class Beam : Projectile {
 		}
 	}
 
-	void OnTriggerEnter2D(Collider2D coll) {
-		if (coll.tag == "PlayerController") {
-			speed = 0;
-			animator.SetTrigger ("Hit");
-			for (float i = 1; i < 14; i++) {
-				Destroy(beams[(int)i]);
-			}
-			Destroy (this.gameObject, .2f);
+	/*void OnTriggerEnter2D(Collider2D coll) {
+		print ("hi");
+		if (coll.name == "PlayerLaser") {
+			this.GetComponentInParent<Beam> ().GetComponentInParent<BeamEnemy> ().hp++;
 		}
-	}
+		if (coll.name == "SuperPlayerLaser") {
+			this.GetComponentInParent<Beam> ().GetComponentInParent<BeamEnemy> ().hp += 2;
+		}
+	}*/
 }

@@ -171,9 +171,9 @@ public class BeamEnemy : ParentEnemy {
 		// Ryan fill this in to fire the same beam as the
 		// Make the Beam last as long as FireTimeReset at the top of this code
 		beamShot = new GameObject();
-		beamShot.name = "BeamShot";
 		beamShot.transform.parent = beam.transform;
 		beamShot.AddComponent<Beam> ().init (fireTimeReset);
+		beamShot.name = "BeamShot";
 	}
 
 	void OnTriggerEnter2D(Collider2D other){
@@ -187,6 +187,7 @@ public class BeamEnemy : ParentEnemy {
 				animator.SetBool ("Damaged", true);
 			}
 		}
+		print (hp);
 		//if (other.tag == "PlayerController") {
 		//	hp = 0;
 		//}
