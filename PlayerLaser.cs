@@ -38,7 +38,7 @@ public class PlayerLaser : Projectile {
 			speed = 0;
 			Destroy (this.gameObject, .3f);
 		}
-		else if (coll.name != "Ship" && coll.name != "Beam") {
+		if (coll.name != "Ship" && coll.name != "Beam" && coll.name != "Dead") {
 			animator.SetTrigger ("Hit");
 			speed = 0;
 			Destroy (this.gameObject, .2f);

@@ -20,6 +20,7 @@ public class CannonEnemy : ParentEnemy {
 	protected Sprite[] cSprites;
 	protected float dmgCount = .3f;
 	public bool dead = false;
+	SpriteRenderer rend;
 
 	protected float sizex = .65f;
 	protected float sizey = .65f;
@@ -30,8 +31,7 @@ public class CannonEnemy : ParentEnemy {
 		speed = -1.5f;
 		stopPosition = position;
 		transform.localScale = new Vector3 (sizex, sizey, 1);
-
-		SpriteRenderer rend = gameObject.AddComponent<SpriteRenderer> ();
+		rend = gameObject.AddComponent<SpriteRenderer> ();
 		cSprites = Resources.LoadAll<Sprite> ("Textures/Cannon_Enemy_Sprite_Sheet");
 		rend.sprite = cSprites[12];
 		col = gameObject.AddComponent<PolygonCollider2D> ();
@@ -95,6 +95,7 @@ public class CannonEnemy : ParentEnemy {
 		if (hp <= 0) {
 			animator.SetBool ("Damaged", false);
 			speed = -.2f;
+			cd = 90;
 			Die ();
 		}
 		if (animator.GetBool ("Damaged")) {
@@ -165,16 +166,18 @@ public class CannonEnemy : ParentEnemy {
 	}
 
     void OnTriggerEnter2D(Collider2D other){
-		if (other.name == "PlayerLaser") {
-			hp--;
-			animator.SetBool ("Damaged", true);
-		}
-		if (other.name == "SuperPlayerLaser") {
-			hp--;
-			animator.SetBool ("Damaged", true);
-		}
-		if (other.tag == "PlayerController") {
-			hp = 0;
+		if (!dead) {
+			if (other.name == "PlayerLaser") {
+				hp--;
+				animator.SetBool ("Damaged", true);
+			}
+			if (other.name == "SuperPlayerLaser") {
+				hp--;
+				animator.SetBool ("Damaged", true);
+			}
+			if (other.tag == "PlayerController") {
+				hp = 0;
+			}
 		}
 	}
 
@@ -184,12 +187,13 @@ public class CannonEnemy : ParentEnemy {
 			AudioSource.PlayClipAtPoint (burst, transform.position);
 			dead = true;
 		}
-
+		this.name = "Dead";
+		animator.SetTrigger ("Die");
 		Destroy (Rcannon.gameObject);
 		Destroy (RiCannon.gameObject);
 		Destroy (Lcannon.gameObject);
 		Destroy (LiCannon.gameObject);
-		animator.SetTrigger ("Die");
 		Destroy (this.gameObject, 1.1f);
 	}
+		
 }

@@ -27,6 +27,8 @@ public class BeamEnemy : ParentEnemy {
 	private float sizex = .65f;
 	private float sizey = .65f;
 
+	SpriteRenderer rend;
+
 	private Sprite[] BE;
 
 	public void init(EnemyManager owner) {
@@ -36,7 +38,7 @@ public class BeamEnemy : ParentEnemy {
 		transform.localScale = new Vector3 (sizex, sizey, 1);
 		entering = true;
 		BE = Resources.LoadAll<Sprite> ("Textures/Beam_Enemy_Sprite_Sheet");
-		SpriteRenderer rend = gameObject.AddComponent<SpriteRenderer> ();
+		rend = gameObject.AddComponent<SpriteRenderer> ();
 		rend.sprite = BE [7];
 		animator = gameObject.AddComponent<Animator> ();
 		animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController> ("Animation/BE_Animation_Controller");
@@ -111,7 +113,6 @@ public class BeamEnemy : ParentEnemy {
 				direction = "L";
 			}
 			Move ();
-
 			if (charging) {
 				charge = charge + Time.deltaTime;
 				audio.volume = (charge+1)/9;
@@ -129,9 +130,10 @@ public class BeamEnemy : ParentEnemy {
 				animator.SetBool ("Fire", true);
 				bAnimator.SetBool ("Fire", true);
 				Fire ();
+				fired++;
 				audio.volume = 1;
 			}
-			if (!charging) {
+			else if (!charging) {
 				fireTime = fireTime - Time.deltaTime;
 				audio.volume = (fireTime + 1) / 3;
 				if (fireTime <= 0) {
@@ -140,6 +142,11 @@ public class BeamEnemy : ParentEnemy {
 					bAnimator.SetBool ("Fire", false);
 					animator.SetBool ("Charging", true);
 					bAnimator.SetBool ("Charging", true);
+					if (fired == 3) {
+						retreating = true;
+						animator.SetBool ("Charging", false);
+						charging = false;
+					}
 				}
 			}
 		}
@@ -170,13 +177,15 @@ public class BeamEnemy : ParentEnemy {
 	}
 
 	void OnTriggerEnter2D(Collider2D other){
-		if (other.name == "PlayerLaser") {
-			hp--;
-			animator.SetBool ("Damaged", true);
-		}
-		if (other.name == "SuperPlayerLaser") {
-			hp -= 2;
-			animator.SetBool ("Damaged", true);
+		if (!dead) {
+			if (other.name == "PlayerLaser") {
+				hp--;
+				animator.SetBool ("Damaged", true);
+			}
+			if (other.name == "SuperPlayerLaser") {
+				hp -= 2;
+				animator.SetBool ("Damaged", true);
+			}
 		}
 		//if (other.tag == "PlayerController") {
 		//	hp = 0;
@@ -187,11 +196,14 @@ public class BeamEnemy : ParentEnemy {
 		if (!dead) {
 			AudioSource.PlayClipAtPoint (explosion, transform.position);
 			dead = true;
-		}		speed = 0;
+		}		
+		speed = 0;
+		this.name = "Dead";
 		Destroy (beam.gameObject);
 		animator.SetTrigger ("Die");
 		Destroy (this.gameObject, .6f);
 
 	}
+		
 }
 

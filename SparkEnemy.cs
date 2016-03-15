@@ -13,6 +13,7 @@ public class SparkEnemy : ParentEnemy {
 	private Animator sAnimator;
 	private float dmgCount = .3f;
 	private Sprite[] SE;
+	SpriteRenderer rend;
 
 	public AudioClip Spark;
 	public AudioClip sparkLoop;
@@ -24,7 +25,7 @@ public class SparkEnemy : ParentEnemy {
 		hp = 5;
 		speed = -1;
 		transform.localScale = new Vector3 (sizex, sizey, 1);
-		SpriteRenderer rend = gameObject.AddComponent<SpriteRenderer> ();
+		rend = gameObject.AddComponent<SpriteRenderer> ();
 		SE = Resources.LoadAll<Sprite> ("Textures/Spark Enemy Sprite Sheet");
 		rend.sprite = SE[13];
 		col = gameObject.AddComponent<PolygonCollider2D> ();
@@ -110,16 +111,18 @@ public class SparkEnemy : ParentEnemy {
 	}
 
 	void OnTriggerEnter2D(Collider2D other){
-		if (other.name == "PlayerLaser") {
-			animator.SetBool ("Damaged", true);
-			hp--;
-		}
-		if (other.name == "SuperPlayerLaser") {
-			animator.SetBool ("Damaged", true);
-			hp--;
-		}
-		if (other.tag == "PlayerControler") {
-			Die ();
+		if (!dead) {
+			if (other.name == "PlayerLaser") {
+				animator.SetBool ("Damaged", true);
+				hp--;
+			}
+			if (other.name == "SuperPlayerLaser") {
+				animator.SetBool ("Damaged", true);
+				hp--;
+			}
+			if (other.tag == "PlayerControler") {
+				Die ();
+			}
 		}
 	}
 
@@ -130,9 +133,11 @@ public class SparkEnemy : ParentEnemy {
 			dead = true;
 		}
 		animator.SetTrigger ("Die");
+		this.name = "Dead";
 		spark.transform.localScale = new Vector2 (1.25f, 1.25f);
 		sAnimator.SetTrigger ("Die");
 		Destroy (spark.gameObject, .2f);
 		Destroy (this.gameObject, 1f);
 	}
+		
 }

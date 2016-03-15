@@ -177,7 +177,6 @@ public class GameController : MonoBehaviour {
 			AudioSource.PlayClipAtPoint(DeathSound,transform.position);
 			return;
 		}
-		print (GameObject.FindObjectsOfType<ParentEnemy> ().Length);
 		if (wInstruction && !waiting) {
 			if (GameObject.FindObjectsOfType<ParentEnemy> ().Length == 0) {
 				wInstruction = false;

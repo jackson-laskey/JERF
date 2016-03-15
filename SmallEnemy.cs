@@ -17,13 +17,14 @@ public class SmallEnemy : ParentEnemy {
 	private float dmgCount = .3f;
 	private Sprite[] SE;
 	public bool dead = false;
+	SpriteRenderer rend;
 
 	public void init(EnemyManager owner) {
 		name = "SmallEnemy";
 		hp = 2;
 		speed = -1f;
 		transform.localScale = new Vector3 (sizex, sizey, 1);
-		SpriteRenderer rend = this.gameObject.AddComponent<SpriteRenderer> ();
+		rend = this.gameObject.AddComponent<SpriteRenderer> ();
 		SE = Resources.LoadAll<Sprite> ("Textures/Small_Enemy_Sprite_Sheet");
 		rend.sprite = SE [14];
 		col = gameObject.AddComponent<PolygonCollider2D> ();
@@ -105,13 +106,15 @@ public class SmallEnemy : ParentEnemy {
 	}
 
 	void OnTriggerEnter2D(Collider2D other){
-		if (other.name == "PlayerLaser" || other.name == "SuperPlayerLaser") {
-			hp--;
-			animator.SetBool ("Damaged", true);
-		}
-		if (other.tag == "PlayerController") {
-			animator.SetBool ("Charged", true);
-			Die ();
+		if (!dead) {
+			if (other.name == "PlayerLaser" || other.name == "SuperPlayerLaser") {
+				hp--;
+				animator.SetBool ("Damaged", true);
+			}
+			if (other.tag == "PlayerController") {
+				animator.SetBool ("Charged", true);
+				Die ();
+			}
 		}
 	}
 
@@ -122,6 +125,7 @@ public class SmallEnemy : ParentEnemy {
 		}
 		speed = 0;
 		diveSpeed = 0;
+		this.name = "Dead";
 		animator.SetTrigger ("Die");
 		if (animator.GetBool ("Charged")) {
 			Destroy (this.gameObject, .4f);
@@ -130,4 +134,5 @@ public class SmallEnemy : ParentEnemy {
 		}
 
 	}
+
 }
