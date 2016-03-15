@@ -72,11 +72,11 @@ public class ComponentHealth : MonoBehaviour {
 		maintain = false;
 		health = 100;
 		if (type == 2) {
-			repairRate = 20f;
-			decayModifier = 5f;
+			repairRate = 23f;
+			decayModifier = 5.2f;
 		} else {
-			repairRate = 25f;
-			decayModifier = 4f;
+			repairRate = 28f;
+			decayModifier = 4.2f;
 		}
 
 		initd = true;
