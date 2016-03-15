@@ -16,8 +16,8 @@ public class GameController : MonoBehaviour {
 	public GameObject captain;
 	public GameObject jets;
 	public GameObject leftShield;
-	public int level = 4;
-	public int numLevels = 5;
+	public int level = 1;
+	public int numLevels = 12;
 	private string[] instructions;
 	private int iter = 0;
 	private bool waiting = false;
@@ -28,6 +28,8 @@ public class GameController : MonoBehaviour {
 	public bool isDead;
 	int levelStartWait = 3;
 	public AudioClip DeathSound;
+
+	private bool wInstruction;
 
 //	private bool waiting;
 
@@ -41,7 +43,10 @@ public class GameController : MonoBehaviour {
 
 	public void init (bool justDied) {
 		isDead = false;
+		wInstruction = false;
 		if (!justDied) {
+			level = 1;
+			numLevels = 12;
 			StartCoroutine (sleep (levelStartWait));
 			stextures = Resources.LoadAll<Sprite> ("Textures/Ship Sprite Sheet");
 			captain = new GameObject ();
@@ -80,8 +85,6 @@ public class GameController : MonoBehaviour {
 //		captain.SetActive(true);
 			eMan = gameObject.AddComponent<EnemyManager> ();
 			eMan.init (this);
-			level = 1;
-			numLevels = 5;
 			//For now let's just worry about loading and executing a single level. Eventually, we will have to be more sophisticated about restarting levels and loading new levels.
 			//May not need separate function longterm.
 			this.GetInstructions ("JERF/level" + level.ToString ());
@@ -174,7 +177,14 @@ public class GameController : MonoBehaviour {
 			AudioSource.PlayClipAtPoint(DeathSound,transform.position);
 			return;
 		}
-
+		print (GameObject.FindObjectsOfType<ParentEnemy> ().Length);
+		if (wInstruction && !waiting) {
+			if (GameObject.FindObjectsOfType<ParentEnemy> ().Length == 0) {
+				wInstruction = false;
+			} else {
+				return;
+			}
+		}
 		if (!done) {
 			if (instructions [iter] != "X" && !waiting) { // Check if done/not waiting
 				ExecuteInstruction (instructions [iter].Split (':')); // Execute the instruction
@@ -201,7 +211,10 @@ public class GameController : MonoBehaviour {
 	void ExecuteInstruction(string[] inst){ 
 		// Asteroids. IMPORTANT, asteroid int values correspond to a percentage frequency for random generation.
 		//Therefore if size is 84, then for each frame, if Random.value>.84, generate a random asteroid. Random.value creates a float between 0-1
-		if (inst [0] == "A" || inst [0] == "L" || inst [0] == "P1" || inst [0] == "P2" || inst [0] == "P3") {
+		if (inst[0] == "W") {
+			wInstruction = true;
+			StartCoroutine (sleep (1));
+		} else if (inst [0] == "A" || inst [0] == "L" || inst [0] == "P1" || inst [0] == "P2" || inst [0] == "P3") {
 			//Need to cast strings as integers. Args for this eMan instruction are (string type, int size, int x). Type is enemy type
 			//Size is squad size (squad implementation is up to you for now, coming in one after another maybe). X is x value of screen descent.
 			if (inst.Length == 3) {
@@ -210,7 +223,7 @@ public class GameController : MonoBehaviour {
 				eMan.getFormation (inst [0], Int32.Parse (inst [1]));
 			}
 		} else if (inst [0] == "BOSS") {
-			eMan.SpawnBoss();
+			eMan.getInstruction (inst [0], 0, 0, 0);
 		} else if (inst [0] == "S" || inst [0] == "B") { // Heavy Enemies
 			eMan.getInstruction (inst [0], Int32.Parse (inst [1]), Int32.Parse (inst [2]),0);
 		} else if (inst [0] == "H") {

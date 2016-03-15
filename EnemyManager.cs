@@ -31,7 +31,12 @@ public class EnemyManager : MonoBehaviour {
 	}
 
 	public void getInstruction(string type, int size, int x, float position){
-		if (type == "A") {
+		if (type == "BOSS") {
+			GameObject boss = new GameObject ();
+			boss.AddComponent<Boss> ();
+			boss.transform.position = new Vector3 (-3.1f, 7.1f);
+			boss.GetComponent<Boss> ().init (this);
+		} else if (type == "A") {
 			spawningA = true;
 			freq = size;
 			spawnTime = x;
@@ -110,10 +115,4 @@ public class EnemyManager : MonoBehaviour {
 		}
 	}
 
-	public void SpawnBoss() {
-		GameObject boss = new GameObject ();
-		boss.AddComponent<Boss> ();
-		boss.transform.position = new Vector3 (-3.1f, 6.56f);
-		boss.GetComponent<Boss>().init (this);
-	}
 }

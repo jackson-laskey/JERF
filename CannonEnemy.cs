@@ -9,6 +9,7 @@ public class CannonEnemy : ParentEnemy {
 	protected string firingSide;
 	public AudioClip LaserSound;
 	protected float cd;
+	protected GameObject cannon;
 	protected int oSprite = 15;
 	protected int iSprite = 0;
 	public AudioClip burst;
@@ -177,11 +178,13 @@ public class CannonEnemy : ParentEnemy {
 		}
 	}
 
+
 	protected void Die(){
 		if (!dead) {
 			AudioSource.PlayClipAtPoint (burst, transform.position);
 			dead = true;
 		}
+
 		Destroy (Rcannon.gameObject);
 		Destroy (RiCannon.gameObject);
 		Destroy (Lcannon.gameObject);
