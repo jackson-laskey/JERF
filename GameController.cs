@@ -45,7 +45,7 @@ public class GameController : MonoBehaviour {
 		isDead = false;
 		wInstruction = false;
 		if (!justDied) {
-			level = 16;
+			level = 3;
 			numLevels = 16;
 			StartCoroutine (sleep (levelStartWait));
 			stextures = Resources.LoadAll<Sprite> ("Textures/Ship Sprite Sheet");
@@ -198,7 +198,16 @@ public class GameController : MonoBehaviour {
 						endText ();
 					done = true;
 				} else {
-					setLevelText ();
+					if (level == 3) {
+						AsteroidHelp ();
+					} else if (level == 4) {
+						SparkHelp ();
+					} else if (level == 16) {
+						BossText ();
+					}
+					else {
+						setLevelText ();
+					}
 					EndLevel (level);
 					this.GetInstructions ("JERF/level" + level.ToString ());
 					done = false;
@@ -290,8 +299,20 @@ public class GameController : MonoBehaviour {
 		levelCount.text = "Level: " + level;
 	}
 
+	void AsteroidHelp(){
+		levelCount.text = "Level: " + level + " Get to Shields!";
+	}
+
+	void SparkHelp(){
+		levelCount.text = "Level: " + level + " Get to Engines!";
+	}
+
 	void endText(){
 		levelCount.text = "Sector Cleared, You Win!";
+	}
+
+	void BossText(){
+		levelCount.text = "WARNING! " + "\nLARGE THREAT DETECTED!";
 	}
 
 	void GetInstructions (string level) {

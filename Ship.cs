@@ -21,7 +21,9 @@ public class Ship : MonoBehaviour {
 	public AudioClip DeathSound;
 	public AudioClip laserHit;
 	public AudioClip sparkHit;
-
+	public Material hitPanel;
+	public bool hit;
+	public float hitTimer = .18f;
 
 	public AudioSource audio;
 
@@ -85,9 +87,10 @@ public class Ship : MonoBehaviour {
 		transform.localPosition = new Vector3 (-3.2f, -4, 0);
 		gameObject.name = "Ship";
 		tag = "PlayerController";
-
-
 		restart = r;
+
+		hitPanel = GameObject.Find ("HitPanel").GetComponent<SpriteRenderer> ().material;
+		hitPanel.color = new Color (0, 0, 0, 0);
 
 		//laserLevel = GameObject.Find("Lasers").GetComponentInChildren<ComponentHealth>();
 
@@ -134,7 +137,6 @@ public class Ship : MonoBehaviour {
 
 //	 Update is called once per frame
 	void Update () {
-
 		beamHitClock += Time.deltaTime;
 
 		//Sound Stuff
@@ -217,6 +219,13 @@ public class Ship : MonoBehaviour {
 
 	void LateUpdate(){
 		gameObject.GetComponent<PolygonCollider2D> ().isTrigger = true;
+		if (hit == true) {
+			hitTimer -= Time.deltaTime;
+		} if (hitTimer <= 0) {
+			hit = false;
+			hitTimer = .18f;
+			hitPanel.color = new Color (0, 0, 0, 0);
+		}
 	}
 
 	// Handles hits
@@ -224,10 +233,14 @@ public class Ship : MonoBehaviour {
 		// different cases for different objects; mostly they just damage the ship
 		switch (coll.name) {
 		case "Asteroid":
-			AudioSource.PlayClipAtPoint(CollisionSound,this.transform.position);
+			AudioSource.PlayClipAtPoint (CollisionSound, this.transform.position);
 
 			if (shieldLevel.Damage (ADamage)) {
 				Die ();
+			}
+			if (!imdead) {
+				hitPanel.color = new Color (.5f, 0, 0, .4f);
+				hit = true;
 			}
 			break;
 		case "Laser":
@@ -236,6 +249,10 @@ public class Ship : MonoBehaviour {
 			if (shieldLevel.Damage (LDamage)) {
 				Die ();
 			}
+			if (!imdead) {
+				hitPanel.color = new Color (.5f, 0, 0, .4f);
+				hit = true;
+			}
 			break;
 		case "SmallEnemy":
 			AudioSource.PlayClipAtPoint(CollisionSound,this.transform.position);
@@ -243,11 +260,19 @@ public class Ship : MonoBehaviour {
 			if (shieldLevel.Damage (SEDamage)) {
 				Die ();
 			}
+			if (!imdead) {
+				hitPanel.color = new Color (.5f, 0, 0, .4f);
+				hit = true;
+			}
 			break;
 		case "Spark":
 			AudioSource.PlayClipAtPoint(sparkHit,this.transform.position);
 			if (shieldLevel.Damage (SPDamage)) {
 				Die ();
+			}
+			if (!imdead) {
+				hitPanel.color = new Color (.5f, 0, 0, .4f);
+				hit = true;
 			}
 			break;
 		case "CannonEnemy":
@@ -255,11 +280,19 @@ public class Ship : MonoBehaviour {
 			if (shieldLevel.Damage (SEDamage / 2)) {
 				Die ();
 			}
+			if (!imdead) {
+				hitPanel.color = new Color (.5f, 0, 0, .4f);
+				hit = true;
+			}
 			break;
 		case "SparkEnemy":
 			AudioSource.PlayClipAtPoint (CollisionSound, this.transform.position);
 			if (shieldLevel.Damage (SEDamage / 2)) {
 				Die ();
+			}
+			if (!imdead) {
+				hitPanel.color = new Color (.5f, 0, 0, .4f);
+				hit = true;
 			}
 			break;
 		case "P1":
@@ -279,6 +312,10 @@ public class Ship : MonoBehaviour {
 	void OnTriggerStay2D(Collider2D coll) {
 		if (coll.gameObject.name == "Beam") {
 			if (beamHitClock >= beamHitThreshold) {
+				if (!imdead) {
+					hitPanel.color = new Color (.5f, 0, 0, .4f);
+					hit = true;
+				}
 				beamHitClock = 0;
 				if (shieldLevel.Damage (BDamage)) {
 					Die ();
@@ -328,6 +365,7 @@ public class Ship : MonoBehaviour {
 			AudioSource.PlayClipAtPoint (DeathSound, transform.position);
 			imdead = true;
 		}
+		hitPanel.color = new Color (0, 0, 0, 0);
 		GameObject death = new GameObject ();
 		controller.MakeSprite (death,"", GameObject.Find("ShipHandler").transform, 0, 0, 1, 1, 500);
 		death.transform.localPosition = this.transform.position;

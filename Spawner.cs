@@ -75,9 +75,6 @@ public class Spawner : MonoBehaviour {
 		for (int x = -6; x < 0; x++) {
 			eMan.SpawnEnemy (type, x, 6,0);
 		}
-		for (int x = -6; x < 0; x++) {
-			eMan.SpawnEnemy (type, x, 9,0);
-		}
 		Destroy (this.gameObject);
 	}
 

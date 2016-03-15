@@ -9,11 +9,10 @@ public class ComponentHealth : MonoBehaviour {
 	public float decayModifier;
 	public float health;
 
+	public float gracePeriod = 1;
 	public bool maintain;
-	public float gracePeriod;
 
 	public bool powerUp;
-	public int powerUpInt;
 
 	Animator animator;
 
@@ -69,7 +68,6 @@ public class ComponentHealth : MonoBehaviour {
 		outlineModel.GetComponent<SpriteRenderer> ().sortingLayerName = "TopRhsUI";
 
 		decaying = true;
-		maintain = false;
 		health = 100;
 		if (type == 2) {
 			repairRate = 23f;
@@ -85,17 +83,14 @@ public class ComponentHealth : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		if (powerUp) {
-			if (powerUpInt == 1) {
-				powerUpInt = 0;
-				health = 100;
-			} else {
-				maintain = true;
-				gracePeriod = 3;
+		if (maintain || powerUp) {
+			if ((gracePeriod -= Time.deltaTime) <= 0) {
 				powerUp = false;
+				maintain = false;
+				gracePeriod = 1;
 			}
 		}
-
+			
 		if (!initd) {
 			mat.color = new Color (0, .75f, 0);
 			return;
@@ -106,18 +101,9 @@ public class ComponentHealth : MonoBehaviour {
 		 * 1 = engine;
 		 * 2 = shield;
 		 * */
+			
 
-
-		if (maintain) {
-			if (decaying) {
-				gracePeriod = gracePeriod - Time.deltaTime;
-				if (gracePeriod <= 0) {
-					maintain = false;
-					health = 98;
-				}
-			}
-		} else {
-			if (decaying) {
+		if (decaying && !powerUp && !maintain) {
 				if (health <= 1) {
 					if (type == 0) {
 						animator.SetInteger ("Power", 0);
@@ -154,8 +140,10 @@ public class ComponentHealth : MonoBehaviour {
 					model.transform.localScale = new Vector3 (.9f, .92f);
 					//model.transform.localPosition = new Vector3 (model.transform.localPosition.x, model.transform.localPosition.y - ((health/100f)/50));
 					health = 100;
+				if (!powerUp && !maintain) {
+					gracePeriod = 1;
 					maintain = true;
-					gracePeriod = 1f;
+				}
 					if (type == 0) {
 						animator.SetInteger ("Power", 2);
 					} else if (type == 1) {
@@ -191,7 +179,6 @@ public class ComponentHealth : MonoBehaviour {
 					}
 				}
 			}
-		}
 			
 		//
 		// HANDLES COLOR/COLOR THRESHOLDS
@@ -226,8 +213,8 @@ public class ComponentHealth : MonoBehaviour {
 
 	// damages the part and returns true if it lowers the part's health to 0
 	public bool Damage(float damage) {
-		if (maintain) {
-			maintain = false;
+		if (powerUp) {
+			return false;
 		}
 		float damageModifier = 1;
 		if (!decaying) {
@@ -247,6 +234,8 @@ public class ComponentHealth : MonoBehaviour {
 
 	public void PowerUp(){
 		powerUp = true;
-		powerUpInt = 1;
+		maintain = true;
+		gracePeriod = 3;
+		health = 100;
 	}
 }

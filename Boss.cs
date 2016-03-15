@@ -7,6 +7,7 @@ public class Boss : CannonEnemy {
 	public AudioClip explosion;
 	public AudioClip bossEntrance;
 	public AudioSource audio;
+	public AudioSource bossm;
 	public bool dead = false;
 
 	private Material lMat;
@@ -48,8 +49,11 @@ public class Boss : CannonEnemy {
 		BeamSound = Resources.Load ("Sounds/beamSound") as AudioClip;
 		explosion = Resources.Load ("Sounds/bossDeath") as AudioClip;
 		bossEntrance = Resources.Load ("Sounds/bossEntrance") as AudioClip;
-		AudioSource.PlayClipAtPoint (bossEntrance, transform.position);
-
+		bossm = gameObject.AddComponent<AudioSource> ();
+		bossm.spatialBlend = 0;
+		bossm.volume = .8f;
+		bossm.clip = bossEntrance;
+		bossm.Play();
 		audio = gameObject.AddComponent<AudioSource> ();
 		audio.loop = true;
 		audio.clip = BeamSound;
