@@ -112,10 +112,10 @@ public class Boss : CannonEnemy {
 			transform.position = new Vector3(transform.position.x,stopPosition,0);
 
 		}
-		if (transform.position.x <= -5.2f) {
+		if (transform.position.x <= -4.78f) {
 			direction = "R";
 		}
-		if (transform.position.x >= -1.3f) {
+		if (transform.position.x >= -1.7f) {
 			direction = "L";
 		}
 		Move ();
@@ -222,7 +222,7 @@ public class Boss : CannonEnemy {
 
 	private void SetProjectile() {
 		int rand = UnityEngine.Random.Range (0, 100);
-		if (hp > 80) {
+		if (hp > 83) {
 			beingFired = 'L';
 		} else if (hp > 60) {
 			if (rand > 85) {
@@ -272,10 +272,12 @@ public class Boss : CannonEnemy {
 			hp -= 2;
 			animator.SetBool ("Damaged", true);
 		}
-		if (hp < 30) {
-			speed = -2.5f;
+		if (hp <= 0) {
+			beingFired = 'L';
+		} else if (hp < 30) {
+			speed = -2.8f;
 		} else if (hp < 60) {
-			speed = -2f;
+			speed = -2.1f;
 		} else if (hp < 80) {
 			speed = -1.5f;
 		}

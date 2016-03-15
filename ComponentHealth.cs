@@ -33,7 +33,7 @@ public class ComponentHealth : MonoBehaviour {
 	float fullThreshold = 97;
 
 	// fraction of damage taken when shields are manned/ above fullThreshold
-	float shieldMannedModifier = .9f;
+	float shieldMannedModifier = .8f;
 	float shieldFullModifier = .75f;
 
 	// COLORS ARE HANDLED AT THE END OF UPDATE()
@@ -72,10 +72,10 @@ public class ComponentHealth : MonoBehaviour {
 		maintain = false;
 		health = 100;
 		if (type == 2) {
-			repairRate = 16f;
+			repairRate = 20f;
 			decayModifier = 3f;
 		} else {
-			repairRate = 20f;
+			repairRate = 25f;
 			decayModifier = 3.5f;
 		}
 
