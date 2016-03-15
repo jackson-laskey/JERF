@@ -131,7 +131,7 @@ public class Ship : MonoBehaviour {
 		shieldLevel.audio.Play ();
 
 	}
-	
+
 //	 Update is called once per frame
 	void Update () {
 
@@ -213,6 +213,10 @@ public class Ship : MonoBehaviour {
 			JET.transform.localPosition = new Vector3 (0, -.38f, 0);
 			direction.SetInteger ("Direction", 0);
         }
+	}
+
+	void LateUpdate(){
+		gameObject.GetComponent<PolygonCollider2D> ().isTrigger = true;
 	}
 
 	// Handles hits

@@ -36,7 +36,7 @@ public class Boss : CannonEnemy {
 		base.init (owner, 4f);
 		gameObject.GetComponent<SpriteRenderer> ().sortingLayerName = "SectorStatus";
 		gameObject.transform.localScale = new Vector3 (4, 4, 1);
-		hp = 2;
+		hp = 100;
 		shotTimer = 0;
 		beingFired = 'L';
 		inTransition = false;

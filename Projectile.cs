@@ -23,21 +23,27 @@ public class Projectile : MonoBehaviour {
 		gameObject.AddComponent<BoxCollider2D> ().isTrigger = true;
 		if (textureName == "SuperPlayerLaser") {
 			colliderSizex = .1f;
-			colliderSizey = .6f;
-			gameObject.GetComponent<BoxCollider2D> ().size = new Vector2 (colliderSizex, colliderSizey);
-			gameObject.GetComponent<BoxCollider2D> ().offset = new Vector2 (0, -.3f);
-		}
-		if (textureName == "PlayerLaser") {
-			colliderSizex = .1f;
 			colliderSizey = .4f;
 			gameObject.GetComponent<BoxCollider2D> ().size = new Vector2 (colliderSizex, colliderSizey);
 			gameObject.GetComponent<BoxCollider2D> ().offset = new Vector2 (0, -.2f);
 		}
+		if (textureName == "PlayerLaser") {
+			colliderSizex = .1f;
+			colliderSizey = .3f;
+			gameObject.GetComponent<BoxCollider2D> ().size = new Vector2 (colliderSizex, colliderSizey);
+			gameObject.GetComponent<BoxCollider2D> ().offset = new Vector2 (0, -.15f);
+		}
 		if (textureName == "Laser") {
 			colliderSizex = .1f;
-			colliderSizey = .5f;
+			colliderSizey = .4f;
 			gameObject.GetComponent<BoxCollider2D> ().size = new Vector2 (colliderSizex, colliderSizey);
-			gameObject.GetComponent<BoxCollider2D> ().offset = new Vector2 (0, -.25f);
+			gameObject.GetComponent<BoxCollider2D> ().offset = new Vector2 (0, -.15f);
+		}
+		if (textureName == "Spark") {
+			colliderSizex = .15f;
+			colliderSizey = .15f;
+			gameObject.GetComponent<BoxCollider2D> ().size = new Vector2 (colliderSizex, colliderSizey);
+			gameObject.GetComponent<BoxCollider2D> ().offset = new Vector2 (0, 0);
 		}
 	}
 	
