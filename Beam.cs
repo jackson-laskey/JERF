@@ -42,7 +42,9 @@ public class Beam : Projectile {
 			animator = beams[(int)i].AddComponent<Animator> ();
 			animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController> ("Animation/Beam_Projectile_Animation_Controller");
 			beams [(int)i].AddComponent<BoxCollider2D> ();
-			beams[(int)i].GetComponent<BoxCollider2D> ().size = new Vector2 (colliderSize, colliderSize);
+			colliderSizex = .3f;
+			colliderSizey = .4f;
+			beams[(int)i].GetComponent<BoxCollider2D> ().size = new Vector2 (colliderSizex, colliderSizey);
 			beams [(int)i].AddComponent<Rigidbody2D> ().isKinematic = true;
 			if (i < 5) {
 				beams[(int)i].GetComponent<SpriteRenderer> ().sortingLayerName = "ShipButton";

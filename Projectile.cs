@@ -8,7 +8,8 @@ public class Projectile : MonoBehaviour {
 	// dictate the top and bottom of the view
 	private float maxY = 5;
 	private float minY = -5;
-	protected float colliderSize = .1f;
+	protected float colliderSizex = .1f;
+	protected float colliderSizey = .6f;
 
 	protected GameObject model;
 
@@ -20,7 +21,24 @@ public class Projectile : MonoBehaviour {
 		GameObject.Find ("GameController").GetComponent<GameController> ().MakeSprite (gameObject, textureName, transform.parent,
 				transform.position.x, transform.position.y, xScale, yScale, textPixels);
 		gameObject.AddComponent<BoxCollider2D> ().isTrigger = true;
-		gameObject.GetComponent<BoxCollider2D> ().size = new Vector2 (colliderSize, colliderSize);
+		if (textureName == "SuperPlayerLaser") {
+			colliderSizex = .1f;
+			colliderSizey = .6f;
+			gameObject.GetComponent<BoxCollider2D> ().size = new Vector2 (colliderSizex, colliderSizey);
+			gameObject.GetComponent<BoxCollider2D> ().offset = new Vector2 (0, -.3f);
+		}
+		if (textureName == "PlayerLaser") {
+			colliderSizex = .1f;
+			colliderSizey = .4f;
+			gameObject.GetComponent<BoxCollider2D> ().size = new Vector2 (colliderSizex, colliderSizey);
+			gameObject.GetComponent<BoxCollider2D> ().offset = new Vector2 (0, -.2f);
+		}
+		if (textureName == "Laser") {
+			colliderSizex = .1f;
+			colliderSizey = .5f;
+			gameObject.GetComponent<BoxCollider2D> ().size = new Vector2 (colliderSizex, colliderSizey);
+			gameObject.GetComponent<BoxCollider2D> ().offset = new Vector2 (0, -.25f);
+		}
 	}
 	
 	// if out of view, 
