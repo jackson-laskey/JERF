@@ -35,6 +35,7 @@ public class SmallEnemy : ParentEnemy {
 		animator.SetBool ("Damaged", false);
 		animator.SetBool ("Charged", false);
 		body.isKinematic = true;
+		col.isTrigger = true;
 		transform.eulerAngles = new Vector3(0,0,0);
 		transform.localScale = new Vector3 (1.25f, 1.25f, 0);
 		this.owner = owner;

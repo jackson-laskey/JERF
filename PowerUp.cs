@@ -14,18 +14,17 @@ public class PowerUp : ParentEnemy {
 	private Sprite[] powerup;
 
 	public void init(EnemyManager owner, string type) {
+		this.owner = owner;
 		name = type;
 		transform.localScale = new Vector3 (sizex, sizey, 1);
 		SpriteRenderer rend = this.gameObject.AddComponent<SpriteRenderer> ();
 		powerup = Resources.LoadAll<Sprite> ("Textures/Power_UP_Sprite_Sheet");
 		rend.sprite = powerup [0];
 		col = gameObject.AddComponent<PolygonCollider2D> ();
-		col.isTrigger = true;
 		body = gameObject.AddComponent<Rigidbody2D> ();
 		animator = gameObject.AddComponent<Animator> ();
 		if (type == "P1") {//shield
 			animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController> ("Animation/Shield_PowerUP_Animation_Controller");
-
 		} else if (type == "P2") {//engine
 			animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController> ("Animation/Engine_PowerUP_Animation_Controller");
 		} else if (type == "P3"){//laser
@@ -33,13 +32,13 @@ public class PowerUp : ParentEnemy {
 		}
 
 		body.isKinematic = true;
+		col.isTrigger = true;
 
 		//transform.localScale = new Vector3 (1.25f, 1.25f, 0);
-		this.owner = owner;
 	}
 
 	void Update () {
-
+		col.isTrigger = true;
 		if ( transform.position.y < bottomEdge){
 			Destroy(this.gameObject);
 		}
@@ -53,7 +52,14 @@ public class PowerUp : ParentEnemy {
 
 
 	void OnTriggerEnter2D(Collider2D other){
-		if (other.tag == "PlayerController") {
+		if (other.name == "Ship") {
+			print ("hello");
+			Destroy (this.gameObject);
+		}
+	}
+
+	void OnTriggerStay2D(Collider2D other){
+		if (other.name == "Ship") {
 			Destroy (this.gameObject);
 		}
 	}
