@@ -120,7 +120,7 @@ public class SparkEnemy : ParentEnemy {
 				animator.SetBool ("Damaged", true);
 				hp--;
 			}
-			if (other.tag == "PlayerControler") {
+			if (other.tag == "PlayerController") {
 				Die ();
 			}
 		}
@@ -131,6 +131,18 @@ public class SparkEnemy : ParentEnemy {
 			audio.Pause ();
 			AudioSource.PlayClipAtPoint (explosion, transform.position);
 			dead = true;
+		}
+		GameObject powerup = new GameObject ();
+		switch (UnityEngine.Random.Range (0, 4)) {
+		case 0:
+			powerup.AddComponent<PowerUp> ().init (FindObjectOfType<EnemyManager> (), "L");
+			break;
+		case 1:
+			powerup.AddComponent<PowerUp> ().init (FindObjectOfType<EnemyManager> (), "S");
+			break;
+		case 2:
+			powerup.AddComponent<PowerUp> ().init (FindObjectOfType<EnemyManager> (), "E");
+			break;
 		}
 		animator.SetTrigger ("Die");
 		this.name = "Dead";
