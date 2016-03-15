@@ -45,7 +45,7 @@ public class GameController : MonoBehaviour {
 		isDead = false;
 		wInstruction = false;
 		if (!justDied) {
-			level = 7;
+			level = 1;
 			numLevels = 16;
 			StartCoroutine (sleep (levelStartWait));
 			stextures = Resources.LoadAll<Sprite> ("Textures/Ship Sprite Sheet");

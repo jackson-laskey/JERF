@@ -282,13 +282,6 @@ public class Ship : MonoBehaviour {
 				}
 			}
 		}
-		if (coll.gameObject.name == "P1") {
-			shieldLevel.PowerUp ();
-		}else if (coll.gameObject.name == "P2") {
-			engineLevel.PowerUp ();
-		}else if (coll.gameObject.name == "P3") {
-			laserLevel.PowerUp ();
-		}
 	}
 
 	private void Fire() {

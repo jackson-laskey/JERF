@@ -158,7 +158,6 @@ public class SparkEnemy : ParentEnemy {
 					break;
 				}
 				powerup.transform.position = new Vector3 (transform.position.x, transform.position.y);
-				powerup.GetComponent<PolygonCollider2D> ().isTrigger = true;
 			}
 		}
 		animator.SetTrigger ("Die");
