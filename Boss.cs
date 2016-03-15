@@ -22,7 +22,7 @@ public class Boss : CannonEnemy {
 	// is a length of time
 	private float beamResetTime = .3f;
 
-	private float sparkEnemyChargeTime = 1.7f;
+	private float sparkEnemyChargeTime = 2.2f;
 
 	private float speed = -1;
 
@@ -222,7 +222,7 @@ public class Boss : CannonEnemy {
 
 	private void SetProjectile() {
 		int rand = UnityEngine.Random.Range (0, 100);
-		if (hp > 83) {
+		if (hp > 80) {
 			beingFired = 'L';
 		} else if (hp > 60) {
 			if (rand > 85) {
@@ -230,8 +230,8 @@ public class Boss : CannonEnemy {
 			} else {
 				beingFired = 'L';
 			}
-		} else if (hp > 40) {
-			if (rand > 85) {
+		} else if (hp > 35) {
+			if (rand > 90) {
 				beingFired = 'S';
 			} else if (rand > 65) {
 				beingFired = 'B';
@@ -241,7 +241,7 @@ public class Boss : CannonEnemy {
 		} else {
 			if (rand > 85) {
 				beingFired = 'S';
-			} else if (rand > 65) {
+			} else if (rand > 60) {
 				beingFired = 'B';
 			} else {
 				beingFired = 'L';
@@ -274,12 +274,12 @@ public class Boss : CannonEnemy {
 		}
 		if (hp <= 0) {
 			beingFired = 'L';
-		} else if (hp < 30) {
+		} else if (hp < 35) {
 			speed = -2.8f;
 		} else if (hp < 60) {
 			speed = -2.1f;
 		} else if (hp < 80) {
-			speed = -1.5f;
+			speed = -1.6f;
 		}
 	}
 

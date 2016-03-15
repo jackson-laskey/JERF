@@ -72,8 +72,8 @@ public class ComponentHealth : MonoBehaviour {
 		maintain = false;
 		health = 100;
 		if (type == 2) {
-			repairRate = 20f;
-			decayModifier = 3f;
+			repairRate = 18f;
+			decayModifier = 2f;
 		} else {
 			repairRate = 25f;
 			decayModifier = 3.5f;
