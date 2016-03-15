@@ -36,7 +36,7 @@ public class Boss : CannonEnemy {
 		base.init (owner, 4f);
 		gameObject.GetComponent<SpriteRenderer> ().sortingLayerName = "SectorStatus";
 		gameObject.transform.localScale = new Vector3 (4, 4, 1);
-		hp = 100;
+		hp = 2;
 		shotTimer = 0;
 		beingFired = 'L';
 		inTransition = false;
@@ -54,7 +54,7 @@ public class Boss : CannonEnemy {
 		audio.loop = true;
 		audio.clip = BeamSound;
 		audio.volume = .2f;
-		audio.Play();
+		//audio.Play();
 
 //		cSprites = Resources.LoadAll<Sprite> ("Textures/Cannons_Sprite_Sheet");
 //		Lcannon = new GameObject ();
@@ -289,7 +289,7 @@ public class Boss : CannonEnemy {
 
 	void Die(){
 		if (!dead) {
-			AudioSource.PlayClipAtPoint (burst, transform.position);
+			AudioSource.PlayClipAtPoint (explosion, transform.position);
 			dead = true;
 		}
 		animator.SetTrigger ("Die");
