@@ -39,12 +39,6 @@ public class Projectile : MonoBehaviour {
 			gameObject.GetComponent<BoxCollider2D> ().size = new Vector2 (colliderSizex, colliderSizey);
 			gameObject.GetComponent<BoxCollider2D> ().offset = new Vector2 (0, -.25f);
 		}
-		if (textureName == "Spark") {
-			colliderSizex = .2f;
-			colliderSizey = .2f;
-			gameObject.GetComponent<BoxCollider2D> ().size = new Vector2 (colliderSizex, colliderSizey);
-			gameObject.GetComponent<BoxCollider2D> ().offset = new Vector2 (0, 0);
-		}
 	}
 	
 	// if out of view, 
