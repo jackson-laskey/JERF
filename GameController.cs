@@ -29,6 +29,8 @@ public class GameController : MonoBehaviour {
 	int levelStartWait = 3;
 	public AudioClip DeathSound;
 
+	private bool wInstruction;
+
 //	private bool waiting;
 
 	void Start() {
@@ -41,6 +43,7 @@ public class GameController : MonoBehaviour {
 
 	public void init (bool justDied) {
 		isDead = false;
+		wInstruction = false;
 		if (!justDied) {
 			level = 1;
 			numLevels = 12;
@@ -174,12 +177,22 @@ public class GameController : MonoBehaviour {
 			AudioSource.PlayClipAtPoint(DeathSound,transform.position);
 			return;
 		}
-
+		if (wInstruction) {
+			if (GameObject.FindObjectsOfType<ParentEnemy> ().Length != 0) {
+				return;
+			} else {
+				wInstruction = false;
+			}
+		}
 		if (!done) {
 			if (instructions [iter] != "X" && !waiting) { // Check if done/not waiting
 				ExecuteInstruction (instructions [iter].Split (':')); // Execute the instruction
 				levelCount.text = "";
 				iter++;//iterate
+				if (instructions [iter] == "W") {
+					wInstruction = true;
+					iter++;
+				}
 				if (instructions [iter] == "X") {
 					StartCoroutine (sleep (1));
 				}

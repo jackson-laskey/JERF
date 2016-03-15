@@ -14,13 +14,15 @@ public class Boss : CannonEnemy {
 	private char beingFired;
 	private bool inTransition;
 
-	private float laserFireRate = .3f;
+	// is an interval
+	private float laserFireRate = .4f;
 
-	private float beamFireRate = .7f;
+	// is an interval
+	private float beamFireRate = .8f;
+	// is a length of time
 	private float beamResetTime = .3f;
 
-	private float sparkEnemyChargeTime = 1.4f;
-	private float sparkEnemyTimeBetweenSpawns;
+	private float sparkEnemyChargeTime = 1.7f;
 
 	private float speed = -1;
 
