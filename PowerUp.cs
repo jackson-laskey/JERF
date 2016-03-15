@@ -11,19 +11,26 @@ public class PowerUp : ParentEnemy {
 	public float speed = -2f;
 	private Material mat;
 	//private float dmgCount = .3f;
-	//private Sprite[] SE;
+	private Sprite[] powerup;
 
 	public void init(EnemyManager owner, string type) {
 		name = type;
 		transform.localScale = new Vector3 (sizex, sizey, 1);
 		SpriteRenderer rend = this.gameObject.AddComponent<SpriteRenderer> ();
-		rend.sprite = Resources.Load<Sprite>("Textures/powerUp");
-		//SE = Resources.LoadAll<Sprite> ("Textures/Small_Enemy_Sprite_Sheet");
-		//rend.sprite = SE [14];
+		powerup = Resources.LoadAll<Sprite> ("Textures/Power_UP_Sprite_Sheet");
+		rend.sprite = powerup [0];
 		col = gameObject.AddComponent<PolygonCollider2D> ();
 		body = gameObject.AddComponent<Rigidbody2D> ();
-		//animator = gameObject.AddComponent<Animator> ();
-		//animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController> ("Animation/SE_Animation_Controller");
+		animator = gameObject.AddComponent<Animator> ();
+		if (type == "P1") {//shield
+			animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController> ("Animation/Shield_PowerUP_Animation_Controller");
+
+		} else if (type == "P2") {//engine
+			animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController> ("Animation/Engine_PowerUP_Animation_Controller");
+		} else if (type == "P3"){//laser
+			animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController> ("Animation/Laser_PowerUP_Animation_Controller");
+		}
+
 		body.isKinematic = true;
 
 		//transform.localScale = new Vector3 (1.25f, 1.25f, 0);
@@ -31,7 +38,6 @@ public class PowerUp : ParentEnemy {
 	}
 
 	void Update () {
-
 
 		if ( transform.position.y < bottomEdge){
 			Destroy(this.gameObject);

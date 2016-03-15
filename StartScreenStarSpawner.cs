@@ -11,7 +11,7 @@ public class StartScreenStarSpawner : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		if (Random.value > .999) {
+		if (Random.value > .9999) {
 			float x = Random.Range(-8,8) + Random.value;
 			float y = 5;
 			e.SpawnEnemy("BS", x, y,0);
