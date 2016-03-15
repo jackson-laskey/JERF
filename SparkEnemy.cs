@@ -128,7 +128,8 @@ public class SparkEnemy : ParentEnemy {
 				hp--;
 			}
 			if (other.tag == "PlayerController") {
-				Die ();
+				hp -= 2;
+				animator.SetBool ("Damaged", true);
 			}
 		}
 	}

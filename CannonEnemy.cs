@@ -176,7 +176,8 @@ public class CannonEnemy : ParentEnemy {
 				animator.SetBool ("Damaged", true);
 			}
 			if (other.tag == "PlayerController") {
-				hp = 0;
+				hp -= 2;
+				animator.SetBool ("Damaged", true);
 			}
 		}
 	}

@@ -246,6 +246,18 @@ public class Ship : MonoBehaviour {
 				Die ();
 			}
 			break;
+		case "CannonEnemy":
+			AudioSource.PlayClipAtPoint (CollisionSound, this.transform.position);
+			if (shieldLevel.Damage (SEDamage / 2)) {
+				Die ();
+			}
+			break;
+		case "SparkEnemy":
+			AudioSource.PlayClipAtPoint (CollisionSound, this.transform.position);
+			if (shieldLevel.Damage (SEDamage / 2)) {
+				Die ();
+			}
+			break;
 		case "P1":
 			shieldLevel.PowerUp ();
 			break;

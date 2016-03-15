@@ -183,14 +183,10 @@ public class BeamEnemy : ParentEnemy {
 				animator.SetBool ("Damaged", true);
 			}
 			if (other.name == "SuperPlayerLaser") {
-				hp -= 2;
+				hp --;
 				animator.SetBool ("Damaged", true);
 			}
 		}
-		print (hp);
-		//if (other.tag == "PlayerController") {
-		//	hp = 0;
-		//}
 	}
 
 	void Die(){

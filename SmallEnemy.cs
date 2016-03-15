@@ -107,8 +107,12 @@ public class SmallEnemy : ParentEnemy {
 
 	void OnTriggerEnter2D(Collider2D other){
 		if (!dead) {
-			if (other.name == "PlayerLaser" || other.name == "SuperPlayerLaser") {
+			if (other.name == "PlayerLaser"){
 				hp--;
+				animator.SetBool ("Damaged", true);
+			}
+			if (other.name == "SuperPlayerLaser") {
+				hp --;
 				animator.SetBool ("Damaged", true);
 			}
 			if (other.tag == "PlayerController") {

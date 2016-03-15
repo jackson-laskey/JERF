@@ -33,6 +33,7 @@ public class PlayerLaser : Projectile {
 	}
 
 	void OnTriggerEnter2D(Collider2D coll) {
+		coll.isTrigger = false;
 		if (coll.name == "Asteroid") {
 			animator.SetTrigger ("Destroyed");
 			speed = 0;
