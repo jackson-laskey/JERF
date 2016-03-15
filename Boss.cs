@@ -35,7 +35,7 @@ public class Boss : CannonEnemy {
 		base.init (owner, 4f);
 		gameObject.GetComponent<SpriteRenderer> ().sortingLayerName = "SectorStatus";
 		gameObject.transform.localScale = new Vector3 (4, 4, 1);
-		hp = 100;
+		hp = 5;
 		shotTimer = 0;
 		beingFired = 'L';
 		inTransition = false;
@@ -96,6 +96,7 @@ public class Boss : CannonEnemy {
 
 		if (hp <= 0) {
 			animator.SetBool ("Damaged", false);
+			laserFireRate = 100;
 			speed = -.2f;
 			Die ();
 		}
@@ -288,12 +289,13 @@ public class Boss : CannonEnemy {
 			AudioSource.PlayClipAtPoint (burst, transform.position);
 			dead = true;
 		}
+		animator.SetTrigger ("Die");
+		animator.speed = .5f;
 		Destroy (Rcannon.gameObject);
 		Destroy (RiCannon.gameObject);
 		Destroy (Lcannon.gameObject);
 		Destroy (LiCannon.gameObject);
-		animator.SetTrigger ("Die");
-		Destroy (this.gameObject, 1.1f);
+		Destroy (this.gameObject, 2.3f);
 	}
 
 }
