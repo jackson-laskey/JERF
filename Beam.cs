@@ -41,7 +41,7 @@ public class Beam : Projectile {
 			beams[(int)i].name = "Beam";
 			animator = beams[(int)i].AddComponent<Animator> ();
 			animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController> ("Animation/Beam_Projectile_Animation_Controller");
-			beams [(int)i].AddComponent<BoxCollider2D> ();
+			beams [(int)i].AddComponent<BoxCollider2D> ().isTrigger = true;
 			colliderSizex = .3f;
 			colliderSizey = .4f;
 			beams[(int)i].GetComponent<BoxCollider2D> ().size = new Vector2 (colliderSizex, colliderSizey);

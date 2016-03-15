@@ -198,7 +198,14 @@ public class GameController : MonoBehaviour {
 						endText ();
 					done = true;
 				} else {
-					setLevelText ();
+					if (level == 3) {
+						AsteroidHelp ();
+					}
+					else if (level == 4) {
+						SparkHelp ();
+					} else {
+						setLevelText ();
+					}
 					EndLevel (level);
 					this.GetInstructions ("JERF/level" + level.ToString ());
 					done = false;
@@ -292,6 +299,14 @@ public class GameController : MonoBehaviour {
 
 	void endText(){
 		levelCount.text = "Sector Cleared, You Win!";
+	}
+
+	void AsteroidHelp(){
+		levelCount.text = "Level: " + level + "\nGet to Shields!";
+	}
+
+	void SparkHelp(){
+		levelCount.text = "Level: " + level + "\nGet to Engines!";
 	}
 
 	void GetInstructions (string level) {

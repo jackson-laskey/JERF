@@ -20,6 +20,7 @@ public class PowerUp : ParentEnemy {
 		powerup = Resources.LoadAll<Sprite> ("Textures/Power_UP_Sprite_Sheet");
 		rend.sprite = powerup [0];
 		col = gameObject.AddComponent<PolygonCollider2D> ();
+		col.isTrigger = true;
 		body = gameObject.AddComponent<Rigidbody2D> ();
 		animator = gameObject.AddComponent<Animator> ();
 		if (type == "P1") {//shield
