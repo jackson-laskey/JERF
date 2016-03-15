@@ -46,7 +46,6 @@ public class Spawner : MonoBehaviour {
 		} else {
 			if ((elapsed += Time.deltaTime) >= freq) {
 				if (type == "P1") {
-					print ("here");
 				}
 				eMan.SpawnEnemy (type, x, y,position);
 				num--;

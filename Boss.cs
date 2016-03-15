@@ -35,7 +35,7 @@ public class Boss : CannonEnemy {
 		base.init (owner, 4f);
 		gameObject.GetComponent<SpriteRenderer> ().sortingLayerName = "SectorStatus";
 		gameObject.transform.localScale = new Vector3 (4, 4, 1);
-		hp = 5;
+		hp = 100;
 		shotTimer = 0;
 		beingFired = 'L';
 		inTransition = false;
@@ -201,7 +201,7 @@ public class Boss : CannonEnemy {
 			GameObject enemyObject = new GameObject ();
 			SparkEnemy enemy = enemyObject.AddComponent<SparkEnemy> ();
 			enemy.transform.position = new Vector3 (0, 0, 0);
-			enemy.init (FindObjectOfType<EnemyManager>());
+			enemy.init (FindObjectOfType<EnemyManager>(), true);
 			enemy.transform.parent = transform.parent;
 			if (firingSide == "R") {
 				enemy.transform.position = new Vector3 (transform.position.x + (transform.localScale.x*.3f), transform.position.y - (transform.localScale.y*.42f));

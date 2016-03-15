@@ -21,7 +21,14 @@ public class SparkEnemy : ParentEnemy {
 	public AudioSource audio;
 	public bool dead = false;
 
-	public void init(EnemyManager owner) {
+	private bool isBoss;
+
+	public void init(EnemyManager owner, params bool[] boss) {
+		if (boss.Length > 0) {
+			isBoss = true;
+		} else {
+			isBoss = false;
+		}
 		hp = 5;
 		speed = -1;
 		transform.localScale = new Vector3 (sizex, sizey, 1);
@@ -131,18 +138,26 @@ public class SparkEnemy : ParentEnemy {
 			audio.Pause ();
 			AudioSource.PlayClipAtPoint (explosion, transform.position);
 			dead = true;
-		}
-		GameObject powerup = new GameObject ();
-		switch (UnityEngine.Random.Range (0, 4)) {
-		case 0:
-			powerup.AddComponent<PowerUp> ().init (FindObjectOfType<EnemyManager> (), "L");
-			break;
-		case 1:
-			powerup.AddComponent<PowerUp> ().init (FindObjectOfType<EnemyManager> (), "S");
-			break;
-		case 2:
-			powerup.AddComponent<PowerUp> ().init (FindObjectOfType<EnemyManager> (), "E");
-			break;
+		
+			if (isBoss) {
+				GameObject powerup = new GameObject ();
+				powerup.transform.position = new Vector3 (transform.position.x, transform.position.y);
+				switch (UnityEngine.Random.Range (0, 5)) {
+				case 0:
+					powerup.AddComponent<PowerUp> ().init (owner, "P1");
+					break;
+				case 1:
+					powerup.AddComponent<PowerUp> ().init (owner, "P2");
+					break;
+				case 2:
+					powerup.AddComponent<PowerUp> ().init (owner, "P3");
+					break;
+				default:
+					Destroy (powerup);
+					break;
+				}
+				powerup.transform.position = new Vector3 (transform.position.x, transform.position.y);
+			}
 		}
 		animator.SetTrigger ("Die");
 		this.name = "Dead";
